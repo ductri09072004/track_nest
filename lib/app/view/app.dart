@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/feature/history.dart';
-import 'package:testverygood/feature/split_money.dart';
-import 'package:testverygood/feature/statistical.dart';
+import 'package:testverygood/feature/history_main.dart';
+import 'package:testverygood/feature/home_main.dart';
+import 'package:testverygood/feature/statistical_main.dart';
+import 'package:testverygood/feature/setting_main.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
   runApp(const App());
@@ -36,24 +38,25 @@ class _MainPageState extends State<MainPage> {
   // Danh sách các trang con, thêm trang "Thống kê"
   final List<Widget> _pages = [
     const SplitMoneyPage(),
+    const StatisticalPage(),
     const HistoryPage(),
-    const StatisticalPage(), // Thêm trang Thống kê vào đây
+    const SettingPage(),
   ];
 
   // Danh sách tiêu đề cho AppBar, thêm tiêu đề cho trang "Thống kê"
-  final List<String> _titles = [
-    'Chia Tiền',
-    'Lịch Sử',
-    'Thống kê', // Thêm tiêu đề cho trang Thống kê
-  ];
+  // final List<String> _titles = [
+  //   'Chia Tiền',
+  //   'Thống ',
+  //   'Thống kê', // Thêm tiêu đề cho trang Thống kê
+  // ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_titles[_currentIndex]),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
+      // appBar: AppBar(
+      //   title: Text(_titles[_currentIndex]),
+      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      // ),
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -62,19 +65,22 @@ class _MainPageState extends State<MainPage> {
             _currentIndex = index;
           });
         },
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
-            label: 'Chia Tiền',
+            icon: SvgPicture.asset('lib/assets/icon/home_icon.svg'),
+            label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'Lịch Sử',
+            icon: SvgPicture.asset('lib/assets/icon/statistical_icon.svg'),
+            label: '',
           ),
           BottomNavigationBarItem(
-            // Thêm mục cho trang Thống kê
-            icon: Icon(Icons.bar_chart),
-            label: 'Thống kê',
+            icon: SvgPicture.asset('lib/assets/icon/his_icon.svg'),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset('lib/assets/icon/setting_icon.svg'),
+            label: '',
           ),
         ],
       ),
