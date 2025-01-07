@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/feature/history.dart';
+import 'package:testverygood/feature/people.dart';
 import 'package:testverygood/feature/split_money.dart';
-import 'package:testverygood/feature/statistical.dart';
+import 'package:testverygood/feature/statistical.dart'; // Thêm import cho trang Thống kê
 
 void main() {
-  runApp(const App());
+  runApp(const MyApp());
 }
 
-class App extends StatelessWidget {
-  const App({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _pages = [
     const SplitMoneyPage(),
     const HistoryPage(),
+    const FriendsPage(),
     const StatisticalPage(), // Thêm trang Thống kê vào đây
   ];
 
@@ -44,6 +46,7 @@ class _MainPageState extends State<MainPage> {
   final List<String> _titles = [
     'Chia Tiền',
     'Lịch Sử',
+    'Bạn Bè',
     'Thống kê', // Thêm tiêu đề cho trang Thống kê
   ];
 
@@ -70,6 +73,10 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
             label: 'Lịch Sử',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'Bạn Bè',
           ),
           BottomNavigationBarItem(
             // Thêm mục cho trang Thống kê
