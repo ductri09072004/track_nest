@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/l10n/l10n.dart';
-import '../../feature/split_money.dart';
-import '../../feature/history.dart';
-
-import '../../feature/statistical.dart';
+import 'package:testverygood/feature/history.dart';
+import 'package:testverygood/feature/split_money.dart';
+import 'package:testverygood/feature/statistical.dart';
 
 void main() {
   runApp(const App());
@@ -26,7 +24,7 @@ class App extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({super.key});
 
   @override
   State<MainPage> createState() => _MainPageState();

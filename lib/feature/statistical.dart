@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StatisticalPage extends StatelessWidget {
-  const StatisticalPage({Key? key}) : super(key: key);
+  const StatisticalPage({super.key});
 
   @override
   Widget build(BuildContext context) {
