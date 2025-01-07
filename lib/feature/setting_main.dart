@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class FriendsPage extends StatelessWidget {
-  const FriendsPage({super.key});
+class SettingPage extends StatelessWidget {
+  const SettingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        'Trang Bạn Bè',
+        'Trang setting',
         style: Theme.of(context).textTheme.headlineMedium,
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:testverygood/app/app.dart';
-import 'package:testverygood/feature/history.dart';
-import 'package:testverygood/feature/split_money.dart';
-import 'package:testverygood/feature/statistical.dart';
+import 'package:testverygood/feature/history_main.dart';
+import 'package:testverygood/feature/home_main.dart';
+import 'package:testverygood/feature/statistical_main.dart';
 
 void main() {
   group('App Widget Tests', () {
