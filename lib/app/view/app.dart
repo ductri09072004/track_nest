@@ -37,9 +37,9 @@ class _MainPageState extends State<MainPage> {
 
   // Danh sách các trang con, thêm trang "Thống kê"
   final List<Widget> _pages = [
-    const SplitMoneyPage(),
+    const HomePage(),
     const StatisticalPage(),
-    const HistoryPage(),
+    const HomePage(),
     const SettingPage(),
   ];
 

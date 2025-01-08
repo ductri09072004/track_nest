@@ -11,7 +11,7 @@ void main() {
       await tester.pumpWidget(const App());
 
       // Kiểm tra xem CounterPage có xuất hiện hay không
-      expect(find.byType(SplitMoneyPage), findsOneWidget);
+      expect(find.byType(HomePage), findsOneWidget);
       expect(find.byType(HistoryPage), findsOneWidget);
       expect(find.byType(StatisticalPage), findsOneWidget);
     });
