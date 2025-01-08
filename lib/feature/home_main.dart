@@ -11,7 +11,6 @@ class SplitMoneyPage extends StatelessWidget {
           Column(
             children: [
               Expanded(
-                flex: 1, // Phần trên
                 child: Container(
                   color: const Color.fromARGB(255, 157, 65, 194),
                   alignment: Alignment.center,
@@ -32,7 +31,6 @@ class SplitMoneyPage extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 1, // Để khoảng trống bên dưới
                 child: Container(
                   color: Colors.transparent,
                 ),
@@ -46,7 +44,7 @@ class SplitMoneyPage extends StatelessWidget {
             child: Container(
               height: MediaQuery.of(context).size.height * 2 / 3,
               decoration: const BoxDecoration(
-                color: const Color(0xFFFDFDFD),
+                color: Color(0xFFFDFDFD),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(36),
                   topRight: Radius.circular(36),
