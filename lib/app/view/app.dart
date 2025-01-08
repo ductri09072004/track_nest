@@ -43,20 +43,9 @@ class _MainPageState extends State<MainPage> {
     const SettingPage(),
   ];
 
-  // Danh sách tiêu đề cho AppBar, thêm tiêu đề cho trang "Thống kê"
-  // final List<String> _titles = [
-  //   'Chia Tiền',
-  //   'Thống ',
-  //   'Thống kê', // Thêm tiêu đề cho trang Thống kê
-  // ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(_titles[_currentIndex]),
-      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      // ),
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
