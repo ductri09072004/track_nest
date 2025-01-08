@@ -28,3 +28,4 @@ flutter:
   generate: true
   assets: 
   - lib/assets/icon/
+  - lib/assets/svg/
