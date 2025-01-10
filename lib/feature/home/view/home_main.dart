@@ -33,25 +33,29 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                        top: 55,
-                        left: 20,
-                        right: 20,
-                        bottom: 20,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          SvgPicture.asset(
-                            'lib/assets/icon/filter_icon.svg',
-                          ),
-                          const SizedBox(width: 24),
-                          SvgPicture.asset(
-                            'lib/assets/icon/calendar_icon.svg',
-                          ),
-                        ],
-                      ),
-                    ),
+                        padding: const EdgeInsets.only(
+                          top: 55,
+                          left: 20,
+                          right: 20,
+                          bottom: 20,
+                        ),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'lib/assets/icon/home_icon/setting_icon.svg',
+                            ),
+                            const Spacer(),
+                            SvgPicture.asset(
+                              'lib/assets/icon/home_icon/calendar_icon.svg',
+                            ),
+                            const SizedBox(
+                              width: 24,
+                            ),
+                            SvgPicture.asset(
+                              'lib/assets/icon/home_icon/search_icon.svg',
+                            ),
+                          ],
+                        )),
                     const SizedBox(height: 50),
                     const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

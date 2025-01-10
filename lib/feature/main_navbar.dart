@@ -23,6 +23,20 @@ class _MainPageState extends State<MainPage> {
     const SettingPage(),
   ];
 
+  final List<String> _selectedIcons = [
+    'lib/assets/icon/active_navbar/homeA_icon.svg',
+    'lib/assets/icon/active_navbar/satatisA_icon.svg',
+    'lib/assets/icon/active_navbar/hisA_icon.svg',
+    'lib/assets/icon/active_navbar/addA_icon.svg',
+  ];
+
+  final List<String> _defaultIcons = [
+    'lib/assets/icon/inactive_navbar/home_icon.svg',
+    'lib/assets/icon/inactive_navbar/statistical_icon.svg',
+    'lib/assets/icon/inactive_navbar/his_icon.svg',
+    'lib/assets/icon/inactive_navbar/setting_icon.svg',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,19 +50,27 @@ class _MainPageState extends State<MainPage> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('lib/assets/icon/home_icon.svg'),
+            icon: SvgPicture.asset(
+              _currentIndex == 0 ? _selectedIcons[0] : _defaultIcons[0],
+            ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('lib/assets/icon/statistical_icon.svg'),
+            icon: SvgPicture.asset(
+              _currentIndex == 1 ? _selectedIcons[1] : _defaultIcons[1],
+            ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('lib/assets/icon/his_icon.svg'),
+            icon: SvgPicture.asset(
+              _currentIndex == 2 ? _selectedIcons[2] : _defaultIcons[2],
+            ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('lib/assets/icon/setting_icon.svg'),
+            icon: SvgPicture.asset(
+              _currentIndex == 3 ? _selectedIcons[3] : _defaultIcons[3],
+            ),
             label: '',
           ),
         ],

@@ -12,7 +12,7 @@ class PlashPages extends StatelessWidget {
         // ignore: use_build_context_synchronously
         context,
         // ignore: inference_failure_on_instance_creation
-        MaterialPageRoute(builder: (context) => const Welcome1Page()),
+        MaterialPageRoute(builder: (context) => const WelcomeSlider()),
       );
     });
     return Scaffold(
@@ -55,6 +55,7 @@ class PlashPages extends StatelessWidget {
   static const TextStyle nameapp = TextStyle(
     fontSize: 40,
     fontWeight: FontWeight.bold,
+    fontFamily: 'HappyMonkey',
   );
   static const TextStyle txtapp = TextStyle(fontSize: 16, fontFamily: 'Lato');
 }
