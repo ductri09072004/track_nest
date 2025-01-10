@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:testverygood/app/app.dart';
-import 'package:testverygood/feature/history_main.dart';
-import 'package:testverygood/feature/home_main.dart';
-import 'package:testverygood/feature/statistical_main.dart';
+import 'package:testverygood/feature/history/view/history_main.dart';
+import 'package:testverygood/feature/home/view/home_main.dart';
+import 'package:testverygood/feature/statistical/view/statistical_main.dart';
 
 void main() {
   group('App Widget Tests', () {

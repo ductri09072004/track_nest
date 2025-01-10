@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/welcome/Plash.dart';
+import 'package:testverygood/components/Plash.dart';
 
 void main() {
   runApp(const App());
