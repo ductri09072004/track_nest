@@ -7,7 +7,7 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        'Trang setting',
+        'Trang add',
         style: Theme.of(context).textTheme.headlineMedium,
       ),
     );

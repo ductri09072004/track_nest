@@ -16,6 +16,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.19.0
+  
    
 
 dev_dependencies:
@@ -31,3 +32,9 @@ flutter:
   assets: 
   - lib/assets/icon/
   - lib/assets/svg/
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: lib/assets/fonts/Lato-Bold.ttf
+
+

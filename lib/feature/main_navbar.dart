@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:testverygood/feature/history_main.dart';
-import 'package:testverygood/feature/home_main.dart';
-import 'package:testverygood/feature/statistical_main.dart';
-import 'package:testverygood/feature/setting_main.dart';
+import 'package:testverygood/feature/add/app.dart';
+import 'package:testverygood/feature/history/app.dart';
+import 'package:testverygood/feature/home/app.dart';
+import 'package:testverygood/feature/statistical/app.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

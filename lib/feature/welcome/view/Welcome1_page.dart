@@ -9,7 +9,7 @@ class Welcome1Page extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding:
-            const EdgeInsets.all(24.0), // Thêm padding 24 vào tất cả các cạnh
+            const EdgeInsets.all(24), // Thêm padding 24 vào tất cả các cạnh
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -25,6 +25,7 @@ class Welcome1Page extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
+                // ignore: lines_longer_than_80_chars
                 'Manage your finances easily and set financial goals and monitor your progress',
                 style: texttop,
               ),
