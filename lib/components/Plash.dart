@@ -8,7 +8,6 @@ class PlashPages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      // Sau khi splash hoàn tất, chuyển đến MainPage
       Navigator.pushReplacement(
         // ignore: use_build_context_synchronously
         context,
@@ -57,7 +56,5 @@ class PlashPages extends StatelessWidget {
     fontSize: 40,
     fontWeight: FontWeight.bold,
   );
-  static const TextStyle txtapp = TextStyle(
-    fontSize: 16,
-  );
+  static const TextStyle txtapp = TextStyle(fontSize: 16, fontFamily: 'Lato');
 }
