@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:testverygood/feature/split/app.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -26,7 +27,6 @@ class SettingPage extends StatelessWidget {
           ),
           // Nội dung chính
           Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Padding(
                 padding: EdgeInsets.only(
@@ -44,23 +44,52 @@ class SettingPage extends StatelessWidget {
                   ],
                 ),
               ),
-
-              // Ô chữ nhật 1
+              // Nút 1: Scan Bill
               buildSettingItem(
+                context: context,
                 iconPath: 'lib/assets/icon/add_icon/scan_icon.svg',
                 label: 'SCAN BILL',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    // ignore: inference_failure_on_instance_creation
+                    MaterialPageRoute(
+                      builder: (context) => const SplitPage(),
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 10),
-              // Ô chữ nhật 2
+              // Nút 2: Add Manually
               buildSettingItem(
+                context: context,
                 iconPath: 'lib/assets/icon/add_icon/add_icon.svg',
                 label: 'ADD MANUALLY',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    // ignore: inference_failure_on_instance_creation
+                    MaterialPageRoute(
+                      builder: (context) => const SplitPage(),
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 10),
-              // Ô chữ nhật 3
+              // Nút 3: Add Split Manually
               buildSettingItem(
+                context: context,
                 iconPath: 'lib/assets/icon/add_icon/add_icon.svg',
                 label: 'ADD SPLIT MANUALLY',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    // ignore: inference_failure_on_instance_creation
+                    MaterialPageRoute(
+                      builder: (context) => const SplitPage(),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -71,39 +100,44 @@ class SettingPage extends StatelessWidget {
 
   // Hàm xây dựng ô chữ nhật
   Widget buildSettingItem({
+    required BuildContext context,
     required String iconPath,
     required String label,
+    required VoidCallback onTap,
   }) {
-    return Container(
-      width: double.infinity, // Chiếm toàn bộ chiều ngang
-      margin: const EdgeInsets.symmetric(horizontal: 44),
-      padding: const EdgeInsets.symmetric(vertical: 54),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(22),
-        boxShadow: [
-          BoxShadow(
-            // ignore: deprecated_member_use
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Icon SVG
-          SvgPicture.asset(
-            iconPath,
-          ),
-          const SizedBox(height: 10),
-          // Text
-          Text(
-            label,
-            style: txtbtn,
-          ),
-        ],
+    return GestureDetector(
+      onTap: onTap, // Xử lý sự kiện nhấn
+      child: Container(
+        width: double.infinity, // Chiếm toàn bộ chiều ngang
+        margin: const EdgeInsets.symmetric(horizontal: 44),
+        padding: const EdgeInsets.symmetric(vertical: 54),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(22),
+          boxShadow: [
+            BoxShadow(
+              // ignore: deprecated_member_use
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Icon SVG
+            SvgPicture.asset(
+              iconPath,
+            ),
+            const SizedBox(height: 10),
+            // Text
+            Text(
+              label,
+              style: txtbtn,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -114,9 +148,47 @@ class SettingPage extends StatelessWidget {
     color: Colors.black,
     fontFamily: 'Lato',
   );
+
   static const TextStyle texttop = TextStyle(
     color: Colors.white,
     fontSize: 20,
     fontFamily: 'Lato',
   );
+}
+
+// Các trang chuyển tiếp
+class ScanBillPage extends StatelessWidget {
+  const ScanBillPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Scan Bill')),
+      body: const Center(child: Text('Scan Bill Page')),
+    );
+  }
+}
+
+class AddManuallyPage extends StatelessWidget {
+  const AddManuallyPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Add Manually')),
+      body: const Center(child: Text('Add Manually Page')),
+    );
+  }
+}
+
+class AddSplitManuallyPage extends StatelessWidget {
+  const AddSplitManuallyPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Add Split Manually')),
+      body: const Center(child: Text('Add Split Manually Page')),
+    );
+  }
 }
