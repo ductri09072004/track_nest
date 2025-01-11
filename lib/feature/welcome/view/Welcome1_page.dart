@@ -48,7 +48,7 @@ class _WelcomeSliderState extends State<WelcomeSlider> {
               context,
               // ignore: inference_failure_on_instance_creation
               MaterialPageRoute(
-                builder: (context) => const MainPage(), // Thay màn hình đích
+                builder: (context) => const MainPage(),
               ),
             );
           },

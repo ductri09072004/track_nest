@@ -37,6 +37,7 @@ flutter:
   - lib/assets/icon/inactive_navbar/
   - lib/assets/icon/home_icon/
   - lib/assets/icon/add_icon/
+  - lib/assets/icon/components_icon/
 
   fonts:
     - family: Lato
