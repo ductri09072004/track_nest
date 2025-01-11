@@ -1,1 +1,1 @@
-export 'view/setting_main.dart';
+export 'view/add_main.dart';
