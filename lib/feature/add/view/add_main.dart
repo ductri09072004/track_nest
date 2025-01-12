@@ -1,9 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:testverygood/feature/add/components/popup.dart';
+import 'package:testverygood/feature/scanbill/withcamera/app.dart';
+import 'package:testverygood/feature/scanbill/withphoto/app.dart';
+import 'package:testverygood/feature/scanbill/withphoto/view/scanphoto.dart';
 import 'package:testverygood/feature/split/app.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
+
+  void _showPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => PopupPage(
+        onFirstButton: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CameraScreen(),
+            ),
+          );
+        },
+        onSecondButton: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ImagePickerScreen(),
+            ),
+          );
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,15 +77,7 @@ class SettingPage extends StatelessWidget {
                 context: context,
                 iconPath: 'lib/assets/icon/add_icon/scan_icon.svg',
                 label: 'SCAN BILL',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    // ignore: inference_failure_on_instance_creation
-                    MaterialPageRoute(
-                      builder: (context) => const SplitPage(),
-                    ),
-                  );
-                },
+                onTap: () => _showPopup(context),
               ),
               const SizedBox(height: 10),
               // Nút 2: Add Manually
@@ -68,7 +88,6 @@ class SettingPage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    // ignore: inference_failure_on_instance_creation
                     MaterialPageRoute(
                       builder: (context) => const SplitPage(),
                     ),
@@ -84,7 +103,6 @@ class SettingPage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    // ignore: inference_failure_on_instance_creation
                     MaterialPageRoute(
                       builder: (context) => const SplitPage(),
                     ),
@@ -116,7 +134,6 @@ class SettingPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(22),
           boxShadow: [
             BoxShadow(
-              // ignore: deprecated_member_use
               color: Colors.black.withOpacity(0.1),
               blurRadius: 10,
               offset: const Offset(0, 5),
