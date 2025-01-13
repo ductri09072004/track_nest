@@ -1,0 +1,32 @@
+name: Deploy Firebase
+
+on:
+  push:
+    branches:
+      - stag
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '2.10.0'
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Build project
+      run: flutter build web --release
+
+    - name: Deploy to Firebase
+      uses: w9jds/firebase-action@v1
+      with:
+        args: deploy --only hosting
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
