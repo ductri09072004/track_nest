@@ -7,13 +7,12 @@ Track Nest is a finance tracker application that will help you manage your balan
 
 ## Table of Content
 
-- [Feature](https://github.com/LeChayS/ductri09072004/track_nest?tab=readme-ov-file#features)
-- [Getting Started](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#getting-started)
-- [Run Project](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#run-project)
-- [Running Tests](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#running-tests)
-- [Translations](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#translations)
-- [Note](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#note)
-- [Merge, Branch and Commit Rules](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#merge-branch-and-commit-rules)
+[Feature](https://github.com/LeChayS/ductri09072004/track_nest?tab=readme-ov-file#features)
+[Getting Started](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#getting-started)
+[Run Project](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#run-project)
+[Running Tests](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#running-tests)
+[Note](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#note)
+[Merge, Branch and Commit Rules](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#merge-branch-and-commit-rules)
 
 ## Features
 
@@ -65,7 +64,7 @@ After installing all the following above it's time for the next step
 2. Go to the project directory
 
 ```bash
-  cd tracknest
+  cd track_nest
 ```
 
 3. Install dependencies
@@ -121,7 +120,7 @@ $ flutter run --flavor staging --target lib/main_staging.dart
 $ flutter run --flavor production --target lib/main_production.dart
 ```
 
-_\*Tracknest works on iOS, Android, Web, and Windows._
+_\*Track_nest works on iOS, Android, Web, and Windows._
 
 But to our fav, we only use **development** env because we don't use the other (staging and production) much, and deleting or config the project again may take us a while
 
