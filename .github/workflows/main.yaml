@@ -1,4 +1,4 @@
-name: testverygood
+name: 
 
 concurrency:
   group: $-$
