@@ -8,8 +8,12 @@ environment:
 
 dependencies:
   bloc: ^8.1.4
+<<<<<<< HEAD
   flutter_svg: ^1.1.6
   smooth_page_indicator: ^1.2.0+3
+=======
+  firebase_core: ^3.10.0
+>>>>>>> c262836731f1859c9823867924da11d7463921aa
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
