@@ -8,12 +8,9 @@ environment:
 
 dependencies:
   bloc: ^8.1.4
-<<<<<<< HEAD
-  flutter_svg: ^1.1.6
-  smooth_page_indicator: ^1.2.0+3
-=======
   firebase_core: ^3.10.0
->>>>>>> c262836731f1859c9823867924da11d7463921aa
+  smooth_page_indicator: ^1.2.0+3
+
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
@@ -24,8 +21,8 @@ dependencies:
   intl: ^0.19.0
   flutter_tesseract_ocr: ^0.4.28
   image_picker: ^0.8.7+5
-  
-  
+
+
 dev_dependencies:
   bloc_test: ^9.1.7
   flutter_test:
@@ -36,7 +33,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
-  assets: 
+  assets:
   - lib/assets/icon/
   - lib/assets/svg/
   - lib/assets/icon/active_navbar/
@@ -48,6 +45,7 @@ flutter:
   - assets/tessdata/
   - assets/tessdata/vie.traineddata
   - assets/tessdata_config.json
+  - lib/assets/icon/figma_icon/
 
   fonts:
     - family: Lato

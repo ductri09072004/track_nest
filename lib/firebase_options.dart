@@ -65,5 +65,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'tracknestdb.firebasestorage.app',
     iosBundleId: 'com.example.verygoodcore.testverygood',
   );
-
 }
