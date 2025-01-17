@@ -19,8 +19,8 @@ dependencies:
   intl: ^0.19.0
   flutter_tesseract_ocr: ^0.4.28
   image_picker: ^0.8.7+5
-  
-  
+
+
 dev_dependencies:
   bloc_test: ^9.1.7
   flutter_test:
@@ -31,7 +31,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
-  assets: 
+  assets:
   - lib/assets/icon/
   - lib/assets/svg/
   - lib/assets/icon/active_navbar/
@@ -40,6 +40,7 @@ flutter:
   - lib/assets/icon/add_icon/
   - lib/assets/icon/components_icon/
   - lib/assets/icon/popup_icon/
+  - lib/assets/icon/figma_svg/
   - assets/tessdata/
   - assets/tessdata/vie.traineddata
   - assets/tessdata_config.json
@@ -48,6 +49,14 @@ flutter:
     - family: Lato
       fonts:
         - asset: lib/assets/fonts/Lato-Bold.ttf
+        - asset: lib/assets/fonts/Lato-Black.ttf
+        - asset: lib/assets/fonts/Lato-BoldItalic.ttf
+        - asset: lib/assets/fonts/Lato-Italic.ttf
+        - asset: lib/assets/fonts/Lato-Light.ttf
+        - asset: lib/assets/fonts/Lato-LightItalic.ttf
+        - asset: lib/assets/fonts/Lato-Regular.ttf
+        - asset: lib/assets/fonts/Lato-Thin.ttf
+        - asset: lib/assets/fonts/Lato-ThinItalic.ttf
     - family: HappyMonkey
       fonts:
         - asset: lib/assets/fonts/HappyMonkey.ttf

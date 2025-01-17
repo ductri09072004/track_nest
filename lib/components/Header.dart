@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:testverygood/assets/style/color.dart';
 
 class HeaderA extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -7,6 +8,7 @@ class HeaderA extends StatelessWidget implements PreferredSizeWidget {
 
   const HeaderA({
     Key? key,
+    // ignore: always_put_required_named_parameters_first
     required this.title,
     this.onBack,
   }) : super(key: key);
@@ -19,7 +21,7 @@ class HeaderA extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Positioned.fill(
             child: Container(
-              color: const Color(0xFFA561CA), // Màu nền tím
+              color: AppColors.purple[100], // Màu nền tím
             ),
           ),
           Positioned.fill(

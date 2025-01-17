@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:testverygood/feature/add/components/popup.dart';
+import 'package:testverygood/feature/addexpenses/app.dart';
 import 'package:testverygood/feature/scanbill/withcamera/app.dart';
 import 'package:testverygood/feature/scanbill/withphoto/app.dart';
 import 'package:testverygood/feature/scanbill/withphoto/view/scanphoto.dart';
@@ -89,7 +90,7 @@ class SettingPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SplitPage(),
+                      builder: (context) => const AddexpensesPage(),
                     ),
                   );
                 },

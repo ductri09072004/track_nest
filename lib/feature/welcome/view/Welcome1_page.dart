@@ -41,7 +41,7 @@ class _WelcomeSliderState extends State<WelcomeSlider> {
         ],
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: ElevatedButton(
           onPressed: () {
             Navigator.pushReplacement(
