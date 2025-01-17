@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/components/Header.dart';
+import 'package:testverygood/components/HeaderA.dart';
 
 class SplitPage extends StatelessWidget {
   const SplitPage({super.key});

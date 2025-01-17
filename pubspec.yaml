@@ -48,6 +48,15 @@ flutter:
     - family: Lato
       fonts:
         - asset: lib/assets/fonts/Lato-Bold.ttf
+    - family: Lato_Light
+      fonts:
+        - asset: lib/assets/fonts/Lato-Light.ttf
+    - family: Lato_Regular
+      fonts:
+        - asset: lib/assets/fonts/Lato-Regular.ttf
+    - family: Lato_Thin
+      fonts:
+        - asset: lib/assets/fonts/Lato-Thin.ttf
     - family: HappyMonkey
       fonts:
         - asset: lib/assets/fonts/HappyMonkey.ttf
