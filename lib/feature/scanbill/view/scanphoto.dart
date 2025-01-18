@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_tesseract_ocr/flutter_tesseract_ocr.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerScreen extends StatefulWidget {
@@ -27,22 +27,53 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   }
 
   Future<void> _extractText(File imageFile) async {
+    final inputImage = InputImage.fromFile(imageFile);
+    final textRecognizer = TextRecognizer();
+
     try {
-      final extractedText = await FlutterTesseractOcr.extractText(
-        imageFile.path,
-        language: 'vie',
-        args: {
-          'tessdata': 'lib/assets/tessdata/', // Đảm bảo đúng đường dẫn
-        },
-      );
-      setState(() {
-        _extractedText =
-            extractedText.isEmpty ? 'Không tìm thấy văn bản' : extractedText;
-      });
+      final recognizedText = await textRecognizer.processImage(inputImage);
+
+      final regex = RegExp(r'[+-]?\d{1,3}(?:,\d{3})*(?:\.\d+)?\s*(VND|đ)');
+
+      // Lọc các dòng chứa số và "VND" hoặc "đ"
+      List<String> filteredLines = recognizedText.text
+          .split('\n')
+          .where((line) => regex.hasMatch(line))
+          .map((line) {
+            final match = regex.firstMatch(line);
+            if (match != null) {
+              String cleanText = match.group(0)!;
+              cleanText = cleanText.replaceAll(
+                RegExp(r'[.,+-]'),
+                '',
+              );
+              cleanText = cleanText.replaceAll(
+                RegExp(r'\s*(VND|đ)'),
+                '',
+              );
+              return cleanText;
+            }
+            return '';
+          })
+          .where((line) => line.isNotEmpty) // Bỏ các dòng rỗng
+          .toSet() // Loại bỏ dòng trùng lặp
+          .toList();
+
+      if (filteredLines.isEmpty) {
+        setState(() {
+          _extractedText = 'Không tìm thấy văn bản có số hợp lệ';
+        });
+      } else {
+        setState(() {
+          _extractedText = filteredLines.join('\n');
+        });
+      }
     } catch (e) {
       setState(() {
         _extractedText = 'Có lỗi xảy ra khi xử lý: $e';
       });
+    } finally {
+      await textRecognizer.close();
     }
   }
 
