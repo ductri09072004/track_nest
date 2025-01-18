@@ -1,4 +1,6 @@
-name: testverygood
+
+name: Very Good Cli workflơ
+
 
 concurrency:
   group: $-$

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "493072591234",
+    "project_id": "tracknestdb",
+    "storage_bucket": "tracknestdb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493072591234:android:f0630655c50d8afe2f079b",
+        "android_client_info": {
+          "package_name": "com.example.verygoodcore.testverygood"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_0WKGjUGsglor90ZeF_KzPfsqX9ogrjI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
