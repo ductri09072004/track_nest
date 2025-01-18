@@ -136,6 +136,12 @@ dart format .
 
 Then you are good to go ✨
 
+### About revert commit
+
+1. Use `git reset <commit_id>` to revert to the commit you want
+
+2. `git push origin <branch_name> --force` to force push to the branch you want
+
 ## Merge, Branch and Commit Rules
 
 ### 1. Create branch
