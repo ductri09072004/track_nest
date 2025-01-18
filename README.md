@@ -7,12 +7,12 @@ Track Nest is a finance tracker application that will help you manage your balan
 
 ## Table of Content
 
-[Feature](https://github.com/LeChayS/ductri09072004/track_nest?tab=readme-ov-file#features)
-[Getting Started](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#getting-started)
-[Run Project](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#run-project)
-[Running Tests](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#running-tests)
-[Note](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#note)
-[Merge, Branch and Commit Rules](https://github.com/ductri09072004/track_nest?tab=readme-ov-file#merge-branch-and-commit-rules)
+- [Feature](https://github.com/ductri09072004/track_nest/tree/dev?tab=readme-ov-file#features)
+- [Getting Started](https://github.com/ductri09072004/track_nest/tree/dev?tab=readme-ov-file#getting-started)
+- [Run Project](https://github.com/ductri09072004/track_nest/tree/dev?tab=readme-ov-file#run-project)
+- [Running Tests](https://github.com/ductri09072004/track_nest/tree/dev?tab=readme-ov-file#running-tests)
+- [Note](https://github.com/ductri09072004/track_nest/tree/dev?tab=readme-ov-file#note)
+- [Merge, Branch and Commit Rules](https://github.com/ductri09072004/track_nest/tree/dev?tab=readme-ov-file#merge-branch-and-commit-rules)
 
 ## Features
 
@@ -133,6 +133,16 @@ So to fix it, open terminal and use
 ```bash
 dart format .
 ```
+
+Then you are good to go ✨
+
+### About revert commit
+
+1. Use `git log` to the commit id you want to revert
+
+2. `git revert <commit_id>` to revert to that commit
+
+3. Commit it to remote repo
 
 Then you are good to go ✨
 
