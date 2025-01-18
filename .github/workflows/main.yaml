@@ -1,4 +1,4 @@
-name: Very Good Cli workflow
+name: Very Good Cli CI/CD
 
 concurrency:
   group: $-$
@@ -7,10 +7,10 @@ concurrency:
 on:
   push:
     branches:
-      - main
+      - dev
   pull_request:
     branches:
-      - main
+      - dev
 
 jobs:
   semantic-pull-request:
