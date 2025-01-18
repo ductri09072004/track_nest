@@ -1,37 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:testverygood/feature/add/components/popup.dart';
-import 'package:testverygood/feature/scanbill/withcamera/app.dart';
-import 'package:testverygood/feature/scanbill/withphoto/app.dart';
-import 'package:testverygood/feature/scanbill/withphoto/view/scanphoto.dart';
+import 'package:testverygood/feature/scanbill/app.dart';
+import 'package:testverygood/feature/scanbill/view/scanphoto.dart';
 import 'package:testverygood/feature/split/app.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
-
-  void _showPopup(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => PopupPage(
-        onFirstButton: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const CameraScreen(),
-            ),
-          );
-        },
-        onSecondButton: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ImagePickerScreen(),
-            ),
-          );
-        },
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +51,14 @@ class SettingPage extends StatelessWidget {
                 context: context,
                 iconPath: 'lib/assets/icon/add_icon/scan_icon.svg',
                 label: 'SCAN BILL',
-                onTap: () => _showPopup(context),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ImagePickerScreen(),
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 10),
               // Nút 2: Add Manually
