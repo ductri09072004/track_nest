@@ -48,6 +48,10 @@ class _MainPageState extends State<MainPage> {
             _currentIndex = index;
           });
         },
+        backgroundColor:
+            const Color.fromARGB(255, 7, 73, 128), // Thêm màu nền cho thanh nav
+        selectedItemColor: Colors.white, // Màu của mục được chọn
+        unselectedItemColor: Colors.grey, // Màu của mục chưa được chọn
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(

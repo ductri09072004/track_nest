@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:testverygood/components/Header_main.dart';
+import 'package:testverygood/feature/history/view/body.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Trang Lịch Sử',
-        style: Theme.of(context).textTheme.headlineMedium,
+    return const Scaffold(
+      body: Stack(
+        children: [
+          HeaderMain(showBalance: false),
+          BodyMain(),
+        ],
       ),
     );
   }
