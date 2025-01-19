@@ -27,70 +27,74 @@ class SettingPage extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          // Nội dung chính
-          Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(
-                  top: 55,
-                  left: 20,
-                  right: 20,
-                  bottom: 40,
+          // Nội dung chính với cuộn
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(
+                    top: 55,
+                    left: 20,
+                    right: 20,
+                    bottom: 40,
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        'ADD ITEM TO EXPENSES',
+                        style: texttop,
+                      ),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    Text(
-                      'ADD ITEM TO EXPENSES',
-                      style: texttop,
-                    ),
-                  ],
+                // Nút 1: Scan Bill
+                buildSettingItem(
+                  context: context,
+                  iconPath: 'lib/assets/icon/add_icon/scan_icon.svg',
+                  label: 'SCAN BILL',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImagePickerScreen(),
+                      ),
+                    );
+                  },
                 ),
-              ),
-              // Nút 1: Scan Bill
-              buildSettingItem(
-                context: context,
-                iconPath: 'lib/assets/icon/add_icon/scan_icon.svg',
-                label: 'SCAN BILL',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ImagePickerScreen(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              // Nút 2: Add Manually
-              buildSettingItem(
-                context: context,
-                iconPath: 'lib/assets/icon/add_icon/add_icon.svg',
-                label: 'ADD MANUALLY',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SplitPage(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              // Nút 3: Add Split Manually
-              buildSettingItem(
-                context: context,
-                iconPath: 'lib/assets/icon/add_icon/add_icon.svg',
-                label: 'ADD SPLIT MANUALLY',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SplitPage(),
-                    ),
-                  );
-                },
-              ),
-            ],
+                const SizedBox(height: 10),
+                // Nút 2: Add Manually
+                buildSettingItem(
+                  context: context,
+                  iconPath: 'lib/assets/icon/add_icon/add_icon.svg',
+                  label: 'ADD MANUALLY',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SplitPage(),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 10),
+                // Nút 3: Add Split Manually
+                buildSettingItem(
+                  context: context,
+                  iconPath: 'lib/assets/icon/add_icon/add_icon.svg',
+                  label: 'ADD SPLIT MANUALLY',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SplitPage(),
+                      ),
+                    );
+                  },
+                ),
+
+                const SizedBox(height: 104),
+              ],
+            ),
           ),
         ],
       ),

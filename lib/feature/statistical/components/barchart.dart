@@ -31,7 +31,7 @@ class Barchart extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Hello'),
+              Text('Coming soon'),
             ],
           ),
         ),
