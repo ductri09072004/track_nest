@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:testverygood/components/date.dart';
+import 'package:testverygood/components/date.dart'; // Import HorizontalList từ đây
 
 class HeaderMain extends StatelessWidget {
   final bool showBalance;
+  final bool showIcons; // Kiểm soát hiển thị các icon
+  final bool showHorizontalList; // Kiểm soát hiển thị HorizontalList
+  final bool showTitle;
 
   const HeaderMain({
     super.key,
     this.showBalance = true, // Mặc định hiển thị balance
+    this.showIcons = true, // Mặc định hiển thị icon
+    this.showHorizontalList = true, // Mặc định hiển thị HorizontalList
+    this.showTitle = true,
   });
 
   @override
@@ -38,26 +44,39 @@ class HeaderMain extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  SvgPicture.asset(
-                    'lib/assets/icon/home_icon/setting_icon.svg',
-                  ),
+                  // Thay thế icon bằng SizedBox nếu showIcons = false
+                  if (showIcons)
+                    SvgPicture.asset(
+                      'lib/assets/icon/home_icon/setting_icon.svg',
+                    )
+                  else
+                    const SizedBox(width: 24), // Kích thước tương tự icon
+
                   const Spacer(),
-                  SvgPicture.asset(
-                    'lib/assets/icon/home_icon/calendar_icon.svg',
-                  ),
-                  const SizedBox(
-                    width: 24,
-                  ),
-                  SvgPicture.asset(
-                    'lib/assets/icon/home_icon/search_icon.svg',
-                  ),
+
+                  if (showIcons)
+                    SvgPicture.asset(
+                      'lib/assets/icon/home_icon/calendar_icon.svg',
+                    )
+                  else
+                    const SizedBox(width: 24), // Kích thước tương tự icon
+
+                  const SizedBox(width: 24),
+
+                  if (showIcons)
+                    SvgPicture.asset(
+                      'lib/assets/icon/home_icon/search_icon.svg',
+                    )
+                  else
+                    const SizedBox(width: 24),
                 ],
               ),
             ),
             const SizedBox(height: 10),
-            const HorizontalList(), // HorizontalList không có padding
+            if (showHorizontalList) // Kiểm tra điều kiện hiển thị HorizontalList
+              const HorizontalList(),
             const SizedBox(height: 30),
-            if (showBalance) // Kiểm tra điều kiện
+            if (showBalance) // Kiểm tra điều kiện hiển thị balance
               const Padding(
                 padding: EdgeInsets.only(
                   left: 20,
@@ -77,6 +96,19 @@ class HeaderMain extends StatelessWidget {
                   ],
                 ),
               ),
+            if (showTitle) // Kiểm tra điều kiện hiển thị balance
+              const Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Setting',
+                      style: texttitle,
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ],
@@ -92,4 +124,6 @@ class HeaderMain extends StatelessWidget {
 
   static const TextStyle texttop =
       TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'Lato');
+  static const TextStyle texttitle =
+      TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'Lato');
 }

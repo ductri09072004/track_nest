@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/dropdown.dart';
 import 'package:testverygood/components/input.dart';
@@ -12,14 +13,17 @@ class SplitPage extends StatefulWidget {
 }
 
 class _SplitPageState extends State<SplitPage> {
-  String? selectedOption; // Biến lưu trữ giá trị đã chọn
+  String? selectedOption;
   final List<String> options = ['Trí', 'Trâm', 'Phúc'];
+  String? selectedOption2;
+  final List<String> options2 = ['Eually', 'As amounts'];
   final TextEditingController numericController = TextEditingController();
+  final TextEditingController noteController = TextEditingController();
   bool isSwitched = false;
   @override
   void dispose() {
-    // Hủy bộ điều khiển khi không còn sử dụng
     numericController.dispose();
+    noteController.dispose();
     super.dispose();
   }
 
@@ -69,15 +73,32 @@ class _SplitPageState extends State<SplitPage> {
               ],
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Split with',
-              style: txmain,
+            Row(
+              children: [
+                const Text(
+                  'Split with',
+                  style: txmain,
+                ),
+                const Spacer(),
+                Container(
+                  width: 143, // Đặt chiều rộng tùy ý
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Dropdown(
+                    selectedValue: selectedOption2,
+                    options: options2,
+                    hintText: 'Eually',
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedOption2 = newValue;
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 10),
             Row(
               children: [
-                const Text('Mri', style: txtpeo),
-                const Spacer(),
                 SizedBox(
                   child: ToggleSwitch(
                     value: isSwitched,
@@ -88,6 +109,12 @@ class _SplitPageState extends State<SplitPage> {
                     },
                   ),
                 ),
+                const SizedBox(
+                  width: 16,
+                ),
+                const Text('Mri', style: txtpeo),
+                const Spacer(),
+                const Text('200.000 đ', style: txtpeo),
               ],
             ),
             const SizedBox(height: 16),
@@ -96,9 +123,60 @@ class _SplitPageState extends State<SplitPage> {
               style: txmain,
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Note',
-              style: txmain,
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Time',
+                      style: txmain,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          'lib/assets/icon/components_icon/calendar.svg',
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        const Text(
+                          '1/1/2025',
+                          style: txtpeo,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  width: 40,
+                ),
+                const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Note',
+                      style: txmain,
+                    ),
+                    // Container(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                    //   child: InputField(
+                    //     hintText: 'yooo0',
+                    //     controller: noteController,
+                    //     maxLength: 9,
+                    //     isSmallText: true,
+                    //   ),
+                    // ),
+                    Text(
+                      'yoo',
+                      style: txtpeo,
+                    ),
+                  ],
+                ),
+              ],
             ),
             const Spacer(),
             Row(

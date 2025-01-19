@@ -4,8 +4,8 @@ import 'package:testverygood/feature/scanbill/app.dart';
 import 'package:testverygood/feature/scanbill/view/scanphoto.dart';
 import 'package:testverygood/feature/split/app.dart';
 
-class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});
+class AddPage extends StatelessWidget {
+  const AddPage({super.key});
 
   @override
   Widget build(BuildContext context) {

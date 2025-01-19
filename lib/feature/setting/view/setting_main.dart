@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/Header_main.dart';
-import 'package:testverygood/feature/home/view/body.dart';
+import 'package:testverygood/feature/setting/view/body.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class SettingPage extends StatelessWidget {
+  const SettingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,9 @@ class HomePage extends StatelessWidget {
       body: Stack(
         children: [
           HeaderMain(
-            showTitle: false,
+            showIcons: false,
+            showHorizontalList: false,
+            showBalance: false,
           ),
           BodyMain(),
         ],
