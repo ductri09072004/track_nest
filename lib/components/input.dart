@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart'; // Thêm package intl để format số
+import 'package:intl/intl.dart';
 
 class InputField extends StatelessWidget {
-  final String hintText; // Gợi ý placeholder
-  final TextEditingController controller; // Bộ điều khiển văn bản
-  final bool isNumeric; // Xác định chỉ cho phép nhập số
-  final TextInputType keyboardType; // Loại bàn phím (số hoặc chữ)
-  final int maxLength; // Giới hạn độ dài ký tự (tùy chọn)
-  final bool
-      isSmallText; // Biến để chọn kiểu chữ nhỏ hay lớn cho hintText và inputText
+  final String hintText;
+  final TextEditingController controller;
+  final bool isNumeric;
+  final TextInputType keyboardType;
+  final int maxLength;
+  final bool isSmallText;
+  // ignore: inference_failure_on_function_return_type
+  final Function(String)? onChanged;
 
   const InputField({
     Key? key,
     required this.hintText,
     required this.controller,
-    this.isNumeric = false, // Mặc định không giới hạn là số
-    this.keyboardType = TextInputType.text, // Mặc định là bàn phím chữ
-    this.maxLength = 20, // Giới hạn mặc định 20 ký tự
-    this.isSmallText = false, // Mặc định là false, dùng kiểu chữ lớn
+    this.isNumeric = false,
+    this.keyboardType = TextInputType.text,
+    this.maxLength = 20,
+    this.isSmallText = false,
+    this.onChanged,
   }) : super(key: key);
+
+  String _removeThousandsSeparator(String value) {
+    // Loại bỏ dấu phân cách nghìn (dấu chấm)
+    return value.replaceAll('.', '');
+  }
+
+  // Hàm format số với dấu chấm
+  String _formatNumber(String value) {
+    if (value.isEmpty) return '';
+    final number = int.tryParse(value.replaceAll('.', ''));
+    if (number == null) return value;
+    return NumberFormat('#,###', 'en_US').format(number).replaceAll(',', '.');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +53,31 @@ class InputField extends StatelessWidget {
         maxLength: maxLength, // Giới hạn độ dài ký tự
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: inputStyle, // Sử dụng style đã chọn cho hintText
+          hintStyle: inputStyle,
           counterText: '', // Loại bỏ bộ đếm ký tự
           border: InputBorder.none, // Không viền
         ),
-        style: inputStyle, // Sử dụng style đã chọn cho inputText
+        style: inputStyle,
         onChanged: (value) {
+          // Nếu có callback onChanged thì gọi nó
+          if (onChanged != null) {
+            onChanged!(value);
+          }
+
+          // Nếu là số, áp dụng định dạng số
           if (isNumeric) {
-            String newValue = _formatNumber(value);
-            if (newValue != value) {
+            // Loại bỏ dấu phân cách nghìn (nếu có)
+            String rawValue = _removeThousandsSeparator(value);
+
+            // Định dạng lại với dấu phân cách nghìn (dấu chấm)
+            String formattedValue = _formatNumber(rawValue);
+
+            // Nếu giá trị nhập vào có thay đổi, cập nhật lại giá trị trong controller
+            if (formattedValue != value) {
               controller.value = TextEditingValue(
-                text: newValue,
-                selection: TextSelection.collapsed(offset: newValue.length),
+                text: formattedValue,
+                selection:
+                    TextSelection.collapsed(offset: formattedValue.length),
               );
             }
           }
@@ -58,22 +86,14 @@ class InputField extends StatelessWidget {
     );
   }
 
-  // Hàm format số với dấu chấm
-  String _formatNumber(String value) {
-    if (value.isEmpty) return '';
-    final number = int.tryParse(value.replaceAll('.', ''));
-    if (number == null) return value;
-    return NumberFormat('#,###', 'en_US').format(number).replaceAll(',', '.');
-  }
-
   static const TextStyle txt = TextStyle(
-    fontSize: 36, // Kích thước font
+    fontSize: 36,
     color: Color(0xFF808080),
     fontFamily: 'Lato',
   );
 
   static const TextStyle txtsmall = TextStyle(
-    fontSize: 16, // Kích thước font nhỏ
+    fontSize: 16,
     color: Color(0xFF808080),
     fontFamily: 'Lato',
   );

@@ -1,8 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
-class Content extends StatelessWidget {
+class Content extends StatefulWidget {
   const Content({super.key});
+
+  @override
+  _ContentState createState() => _ContentState();
+}
+
+class _ContentState extends State<Content> {
+  List<Map<String, dynamic>> details = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  // Hàm tải dữ liệu từ SharedPreferences
+  Future<void> _loadData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? detailsJson = prefs.getString('details');
+
+    if (detailsJson != null) {
+      setState(() {
+        List<Map<String, dynamic>> loadedDetails =
+            List<Map<String, dynamic>>.from(
+                (jsonDecode(detailsJson) as List<dynamic>)
+                    .map((item) => Map<String, dynamic>.from(item)));
+
+        // Thêm dữ liệu mới vào danh sách cũ
+        details.addAll(loadedDetails);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,24 +44,49 @@ class Content extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildDateSection('Eating', '24/12/2024'),
           const SizedBox(height: 10),
-          buildExpenseRow('Tram payed', '100.000d', true),
-          const SizedBox(height: 10), // Thêm khoảng cách
-          buildExpenseRow('Tram payed', '100.000d', false),
-          const SizedBox(height: 10), // Thêm khoảng cách
-          buildExpenseRow('Tram payed', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('Playing', '24/12/2024'),
-          const SizedBox(height: 10),
-          buildExpenseRow('Tram payed', '100.000d', true),
-          const SizedBox(height: 10), // Thêm khoảng cách
-          buildExpenseRow('Tram payed', '100.000d', false),
-          const SizedBox(height: 10), // Thêm khoảng cách
-          buildExpenseRow('Tram payed', '100.000d', false),
+          // Hiển thị dữ liệu đã lưu nếu có
+          if (details.isNotEmpty)
+            ..._buildGroupedDetails(), // Hiển thị theo nhóm
+          if (details.isEmpty) const Text('No data available'),
         ],
       ),
     );
+  }
+
+  // Hàm nhóm các mục chi tiêu theo ngày
+  List<Widget> _buildGroupedDetails() {
+    Map<String, List<Map<String, dynamic>>> groupedDetails = {};
+
+    // Nhóm các dữ liệu theo ngày
+    for (var detail in details) {
+      String date = detail['date'] ??
+          'Unknown Date'; // Giả sử mỗi detail có trường 'date'
+      if (!groupedDetails.containsKey(date)) {
+        groupedDetails[date] = [];
+      }
+      groupedDetails[date]?.add(detail);
+    }
+
+    // Trả về danh sách các phần hiển thị theo từng nhóm
+    List<Widget> groupedWidgets = [];
+    groupedDetails.forEach((date, detailsList) {
+      // Xây dựng phần hiển thị cho mỗi nhóm
+      groupedWidgets
+          .add(buildDateSection('Eating', date)); // Sử dụng ngày làm tham số
+
+      // Thêm các mục chi tiêu cho nhóm này
+      for (var detail in detailsList) {
+        groupedWidgets
+            .add(buildExpenseRow(detail['name'], detail['amount'], true));
+      }
+
+      // Thêm khoảng cách giữa các nhóm
+      groupedWidgets
+          .add(const SizedBox(height: 20)); // Khoảng cách giữa các nhóm
+    });
+
+    return groupedWidgets;
   }
 
   Widget buildDateSection(String title, String date) {
