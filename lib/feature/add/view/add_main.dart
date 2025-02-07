@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:testverygood/feature/scanbill/app.dart';
 import 'package:testverygood/feature/scanbill/view/scanphoto.dart';
 import 'package:testverygood/feature/split/app.dart';
+import 'package:testverygood/feature/transactrion/app.dart';
 
 class AddPage extends StatelessWidget {
   const AddPage({super.key});
@@ -71,7 +72,7 @@ class AddPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SplitPage(),
+                        builder: (context) => const TransactionMain(),
                       ),
                     );
                   },

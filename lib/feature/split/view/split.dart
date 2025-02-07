@@ -5,9 +5,6 @@ import 'package:testverygood/components/button.dart';
 import 'package:testverygood/components/dropdown.dart';
 import 'package:testverygood/components/friendToggle.dart';
 import 'package:testverygood/components/input.dart';
-import 'package:testverygood/feature/history/app.dart';
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplitPage extends StatefulWidget {
   const SplitPage({super.key});
@@ -194,7 +191,8 @@ class _SplitPageState extends State<SplitPage> {
               const Spacer(),
               Text(
                 getEachPersonPays() > 0
-                    ? '${NumberFormat('#,###', 'en_US').format(getEachPersonPays().round())} VND' // Định dạng số tiền với dấu phẩy
+                    // ignore: lines_longer_than_80_chars
+                    ? '${NumberFormat('#,###', 'en_US').format(getEachPersonPays().round())} VND'
                     : '0 VND', // Trường hợp số tiền là 0, hiển thị 0 đ
                 style: txprice,
               ),
@@ -207,54 +205,7 @@ class _SplitPageState extends State<SplitPage> {
               Expanded(
                 child: Button(
                   label: 'Save',
-                  onPressed: () async {
-                    // Tạo danh sách chi tiết từ toggleStates và giá trị chia đều
-                    final double amountPerPerson = getEachPersonPays();
-
-                    // Lấy dữ liệu cũ từ SharedPreferences nếu có
-                    final SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    String? detailsJson = prefs.getString('details');
-                    List<Map<String, dynamic>> details = [];
-
-                    if (detailsJson != null) {
-                      // Nếu có dữ liệu cũ, chuyển đổi JSON thành danh sách
-                      details = List<Map<String, dynamic>>.from(
-                        (jsonDecode(detailsJson) as List<dynamic>)
-                            .map((item) => Map<String, dynamic>.from(item)),
-                      );
-                    }
-
-                    // Thêm dữ liệu mới vào danh sách cũ
-                    for (int i = 0; i < options.length; i++) {
-                      if (toggleStates[i]) {
-                        details.add({
-                          'name': options[i],
-                          'amount':
-                              '${NumberFormat('#,###', 'en_US').format(amountPerPerson)} VND',
-                        });
-                      }
-                    }
-
-                    // Chuyển danh sách chi tiết thành chuỗi JSON
-                    final String newDetailsJson = jsonEncode(details);
-
-                    // Lưu chuỗi JSON vào SharedPreferences
-                    bool success =
-                        await prefs.setString('details', newDetailsJson);
-
-                    // Hiển thị thông báo thành công hoặc thất bại
-                    if (success) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Data saved successfully!')),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Failed to save data.')),
-                      );
-                    }
-                  },
+                  onPressed: () async {},
                 ),
               ),
             ],

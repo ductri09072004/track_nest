@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class Barchart extends StatefulWidget {
-  const Barchart({super.key});
+class CategoriesText extends StatefulWidget {
+  const CategoriesText({super.key});
 
   @override
-  _BarchartState createState() => _BarchartState();
+  _CategoriesTextState createState() => _CategoriesTextState();
 }
 
-class _BarchartState extends State<Barchart> {
+class _CategoriesTextState extends State<CategoriesText> {
   Map<String, dynamic>? customerData;
   String errorMessage = '';
 
@@ -57,36 +57,14 @@ class _BarchartState extends State<Barchart> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 147,
-      left: 0,
-      right: 0,
-      child: Container(
-        margin: const EdgeInsets.all(20),
-        height: 222,
-        decoration: BoxDecoration(
-          color: const Color(0xFFFFFFFF),
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              spreadRadius: 3,
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: errorMessage.isNotEmpty
-              ? Center(
-                  child: Text(errorMessage,
-                      style: const TextStyle(color: Colors.red)))
-              : customerData == null
-                  ? const Center(child: CircularProgressIndicator())
-                  : _buildUserList(),
-        ),
-      ),
+    return Container(
+      child: errorMessage.isNotEmpty
+          ? Center(
+              child:
+                  Text(errorMessage, style: const TextStyle(color: Colors.red)))
+          : customerData == null
+              ? const Center(child: CircularProgressIndicator())
+              : _buildUserList(),
     );
   }
 
@@ -107,14 +85,23 @@ class _BarchartState extends State<Barchart> {
       return const Center(child: Text('Danh sách rỗng'));
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: userList
-          .where(
-              (user) => user is Map<String, dynamic>) // Lọc phần tử đúng kiểu
-          .map((user) {
-        return Text('Tên: ${user["name"] ?? "Không có dữ liệu"}');
-      }).toList(),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal, // 🔥 Cuộn theo chiều ngang
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: userList
+            .where(
+                (user) => user is Map<String, dynamic>) // Lọc phần tử đúng kiểu
+            .map((user) {
+          return Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10,
+            ), // Cách nhau một chút
+            // ignore: avoid_dynamic_calls
+            child: Text('${user["name"] ?? "Không có dữ liệu"}'),
+          );
+        }).toList(),
+      ),
     );
   }
 }

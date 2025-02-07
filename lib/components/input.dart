@@ -104,6 +104,8 @@ class InputClassic extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType keyboardType;
   final bool obscureText;
+  final bool hasBorder;
+  final bool hasPadding;
 
   const InputClassic({
     super.key,
@@ -111,6 +113,8 @@ class InputClassic extends StatelessWidget {
     this.controller,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
+    this.hasBorder = true, // Mặc định có viền
+    this.hasPadding = true, // Mặc định có padding
   });
 
   @override
@@ -124,27 +128,36 @@ class InputClassic extends StatelessWidget {
         hintStyle: const TextStyle(color: Colors.grey),
         filled: true,
         fillColor: Colors.transparent,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12), // Bo góc
-          borderSide: const BorderSide(
-            color: Colors.grey, // Màu viền
-            width: 1.5, // Độ dày viền
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12), // Bo góc
-          borderSide: const BorderSide(
-            color: Colors.grey, // Màu viền khi không focus
-            width: 1.5,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12), // Bo góc
-          borderSide: const BorderSide(
-            color: Colors.blue, // Màu viền khi focus
-            width: 2,
-          ),
-        ),
+        contentPadding: hasPadding
+            ? const EdgeInsets.symmetric(vertical: 12, horizontal: 16)
+            : EdgeInsets.zero, // Không có padding nếu `hasPadding` là false
+        border: hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1.5,
+                ),
+              )
+            : InputBorder.none, // Không có viền nếu `hasBorder` là false
+        enabledBorder: hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1.5,
+                ),
+              )
+            : InputBorder.none,
+        focusedBorder: hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: Colors.blue,
+                  width: 2,
+                ),
+              )
+            : InputBorder.none,
       ),
     );
   }

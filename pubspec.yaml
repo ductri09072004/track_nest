@@ -51,6 +51,7 @@ flutter:
   - lib/assets/icon/components_icon/
   - lib/assets/icon/popup_icon/
   - lib/assets/icon/setting_icon/
+  - lib/assets/icon/transaction_icon/
 
   fonts:
     - family: Lato

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 class Content extends StatefulWidget {
   const Content({super.key});
@@ -11,32 +9,6 @@ class Content extends StatefulWidget {
 }
 
 class _ContentState extends State<Content> {
-  List<Map<String, dynamic>> details = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  // Hàm tải dữ liệu từ SharedPreferences
-  Future<void> _loadData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? detailsJson = prefs.getString('details');
-
-    if (detailsJson != null) {
-      setState(() {
-        List<Map<String, dynamic>> loadedDetails =
-            List<Map<String, dynamic>>.from(
-                (jsonDecode(detailsJson) as List<dynamic>)
-                    .map((item) => Map<String, dynamic>.from(item)));
-
-        // Thêm dữ liệu mới vào danh sách cũ
-        details.addAll(loadedDetails);
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -45,48 +17,13 @@ class _ContentState extends State<Content> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 10),
-          // Hiển thị dữ liệu đã lưu nếu có
-          if (details.isNotEmpty)
-            ..._buildGroupedDetails(), // Hiển thị theo nhóm
-          if (details.isEmpty) const Text('No data available'),
+          buildDateSection('Ngày giao dịch', '12/02/2024'),
+          const SizedBox(height: 10),
+          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
+          buildExpenseRow('Phí dịch vụ', '50.000đ', false),
         ],
       ),
     );
-  }
-
-  // Hàm nhóm các mục chi tiêu theo ngày
-  List<Widget> _buildGroupedDetails() {
-    Map<String, List<Map<String, dynamic>>> groupedDetails = {};
-
-    // Nhóm các dữ liệu theo ngày
-    for (var detail in details) {
-      String date = detail['date'] ??
-          'Unknown Date'; // Giả sử mỗi detail có trường 'date'
-      if (!groupedDetails.containsKey(date)) {
-        groupedDetails[date] = [];
-      }
-      groupedDetails[date]?.add(detail);
-    }
-
-    // Trả về danh sách các phần hiển thị theo từng nhóm
-    List<Widget> groupedWidgets = [];
-    groupedDetails.forEach((date, detailsList) {
-      // Xây dựng phần hiển thị cho mỗi nhóm
-      groupedWidgets
-          .add(buildDateSection('Eating', date)); // Sử dụng ngày làm tham số
-
-      // Thêm các mục chi tiêu cho nhóm này
-      for (var detail in detailsList) {
-        groupedWidgets
-            .add(buildExpenseRow(detail['name'], detail['amount'], true));
-      }
-
-      // Thêm khoảng cách giữa các nhóm
-      groupedWidgets
-          .add(const SizedBox(height: 20)); // Khoảng cách giữa các nhóm
-    });
-
-    return groupedWidgets;
   }
 
   Widget buildDateSection(String title, String date) {
@@ -136,10 +73,6 @@ class _ContentState extends State<Content> {
   static const TextStyle titleicon = TextStyle(
     fontSize: 16,
     fontFamily: 'Lato_Regular',
-  );
-  static const TextStyle titleicon2 = TextStyle(
-    fontSize: 12,
-    fontFamily: 'Lato_Light',
   );
   static const TextStyle titleprice = TextStyle(
     fontSize: 16,
