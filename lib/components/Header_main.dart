@@ -45,12 +45,12 @@ class HeaderMain extends StatelessWidget {
               child: Row(
                 children: [
                   // Thay thế icon bằng SizedBox nếu showIcons = false
-                  if (showIcons)
-                    SvgPicture.asset(
-                      'lib/assets/icon/home_icon/setting_icon.svg',
-                    )
-                  else
-                    const SizedBox(width: 24), // Kích thước tương tự icon
+                  // if (showIcons)
+                  //   SvgPicture.asset(
+                  //     'lib/assets/icon/home_icon/setting_icon.svg',
+                  //   )
+                  // else
+                  //   const SizedBox(width: 24), // Kích thước tương tự icon
 
                   const Spacer(),
 
