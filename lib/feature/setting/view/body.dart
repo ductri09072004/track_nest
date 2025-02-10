@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:testverygood/feature/add_categories/view/categorylist_main.dart';
 import 'package:testverygood/feature/add_friends/app.dart';
 
 class BodyMain extends StatelessWidget {
@@ -8,11 +9,11 @@ class BodyMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: MediaQuery.of(context).size.height / 5.5,
+      top: MediaQuery.of(context).size.height / 5,
       left: 0,
       right: 0,
       child: Container(
-        height: MediaQuery.of(context).size.height * 2.5 / 3,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           color: Color(0xFFFDFDFD),
         ),
@@ -20,7 +21,7 @@ class BodyMain extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.only(top: 12, bottom: 110, right: 20, left: 20),
               child: Column(
                 children: [
                   InkWell(
@@ -28,7 +29,7 @@ class BodyMain extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const AddFriendPage(),
+                          builder: (context) => const FriendListPage(),
                         ),
                       );
                     },
@@ -39,9 +40,7 @@ class BodyMain extends StatelessWidget {
                           SvgPicture.asset(
                             'lib/assets/icon/setting_icon/people.svg',
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ), // Khoảng cách giữa icon và text
+                          const SizedBox(width: 10,), // Khoảng cách giữa icon và text
                           const Text('Group Friend', style: txtpeo),
                           const Spacer(),
                           SvgPicture.asset(
@@ -52,21 +51,32 @@ class BodyMain extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'lib/assets/icon/setting_icon/categories.svg',
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CategoryListPage(),
                         ),
-                        const SizedBox(
-                            width: 10), // Khoảng cách giữa icon và text
-                        const Text('Categories', style: txtpeo),
-                        const Spacer(),
-                        SvgPicture.asset(
-                          'lib/assets/icon/setting_icon/next.svg',
-                        ),
-                      ],
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            'lib/assets/icon/setting_icon/categories.svg',
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ), // Khoảng cách giữa icon và text
+                          const Text('Categories', style: txtpeo),
+                          const Spacer(),
+                          SvgPicture.asset(
+                            'lib/assets/icon/setting_icon/next.svg',
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

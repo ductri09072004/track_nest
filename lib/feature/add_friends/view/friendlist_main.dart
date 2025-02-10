@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/feature/add_friends/components/body_friends.dart';
 
-class AddFriendPage extends StatelessWidget {
-  const AddFriendPage({super.key});
+class FriendListPage extends StatelessWidget {
+  const FriendListPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -82,7 +82,7 @@ class _SplitPageState extends State<TransactionMain> {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

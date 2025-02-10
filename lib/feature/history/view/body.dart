@@ -24,7 +24,6 @@ class BodyMain extends StatelessWidget {
     //   ),
     // );
 
-
     return Positioned(
       top: MediaQuery.of(context).size.height / 5,
       left: 0,
@@ -37,12 +36,10 @@ class BodyMain extends StatelessWidget {
           // color: Color(0xFFA561CA),
         ),
         // BarChart(),
-        child: const Padding(
-          padding: EdgeInsets.only(top: 12), // Padding góc trên là 12
-          child: SingleChildScrollView(
-            padding: EdgeInsets.only(top: 12, bottom: 110),
-            child: Content(),
-          ),
+        //
+        child: const SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: 140),
+          child: Content(),
         ),
       ),
     );

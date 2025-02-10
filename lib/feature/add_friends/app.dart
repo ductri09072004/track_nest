@@ -1,1 +1,1 @@
-export 'view/addfriend_main.dart';
+export 'view/friendlist_main.dart';

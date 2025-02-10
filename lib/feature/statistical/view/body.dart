@@ -41,7 +41,8 @@ class BodyMain extends StatelessWidget {
       right: 0,
       child: Container(
         height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.only(top: 12, bottom: 110),
+        // padding: const EdgeInsets.only(top: 12, bottom: 110),
+        padding: const EdgeInsets.only(bottom: 110),
         decoration: const BoxDecoration(
           color: Color(0xFFFDFDFD),
         ),
@@ -55,7 +56,7 @@ class BodyMain extends StatelessWidget {
                   border: Border(
                     bottom: BorderSide(
                       color: Color(0xFF791CAC), // Màu của indicator
-                      width: 4,
+                      width: 3,
                     ),
                   ),
                 ),
@@ -121,6 +122,5 @@ class BodyMain extends StatelessWidget {
         ),
       ),
     );
-
   }
 }

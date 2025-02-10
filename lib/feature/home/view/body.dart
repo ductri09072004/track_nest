@@ -114,7 +114,13 @@ class BodyMain extends StatelessWidget {
     //     ),
     //   ),
     // );
-
+    
+    // return const Padding(
+    //   padding: EdgeInsets.only(top: 12, bottom: 12, right: 20, left: 20),
+    //   child: SingleChildScrollView(
+    //     child: ExpContent(),
+    //   ),
+    // );
     return const Scaffold(
       body: SingleChildScrollView(
         child: ExpContent(),

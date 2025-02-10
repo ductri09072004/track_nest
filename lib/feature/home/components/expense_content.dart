@@ -7,7 +7,7 @@ class ExpContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(top: 12, bottom: 12, left: 20, right: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -39,7 +39,7 @@ class ExpContent extends StatelessWidget {
           buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
           buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
           const SizedBox(height: 12),
-          buildDateSection('6 December 2025'),
+          buildDateSection('6 December 2026'),
           buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
           buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
         ],
