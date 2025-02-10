@@ -7,26 +7,42 @@ class Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
-              const SizedBox(height: 12),
-              buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
-              const SizedBox(height: 12),
-              buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
-              const SizedBox(height: 12),
-            ],
-          ),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
+          const SizedBox(height: 12),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
+          const SizedBox(height: 12),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '170.000đ'),
+          const SizedBox(height: 12),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
+          const SizedBox(height: 12),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
+          const SizedBox(height: 12),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
+          const SizedBox(height: 12),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
+          const SizedBox(height: 12),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
+          const SizedBox(height: 12),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '170.000đ'),
+          const SizedBox(height: 12),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '270.000đ'),
+          const SizedBox(height: 12),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '370.000đ'),
+          const SizedBox(height: 12),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '470.000đ'),
+          const SizedBox(height: 12),
+          buildDateSection('15.93%', 'Eating', '1 transaction', '100.000đ'),
+          const SizedBox(height: 12),
         ],
       ),
     );
   }
 
   Widget buildDateSection(
-      String percent, String title, String tranc, String price) {
+      String percent, String title, String tranc, String price,) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

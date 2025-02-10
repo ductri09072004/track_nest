@@ -69,52 +69,60 @@ class BodyMain extends StatelessWidget {
     // );
 
 
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: const Text("Transactions", style: TextStyle(color: Colors.black)),
-          bottom: const TabBar(
-            indicatorPadding: EdgeInsets.symmetric(horizontal: -44),
-            indicator: BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: Color(0xFF791CAC),
-                  width: 4,
-                ),
-              ),
-            ),
-            indicatorSize: TabBarIndicatorSize.label,
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.grey,
-            labelStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              fontFamily: 'lato',
-            ),
-            unselectedLabelStyle: TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 14,
-              fontFamily: 'lato',
-            ),
-            splashFactory: NoSplash.splashFactory,
-            tabs: [
-              Tab(text: 'Expense'),
-              Tab(text: 'Income'),
-            ],
-          ),
-        ),
-        body: const TabBarView(
-          children: [
-            ExpContent(),
-            IncomeContent(),
-          ],
-        ),
+    // return DefaultTabController(
+    //   length: 2,
+    //   child: Scaffold(
+    //     appBar: AppBar(
+    //       backgroundColor: Colors.white,
+    //       elevation: 0,
+    //       title: const Text("Transactions", style: TextStyle(color: Colors.black)),
+    //       bottom: const TabBar(
+    //         indicatorPadding: EdgeInsets.symmetric(horizontal: -44),
+    //         indicator: BoxDecoration(
+    //           border: Border(
+    //             top: BorderSide(
+    //               color: Color(0xFF791CAC),
+    //               width: 4,
+    //             ),
+    //           ),
+    //         ),
+    //         indicatorSize: TabBarIndicatorSize.label,
+    //         labelColor: Colors.black,
+    //         unselectedLabelColor: Colors.grey,
+    //         labelStyle: TextStyle(
+    //           fontWeight: FontWeight.bold,
+    //           fontSize: 14,
+    //           fontFamily: 'lato',
+    //         ),
+    //         unselectedLabelStyle: TextStyle(
+    //           fontWeight: FontWeight.normal,
+    //           fontSize: 14,
+    //           fontFamily: 'lato',
+    //         ),
+    //         splashFactory: NoSplash.splashFactory,
+    //         tabs: [
+    //           Tab(text: 'Expense'),
+    //           Tab(text: 'Income'),
+    //         ],
+    //       ),
+    //     ),
+    //     body: const TabBarView(
+    //       children: [
+    //         ExpContent(),
+    //         IncomeContent(),
+    //       ],
+    //     ),
+    //   ),
+    // );
+
+    return const Scaffold(
+      body: SingleChildScrollView(
+        child: ExpContent(),
       ),
     );
 
-
+    // return const Scaffold(
+    //   body: ExpContent(),
+    // );
   }
 }

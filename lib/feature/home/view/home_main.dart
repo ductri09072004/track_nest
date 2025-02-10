@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/Header_main.dart';
+import 'package:testverygood/feature/home/components/expense_content.dart';
 import 'package:testverygood/feature/home/view/body.dart';
 
 class HomePage extends StatelessWidget {

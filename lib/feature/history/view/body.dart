@@ -6,20 +6,43 @@ class BodyMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return Positioned(
+    //   top: MediaQuery.of(context).size.height / 5,
+    //   left: 0,
+    //   right: 0,
+    //   child: Container(
+    //     height: MediaQuery.of(context).size.height,
+    //     decoration: const BoxDecoration(
+    //       color: Color(0xFFFDFDFD),
+    //     ),
+    //     child: const Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         Content(),
+    //       ],
+    //     ),
+    //   ),
+    // );
+
+
     return Positioned(
-      top: MediaQuery.of(context).size.height / 5.5,
+      top: MediaQuery.of(context).size.height / 5,
       left: 0,
       right: 0,
       child: Container(
-        height: MediaQuery.of(context).size.height * 2.5 / 3,
+        height: MediaQuery.of(context).size.height,
+        padding: const EdgeInsets.only(top: 12, bottom: 110),
         decoration: const BoxDecoration(
           color: Color(0xFFFDFDFD),
+          // color: Color(0xFFA561CA),
         ),
-        child: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Content(),
-          ],
+        // BarChart(),
+        child: const Padding(
+          padding: EdgeInsets.only(top: 12), // Padding góc trên là 12
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(top: 12, bottom: 110),
+            child: Content(),
+          ),
         ),
       ),
     );
