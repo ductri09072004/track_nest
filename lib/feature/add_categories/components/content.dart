@@ -5,6 +5,10 @@ const Content({ super.key });
 
   @override
   Widget build(BuildContext context){
-    return const Text('data');
+    return const Column(
+      children: [
+        Text('data'),
+      ],
+    );
   }
 }

@@ -31,156 +31,84 @@ const BodyMain({ super.key });
     // );
 
 
-    // return Container(
-    //   color: Colors.blueAccent,
-    //   width: double.infinity,
-    //   height: MediaQuery.of(context).size.height,
-    //   // padding: const EdgeInsets.only(top: 10, bottom: 10, left: 16, right: 16),
-    //   child: Column(
-    //     children: [
-    //       // TabBar (Income & Expenses)
-    //       const DefaultTabController(
-    //         length: 2,
-    //         child: Column(
-    //           children: [
-    //             TabBar(
-    //               labelColor: Colors.black,
-    //               unselectedLabelColor: Colors.grey,
-    //               indicatorColor: Colors.purple,
-    //               tabs: [
-    //                 Tab(text: "Income"),
-    //                 Tab(text: "Expenses"),
-    //               ],
-    //             ),
-    //             SizedBox(height: 10), // Khoảng cách dưới TabBar
-
-    //             // Nội dung thay đổi theo tab
-    //             // Expanded(
-    //             //   child: Text('data'),
-    //             // ),
-    //           ],
-    //         ),
-    //       ),
-
-    //       // Nút thêm category (luôn cố định dưới cùng)
-    //       Align(
-    //         alignment: Alignment.bottomCenter,
-    //         child: GestureDetector(
-    //           onTap: () {
-    //             // Chuyển đến màn hình AddCatePage
-    //             Navigator.push(
-    //               context,
-    //               MaterialPageRoute(builder: (context) => const AddCatePage()),
-    //             );
-    //           },
-    //           child: SvgPicture.asset(
-    //             'lib/assets/icon/active_navbar/addA_icon.svg',
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
-
-
-
-    // return Positioned(
-    //   top: MediaQuery.of(context).size.height/5,
-    //   left: 0,
-    //   right: 0,
-    //   child: Container(
-    //     height: MediaQuery.of(context).size.height,
-    //     // padding: const EdgeInsets.only(top: 12, bottom: 110),
-    //     padding: const EdgeInsets.only(bottom: 110),
-    //     decoration: const BoxDecoration(
-    //       color: Color(0xFFFDFDFD),
-    //     ),
-    //     child: DefaultTabController(
-    //       length: 2, // Số lượng tab
-    //       child: Column(
-    //         children: [
-    //           Expanded(
-    //             // Đảm bảo nút trượt chiếm toàn bộ chiều ngang
-    //             child: ExInBtn(
-    //               labels: const ['Expenses', 'Income'],
-    //               onToggle: (index) {},
-    //             ),
-    //           ),
-    //           const Expanded(
-    //             child: TabBarView(
-    //               children: [
-    //                 // Nội dung cho tab "Income"
-    //                 Column(
-    //                   children: [
-    //                     Expanded(
-    //                       child: SingleChildScrollView(
-    //                         padding: EdgeInsets.only(bottom: 110),
-    //                         child: Content(),
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //                 // Nội dung cho tab "Expenses"
-    //                 Column(
-    //                   children: [
-    //                     Expanded(
-    //                       child: SingleChildScrollView(
-    //                         padding: EdgeInsets.only(bottom: 110),
-    //                         child:
-    //                             Content(), // Có thể thay đổi nội dung khác nếu cần
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
-
-
-
-    return Positioned(
-      child: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          // const SizedBox(height: 16),
-          Row(
+  return Positioned(
+      top: MediaQuery.of(context).size.height / 5,
+      left: 0,
+      right: 0,
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        // padding: const EdgeInsets.only(top: 12, bottom: 110),
+        padding: const EdgeInsets.only(bottom: 110),
+        // decoration: const BoxDecoration(
+        //   color: Color(0xFFFDFDFD),
+        // ),
+        child: const DefaultTabController(
+          length: 2, // Số lượng tab
+          child: Column(
             children: [
+              TabBar(
+                indicatorPadding: EdgeInsets.symmetric(horizontal: -44),
+                indicator: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Color(0xFF791CAC), // Màu của indicator
+                      width: 3,
+                    ),
+                  ),
+                ),
+                indicatorSize: TabBarIndicatorSize.label,
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey,
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  fontFamily: 'lato',
+                ),
+                unselectedLabelStyle: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 14,
+                  fontFamily: 'lato',
+                ),
+                // Thêm dòng này để loại bỏ viền đen mặc định
+                splashFactory: NoSplash.splashFactory,
+                indicatorColor: Colors.transparent,
+                tabs: [
+                  Tab(text: 'Expense'),
+                  Tab(text: 'Income'),
+                ],
+              ),
               Expanded(
-                // Đảm bảo nút trượt chiếm toàn bộ chiều ngang
-                child: ExInBtn(
-                  labels: const ['Expenses', 'Income'],
-                  onToggle: (index) {},
+                child: TabBarView(
+                  children: [
+                    // Nội dung cho tab "Income"
+                    Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            padding: EdgeInsets.only(bottom: 110),
+                            child: Content(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Nội dung cho tab "Expenses"
+                    Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            padding: EdgeInsets.only(bottom: 110),
+                            child:
+                                Content(), // Có thể thay đổi nội dung khác nếu cần
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-          const Expanded(
-            child: Column(
-              children: [
-                Text('data'),
-                // Nội dung cho tab "Income"
-                Expanded(
-                  child: SingleChildScrollView(
-                    // padding: EdgeInsets.only(bottom: 110),
-                    child: Content(),
-                  ),
-                ),
-                // Nội dung cho tab "Expenses"
-                Expanded(
-                  child: SingleChildScrollView(
-                    // padding: EdgeInsets.only(bottom: 110),
-                    child: Content(), // Có thể thay đổi nội dung khác nếu cần
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
