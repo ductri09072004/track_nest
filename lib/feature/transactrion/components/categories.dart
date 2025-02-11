@@ -21,8 +21,8 @@ class _CategoriesTextState extends State<CategoriesText> {
 
   Future<void> fetchCustomerData() async {
     try {
-      final response = await http
-          .get(Uri.parse('http://blueduck97.ddns.net:5000/api/request'));
+      final response =
+          await http.get(Uri.parse('http://3.26.221.69:5000/api/request'));
 
       if (response.statusCode == 200) {
         var rawData = response.body;
@@ -95,10 +95,26 @@ class _CategoriesTextState extends State<CategoriesText> {
             .map((user) {
           return Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ), // Cách nhau một chút
-            // ignore: avoid_dynamic_calls
-            child: Text('${user["name"] ?? "Không có dữ liệu"}'),
+                horizontal: 10), // Cách nhau một chút
+            child: Column(
+              children: [
+                Text(
+                  '${user["icon"] ?? "Không có dữ liệu"}',
+                  style: const TextStyle(
+                    fontSize: 36,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  '${user["name"] ?? "Không có dữ liệu"}',
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
           );
         }).toList(),
       ),
