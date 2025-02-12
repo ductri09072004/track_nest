@@ -3,7 +3,15 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class CategoriesText extends StatefulWidget {
-  const CategoriesText({super.key});
+  final bool isExpense;
+
+  final Function(String) onCategorySelected; // Nhận callback
+
+  const CategoriesText({
+    Key? key,
+    required this.isExpense,
+    required this.onCategorySelected, // Bắt buộc phải có
+  }) : super(key: key);
 
   @override
   _CategoriesTextState createState() => _CategoriesTextState();
@@ -12,6 +20,7 @@ class CategoriesText extends StatefulWidget {
 class _CategoriesTextState extends State<CategoriesText> {
   Map<String, dynamic>? customerData;
   String errorMessage = '';
+  String? selectedCategory; // Biến lưu mục đã chọn
 
   @override
   void initState() {
@@ -22,7 +31,7 @@ class _CategoriesTextState extends State<CategoriesText> {
   Future<void> fetchCustomerData() async {
     try {
       final response =
-          await http.get(Uri.parse('http://3.26.221.69:5000/api/request'));
+          await http.get(Uri.parse('http://3.26.221.69:5000/api/categories'));
 
       if (response.statusCode == 200) {
         var rawData = response.body;
@@ -80,40 +89,67 @@ class _CategoriesTextState extends State<CategoriesText> {
         child: Text('Lỗi: Dữ liệu không phải danh sách'),
       );
     }
+    final filteredList = userList
+        .where(
+          (user) =>
+              user is Map<String, dynamic> &&
+              user['type'] == (widget.isExpense ? 'expense' : 'income'),
+        )
+        .toList();
 
-    if (userList.isEmpty) {
-      return const Center(child: Text('Danh sách rỗng'));
+    if (filteredList.isEmpty) {
+      return const Center(child: Text('Không có mục nào thuộc "expense"'));
     }
 
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal, // 🔥 Cuộn theo chiều ngang
+      scrollDirection: Axis.horizontal,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: userList
-            .where(
-                (user) => user is Map<String, dynamic>) // Lọc phần tử đúng kiểu
-            .map((user) {
-          return Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 10), // Cách nhau một chút
-            child: Column(
-              children: [
-                Text(
-                  '${user["icon"] ?? "Không có dữ liệu"}',
-                  style: const TextStyle(
-                    fontSize: 36,
+        children: filteredList.map((user) {
+          final String categoryName =
+              (user['name'] ?? 'Không có dữ liệu').toString();
+          final bool isSelected = selectedCategory == categoryName;
+
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedCategory = categoryName; // Gán giá trị đã chọn
+              });
+              widget.onCategorySelected(categoryName);
+              print('Bạn đã chọn: $categoryName');
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? Colors.blue.withOpacity(0.2)
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: isSelected ? Colors.blue : Colors.transparent,
+                  width: isSelected ? 2 : 1,
+                ),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    '${user["icon"] ?? "Không có dữ liệu"}',
+                    style: const TextStyle(
+                      fontSize: 36,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  '${user["name"] ?? "Không có dữ liệu"}',
-                  style: const TextStyle(
-                    fontSize: 14,
+                  const SizedBox(height: 10),
+                  Text(
+                    categoryName,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.normal,
+                      color: isSelected ? Colors.blue : Colors.black,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }).toList(),

@@ -3,14 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
-class InputField extends StatelessWidget {
+class InputField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
   final bool isNumeric;
   final TextInputType keyboardType;
   final int maxLength;
   final bool isSmallText;
-  // ignore: inference_failure_on_function_return_type
   final Function(String)? onChanged;
 
   const InputField({
@@ -24,64 +23,70 @@ class InputField extends StatelessWidget {
     this.onChanged,
   }) : super(key: key);
 
+  @override
+  _InputFieldState createState() => _InputFieldState();
+}
+
+class _InputFieldState extends State<InputField> {
+  int rawValue = 0; // Lưu giá trị thực không có dấu chấm
+
   String _removeThousandsSeparator(String value) {
-    // Loại bỏ dấu phân cách nghìn (dấu chấm)
     return value.replaceAll('.', '');
   }
 
-  // Hàm format số với dấu chấm
   String _formatNumber(String value) {
     if (value.isEmpty) return '';
-    final number = int.tryParse(value.replaceAll('.', ''));
+    final number = int.tryParse(value);
     if (number == null) return value;
     return NumberFormat('#,###', 'en_US').format(number).replaceAll(',', '.');
   }
 
+  void _handleInputChange(String value) {
+    // Xóa dấu phân cách nghìn để lấy giá trị thực
+    String numericString = _removeThousandsSeparator(value);
+    int newValue = int.tryParse(numericString) ?? 0;
+
+    setState(() {
+      rawValue = newValue; // Cập nhật giá trị thực
+    });
+
+    // Định dạng số có dấu chấm
+    String formattedValue = _formatNumber(numericString);
+
+    // Cập nhật TextField mà không làm mất vị trí con trỏ
+    widget.controller.value = TextEditingValue(
+      text: formattedValue,
+      selection: TextSelection.collapsed(offset: formattedValue.length),
+    );
+
+    // Gọi callback nếu có
+    if (widget.onChanged != null) {
+      widget.onChanged!(numericString);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Chọn kiểu chữ cho cả hintText và inputText
-    final TextStyle inputStyle = isSmallText ? txtsmall : txt;
+    final TextStyle inputStyle = widget.isSmallText ? txtsmall : txt;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: TextField(
-        controller: controller,
-        keyboardType: isNumeric ? TextInputType.number : keyboardType,
-        inputFormatters: isNumeric
-            ? [FilteringTextInputFormatter.digitsOnly] // Chỉ cho phép nhập số
+        controller: widget.controller,
+        keyboardType:
+            widget.isNumeric ? TextInputType.number : widget.keyboardType,
+        inputFormatters: widget.isNumeric
+            ? [FilteringTextInputFormatter.digitsOnly] // Chỉ nhập số
             : [],
-        maxLength: maxLength, // Giới hạn độ dài ký tự
+        maxLength: widget.maxLength,
         decoration: InputDecoration(
-          hintText: hintText,
+          hintText: widget.hintText,
           hintStyle: inputStyle,
-          counterText: '', // Loại bỏ bộ đếm ký tự
-          border: InputBorder.none, // Không viền
+          counterText: '',
+          border: InputBorder.none,
         ),
         style: inputStyle,
-        onChanged: (value) {
-          // Nếu có callback onChanged thì gọi nó
-          if (onChanged != null) {
-            onChanged!(value);
-          }
-
-          // Nếu là số, áp dụng định dạng số
-          if (isNumeric) {
-            // Loại bỏ dấu phân cách nghìn (nếu có)
-            String rawValue = _removeThousandsSeparator(value);
-
-            // Định dạng lại với dấu phân cách nghìn (dấu chấm)
-            String formattedValue = _formatNumber(rawValue);
-
-            // Nếu giá trị nhập vào có thay đổi, cập nhật lại giá trị trong controller
-            if (formattedValue != value) {
-              controller.value = TextEditingValue(
-                text: formattedValue,
-                selection:
-                    TextSelection.collapsed(offset: formattedValue.length),
-              );
-            }
-          }
-        },
+        onChanged: widget.isNumeric ? _handleInputChange : widget.onChanged,
       ),
     );
   }
