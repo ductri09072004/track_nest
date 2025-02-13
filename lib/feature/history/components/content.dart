@@ -1,31 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Content extends StatelessWidget {
+class Content extends StatefulWidget {
   const Content({super.key});
 
   @override
+  _ContentState createState() => _ContentState();
+}
+
+class _ContentState extends State<Content> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildDateSection('Eating', '24/12/2024'),
+          // const SizedBox(height: 10),
+          buildDateSection('Ngày giao dịch', '12/02/2024'),
           const SizedBox(height: 10),
-          buildExpenseRow('Tram payed', '100.000d', true),
-          const SizedBox(height: 10), // Thêm khoảng cách
-          buildExpenseRow('Tram payed', '100.000d', false),
-          const SizedBox(height: 10), // Thêm khoảng cách
-          buildExpenseRow('Tram payed', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('Playing', '24/12/2024'),
+          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
+          buildExpenseRow('Phí dịch vụ', '50.000đ', false),
           const SizedBox(height: 10),
-          buildExpenseRow('Tram payed', '100.000d', true),
-          const SizedBox(height: 10), // Thêm khoảng cách
-          buildExpenseRow('Tram payed', '100.000d', false),
-          const SizedBox(height: 10), // Thêm khoảng cách
-          buildExpenseRow('Tram payed', '100.000d', false),
+          buildDateSection('Ngày giao dịch', '12/02/2024'),
+          const SizedBox(height: 10),
+          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
+          buildExpenseRow('Phí dịch vụ', '50.000đ', false),
+          const SizedBox(height: 10),
+          buildDateSection('Ngày giao dịch', '12/02/2024'),
+          const SizedBox(height: 10),
+          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
+          buildExpenseRow('Phí dịch vụ', '50.000đ', false),
+          const SizedBox(height: 10),
+          buildDateSection('Ngày giao dịch', '12/02/2024'),
+          const SizedBox(height: 10),
+          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
+          buildExpenseRow('Phí dịch vụ', '450.000đ', false),
+          const SizedBox(height: 10),
+          buildDateSection('Ngày giao dịch', '12/02/2024'),
+          const SizedBox(height: 10),
+          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
+          buildExpenseRow('Phí dịch vụ', '350.000đ', false),
+          const SizedBox(height: 10),
+          buildDateSection('Ngày giao dịch', '12/02/2024'),
+          const SizedBox(height: 10),
+          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
+          buildExpenseRow('Phí dịch vụ', '250.000đ', false),
+          const SizedBox(height: 10),
+          buildDateSection('Ngày giao dịch', '12/02/2024'),
+          const SizedBox(height: 10),
+          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
+          buildExpenseRow('Phí dịch vụ', '150.000đ', false),
         ],
       ),
     );
@@ -78,10 +103,6 @@ class Content extends StatelessWidget {
   static const TextStyle titleicon = TextStyle(
     fontSize: 16,
     fontFamily: 'Lato_Regular',
-  );
-  static const TextStyle titleicon2 = TextStyle(
-    fontSize: 12,
-    fontFamily: 'Lato_Light',
   );
   static const TextStyle titleprice = TextStyle(
     fontSize: 16,

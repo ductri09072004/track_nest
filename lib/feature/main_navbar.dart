@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:testverygood/feature/add/app.dart';
 import 'package:testverygood/feature/history/app.dart';
 import 'package:testverygood/feature/home/app.dart';
+import 'package:testverygood/feature/setting/app.dart';
 import 'package:testverygood/feature/statistical/app.dart';
 
 class MainPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _pages = [
     const HomePage(),
     const StatisticalPage(),
+    const AddPage(),
     const HistoryPage(),
     const SettingPage(),
   ];
@@ -26,13 +28,15 @@ class _MainPageState extends State<MainPage> {
   final List<String> _selectedIcons = [
     'lib/assets/icon/active_navbar/homeA_icon.svg',
     'lib/assets/icon/active_navbar/satatisA_icon.svg',
-    'lib/assets/icon/active_navbar/hisA_icon.svg',
     'lib/assets/icon/active_navbar/addA_icon.svg',
+    'lib/assets/icon/active_navbar/hisA_icon.svg',
+    'lib/assets/icon/active_navbar/settingA_icon.svg',
   ];
 
   final List<String> _defaultIcons = [
     'lib/assets/icon/inactive_navbar/home_icon.svg',
     'lib/assets/icon/inactive_navbar/statistical_icon.svg',
+    'lib/assets/icon/active_navbar/addA_icon.svg',
     'lib/assets/icon/inactive_navbar/his_icon.svg',
     'lib/assets/icon/inactive_navbar/setting_icon.svg',
   ];
@@ -48,8 +52,7 @@ class _MainPageState extends State<MainPage> {
             _currentIndex = index;
           });
         },
-        backgroundColor:
-            const Color.fromARGB(255, 7, 73, 128), // Thêm màu nền cho thanh nav
+        backgroundColor: const Color.fromARGB(255, 253, 253, 253),
         selectedItemColor: Colors.white, // Màu của mục được chọn
         unselectedItemColor: Colors.grey, // Màu của mục chưa được chọn
         items: [
@@ -74,6 +77,12 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               _currentIndex == 3 ? _selectedIcons[3] : _defaultIcons[3],
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              _currentIndex == 4 ? _selectedIcons[4] : _defaultIcons[4],
             ),
             label: '',
           ),

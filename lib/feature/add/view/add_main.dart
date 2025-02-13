@@ -3,9 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:testverygood/feature/scanbill/app.dart';
 import 'package:testverygood/feature/scanbill/view/scanphoto.dart';
 import 'package:testverygood/feature/split/app.dart';
+import 'package:testverygood/feature/transactrion/app.dart';
 
-class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});
+class AddPage extends StatelessWidget {
+  const AddPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,19 +34,19 @@ class SettingPage extends StatelessWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.only(
-                    top: 55,
+                    top: 30,
                     left: 20,
                     right: 20,
-                    bottom: 40,
+                    bottom: 30,
                   ),
-                  child: Column(
-                    children: [
-                      Text(
-                        'ADD ITEM TO EXPENSES',
-                        style: texttop,
-                      ),
-                    ],
-                  ),
+                  // child: Column(
+                  //   children: [
+                  //     Text(
+                  //       'ADD ITEM TO EXPENSES',
+                  //       style: texttop,
+                  //     ),
+                  //   ],
+                  // ),
                 ),
                 // Nút 1: Scan Bill
                 buildSettingItem(
@@ -71,7 +72,7 @@ class SettingPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SplitPage(),
+                        builder: (context) => const TransactionMain(),
                       ),
                     );
                   },
@@ -92,7 +93,7 @@ class SettingPage extends StatelessWidget {
                   },
                 ),
 
-                const SizedBox(height: 104),
+                // const SizedBox(height: 104),
               ],
             ),
           ),

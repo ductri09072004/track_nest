@@ -19,7 +19,7 @@ class Dropdown extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16), // Bo góc
+        borderRadius: BorderRadius.circular(16), // Bo góc của Dropdown
         border: Border.all(
           color: const Color(0xFFA7A7A7), // Màu viền
         ),
@@ -39,7 +39,15 @@ class Dropdown extends StatelessWidget {
         items: options.map((String option) {
           return DropdownMenuItem<String>(
             value: option,
-            child: Text(option),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16), // Bo góc cho mục
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(option),
+              ),
+            ),
           );
         }).toList(),
         onChanged: onChanged, // Callback khi chọn
