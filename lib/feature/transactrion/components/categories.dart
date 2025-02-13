@@ -22,7 +22,7 @@ class _CategoriesTextState extends State<CategoriesText> {
   Future<void> fetchCustomerData() async {
     try {
       final response =
-          await http.get(Uri.parse('http://3.26.221.69:5000/api/request'));
+          await http.get(Uri.parse('http://3.26.221.69:5000/api/categories'));
 
       if (response.statusCode == 200) {
         var rawData = response.body;
