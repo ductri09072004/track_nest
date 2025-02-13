@@ -44,29 +44,46 @@ class HeaderMain extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  // Thay thế icon bằng SizedBox nếu showIcons = false
-                  if (showIcons)
-                    SvgPicture.asset(
-                      'lib/assets/icon/home_icon/setting_icon.svg',
-                    )
-                  else
-                    const SizedBox(width: 24), // Kích thước tương tự icon
-
                   const Spacer(),
-
                   if (showIcons)
-                    SvgPicture.asset(
-                      'lib/assets/icon/home_icon/calendar_icon.svg',
-                    )
+                    // SvgPicture.asset(
+                    //   'lib/assets/icon/home_icon/calendar_icon.svg',
+                    // )
+                    GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("chọn ngày!"),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/home_icon/calendar_icon.svg',
+                        ),
+                      )
                   else
                     const SizedBox(width: 24), // Kích thước tương tự icon
-
                   const SizedBox(width: 24),
-
                   if (showIcons)
-                    SvgPicture.asset(
-                      'lib/assets/icon/home_icon/search_icon.svg',
-                    )
+                    // SvgPicture.asset(
+                    //   'lib/assets/icon/home_icon/search_icon.svg',
+                    // )
+                    GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("tìm kiếm"),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/home_icon/search_icon.svg',
+                        ),
+                      )
                   else
                     const SizedBox(width: 24),
                 ],
@@ -127,3 +144,4 @@ class HeaderMain extends StatelessWidget {
   static const TextStyle texttitle =
       TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'Lato');
 }
+

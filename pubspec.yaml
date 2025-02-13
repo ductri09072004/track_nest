@@ -22,8 +22,7 @@ dependencies:
   google_mlkit_text_recognition: ^0.14.0
   flutter_secure_storage: ^9.2.4
   uuid: ^4.5.1
- 
-  
+
 dev_dependencies:
   bloc_test: ^9.1.7
   flutter_test:
@@ -41,7 +40,7 @@ flutter_icons:
 flutter:
   uses-material-design: true
   generate: true
-  assets: 
+  assets:
   - lib/assets/icon/
   - lib/assets/svg/
   - lib/assets/icon/active_navbar/
@@ -52,6 +51,7 @@ flutter:
   - lib/assets/icon/popup_icon/
   - lib/assets/icon/setting_icon/
   - lib/assets/icon/transaction_icon/
+  - lib/assets/icon/figma_svg/
 
   fonts:
     - family: Lato

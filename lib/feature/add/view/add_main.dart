@@ -34,19 +34,19 @@ class AddPage extends StatelessWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.only(
-                    top: 55,
+                    top: 30,
                     left: 20,
                     right: 20,
-                    bottom: 40,
+                    bottom: 30,
                   ),
-                  child: Column(
-                    children: [
-                      Text(
-                        'ADD ITEM TO EXPENSES',
-                        style: texttop,
-                      ),
-                    ],
-                  ),
+                  // child: Column(
+                  //   children: [
+                  //     Text(
+                  //       'ADD ITEM TO EXPENSES',
+                  //       style: texttop,
+                  //     ),
+                  //   ],
+                  // ),
                 ),
                 // Nút 1: Scan Bill
                 buildSettingItem(
@@ -93,7 +93,7 @@ class AddPage extends StatelessWidget {
                   },
                 ),
 
-                const SizedBox(height: 104),
+                // const SizedBox(height: 104),
               ],
             ),
           ),

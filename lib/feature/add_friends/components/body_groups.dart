@@ -18,48 +18,53 @@ class _BodyMainState extends State<BodyMain> {
   @override
   void dispose() {
     numericController.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity, // Chiếm toàn bộ chiều rộng màn hình
-      height: MediaQuery.of(context).size.height,
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Group name', style: txtcate),
-          const SizedBox(
-            height: 10,
-          ),
-          const InputClassic(
-            hintText: 'Enter your password',
-            obscureText: true,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          const Text('Members', style: txtcate),
-          InputWithClearIcon(
-            hintText: 'Enter name',
-            controller: _controller,
-          ),
-          const Text('Add new member', style: txtnew),
-          const Spacer(),
-          Row(
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Button(
-                  label: 'Save',
-                  onPressed: () {},
-                ),
+              const Text('Group name', style: txtcate),
+              const SizedBox(height: 10),
+              const InputClassic(
+                hintText: 'Enter your group name',
+              ),
+              const SizedBox(height: 16),
+              const Text('Members', style: txtcate),
+              InputWithClearIcon(
+                hintText: 'Enter name',
+                controller: _controller,
+              ),
+              const SizedBox(height: 16),
+              const Text('Add new member', style: txtnew),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: Button(
+                      label: 'Save',
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Đã lưu!"),
+                            duration:
+                                Duration(seconds: 2), // Thời gian hiển thị
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
