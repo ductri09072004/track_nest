@@ -205,7 +205,14 @@ class _SplitPageState extends State<SplitPage> {
               Expanded(
                 child: Button(
                   label: 'Save',
-                  onPressed: () async {},
+                  onPressed: () async {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Đã lưu!"),
+                        duration: Duration(seconds: 2), // Thời gian hiển thị
+                      ),
+                    );
+                  },
                 ),
               ),
             ],

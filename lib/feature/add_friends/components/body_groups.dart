@@ -49,7 +49,15 @@ class _BodyMainState extends State<BodyMain> {
                   Expanded(
                     child: Button(
                       label: 'Save',
-                      onPressed: () {},
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Đã lưu!"),
+                            duration:
+                                Duration(seconds: 2), // Thời gian hiển thị
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
