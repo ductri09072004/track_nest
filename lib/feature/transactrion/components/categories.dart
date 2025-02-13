@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class CategoriesText extends StatefulWidget {
-  const CategoriesText({super.key});
+  const CategoriesText(
+      {super.key,
+      required bool isExpense,
+      required Null Function(String category) onCategorySelected});
 
   @override
   _CategoriesTextState createState() => _CategoriesTextState();

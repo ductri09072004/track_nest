@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class Barchart extends StatefulWidget {
   const Barchart({super.key});
@@ -13,47 +11,47 @@ class _BarchartState extends State<Barchart> {
   Map<String, dynamic>? customerData;
   String errorMessage = '';
 
-  @override
-  void initState() {
-    super.initState();
-    fetchCustomerData();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   fetchCustomerData();
+  // }
 
-  Future<void> fetchCustomerData() async {
-    try {
-      final response = await http
-          .get(Uri.parse('http://blueduck97.ddns.net:5000/api/request'));
+  // Future<void> fetchCustomerData() async {
+  //   try {
+  //     final response = await http
+  //         .get(Uri.parse('http://blueduck97.ddns.net:5000/api/request'));
 
-      if (response.statusCode == 200) {
-        var rawData = response.body;
-        print('Raw Data từ API: $rawData');
+  //     if (response.statusCode == 200) {
+  //       var rawData = response.body;
+  //       print('Raw Data từ API: $rawData');
 
-        var data = json.decode(rawData);
+  //       var data = json.decode(rawData);
 
-        if (data is List && data.isNotEmpty) {
-          setState(() {
-            customerData = data.first as Map<String, dynamic>;
-          });
-        } else if (data is Map<String, dynamic>) {
-          setState(() {
-            customerData = data;
-          });
-        } else {
-          setState(() {
-            errorMessage = 'Dữ liệu từ API không đúng định dạng!';
-          });
-        }
-      } else {
-        setState(() {
-          errorMessage = 'Lỗi kết nối API: ${response.statusCode}';
-        });
-      }
-    } catch (e) {
-      setState(() {
-        errorMessage = 'Lỗi khi tải dữ liệu: $e';
-      });
-    }
-  }
+  //       if (data is List && data.isNotEmpty) {
+  //         setState(() {
+  //           customerData = data.first as Map<String, dynamic>;
+  //         });
+  //       } else if (data is Map<String, dynamic>) {
+  //         setState(() {
+  //           customerData = data;
+  //         });
+  //       } else {
+  //         setState(() {
+  //           errorMessage = 'Dữ liệu từ API không đúng định dạng!';
+  //         });
+  //       }
+  //     } else {
+  //       setState(() {
+  //         errorMessage = 'Lỗi kết nối API: ${response.statusCode}';
+  //       });
+  //     }
+  //   } catch (e) {
+  //     setState(() {
+  //       errorMessage = 'Lỗi khi tải dữ liệu: $e';
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
