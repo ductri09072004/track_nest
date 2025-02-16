@@ -42,7 +42,11 @@ class IncomeContent extends StatelessWidget {
   }
 
   Widget buildExpenseRow(
-      String title, String budget, String price, bool isRed) {
+    String title,
+    String budget,
+    String price,
+    bool isRed,
+  ) {
     return Row(
       children: [
         SvgPicture.asset('lib/assets/icon/home_icon/girl_icon.svg'),

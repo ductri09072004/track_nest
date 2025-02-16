@@ -6,8 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uuid/uuid.dart';
 
-final storage = FlutterSecureStorage();
-final uuid = Uuid();
+final storage = const FlutterSecureStorage();
+final uuid = const Uuid();
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -26,7 +26,7 @@ class AppBlocObserver extends BlocObserver {
 }
 
 Future<String> getOrCreateUniqueId() async {
-  String? uniqueId = await storage.read(key: 'unique_id');
+  var uniqueId = await storage.read(key: 'unique_id');
 
   if (uniqueId == null) {
     uniqueId = uuid.v4(); // Tạo mã số ngẫu nhiên
@@ -48,7 +48,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   // Khởi tạo và lấy UUID
   WidgetsFlutterBinding.ensureInitialized();
-  String uniqueId = await getOrCreateUniqueId();
+  var uniqueId = await getOrCreateUniqueId();
 
   log('App Started with Unique ID: $uniqueId');
 

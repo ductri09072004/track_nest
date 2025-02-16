@@ -78,8 +78,11 @@ class _BarchartState extends State<Barchart> {
           padding: const EdgeInsets.all(20),
           child: errorMessage.isNotEmpty
               ? Center(
-                  child: Text(errorMessage,
-                      style: const TextStyle(color: Colors.red)))
+                  child: Text(
+                    errorMessage,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                )
               : customerData == null
                   ? const Center(child: CircularProgressIndicator())
                   : _buildUserList(),
@@ -108,8 +111,7 @@ class _BarchartState extends State<Barchart> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: userList
-          .where(
-              (user) => user is Map<String, dynamic>) // Lọc phần tử đúng kiểu
+          .whereType<Map<String, dynamic>>() // Lọc phần tử đúng kiểu
           .map((user) {
         return Text('Tên: ${user["name"] ?? "Không có dữ liệu"}');
       }).toList(),

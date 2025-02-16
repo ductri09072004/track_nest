@@ -52,6 +52,7 @@ flutter:
   - lib/assets/icon/setting_icon/
   - lib/assets/icon/transaction_icon/
   - lib/assets/icon/figma_svg/
+  - lib/assets/icon/OCR_icon/
 
   fonts:
     - family: Lato

@@ -103,7 +103,7 @@ class BodyMain extends StatelessWidget {
     //     ),
     //   );
 
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height,
       // padding: const EdgeInsets.only(top: 12),
       child: DefaultTabController(
@@ -170,7 +170,8 @@ class BodyMain extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const AddCateMain()),
+                      builder: (context) => const AddCateMain(),
+                    ),
                   );
                 },
                 child: SvgPicture.asset(
@@ -182,7 +183,6 @@ class BodyMain extends StatelessWidget {
         ),
       ),
     );
-
   }
 
   static const TextStyle txtcate = TextStyle(

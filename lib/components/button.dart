@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ToggleSwitch extends StatelessWidget {
-  final bool value;
-  final ValueChanged<bool> onChanged;
-
   const ToggleSwitch({
     super.key,
     required this.value,
     required this.onChanged,
   });
+  final bool value;
+  final ValueChanged<bool> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +42,13 @@ class ToggleSwitch extends StatelessWidget {
 }
 
 class Button extends StatelessWidget {
-  final String label;
-  final VoidCallback onPressed;
-
   const Button({
     required this.label,
     required this.onPressed,
     Key? key,
   }) : super(key: key);
+  final String label;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {

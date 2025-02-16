@@ -7,7 +7,9 @@ import 'package:testverygood/components/friendToggle.dart';
 import 'package:testverygood/components/input.dart';
 
 class SplitPage extends StatefulWidget {
-  const SplitPage({super.key});
+  final String data;
+
+  const SplitPage({Key? key, this.data = ''}) : super(key: key);
 
   @override
   _SplitPageState createState() => _SplitPageState();
@@ -36,7 +38,12 @@ class _SplitPageState extends State<SplitPage> {
   void initState() {
     super.initState();
     toggleStates = List.generate(
-        options.length, (_) => false); // Khởi tạo trạng thái toggle
+      options.length,
+      (_) => false,
+    ); // Khởi tạo trạng thái toggle
+    if (widget.data.isNotEmpty) {
+      numericController.text = widget.data;
+    }
   }
 
   @override
@@ -47,10 +54,10 @@ class _SplitPageState extends State<SplitPage> {
   }
 
   List<Map<String, dynamic>> getSplitDetails() {
-    final double eachPersonPays = getEachPersonPays();
-    final List<Map<String, dynamic>> splitDetails = [];
+    final eachPersonPays = getEachPersonPays();
+    final splitDetails = <Map<String, dynamic>>[];
 
-    for (int i = 0; i < options.length; i++) {
+    for (var i = 0; i < options.length; i++) {
       if (toggleStates[i]) {
         splitDetails.add({
           'name': options[i],
@@ -64,16 +71,16 @@ class _SplitPageState extends State<SplitPage> {
   // Hàm tính toán số tiền mỗi người phải trả
   double getEachPersonPays() {
     // Loại bỏ dấu phân cách nghìn trước khi chuyển đổi
-    final String rawValue = numericController.text.replaceAll('.', '');
-    final double totalAmount = double.tryParse(rawValue) ?? 0.0;
+    final rawValue = numericController.text.replaceAll('.', '');
+    final totalAmount = double.tryParse(rawValue) ?? 0.0;
 
     // Đếm số người được chọn
-    final int selectedCount = toggleStates.where((state) => state).length;
+    final selectedCount = toggleStates.where((state) => state).length;
 
     if (selectedCount > 0 && totalAmount > 0) {
       return totalAmount / selectedCount;
     } else {
-      return 0.0; // Nếu không có người nào được chọn hoặc số tiền <= 0, trả về 0
+      return 0; // Nếu không có người nào được chọn hoặc số tiền <= 0, trả về 0
     }
   }
 
@@ -208,7 +215,7 @@ class _SplitPageState extends State<SplitPage> {
                   onPressed: () async {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text("Đã lưu!"),
+                        content: Text('Đã lưu!'),
                         duration: Duration(seconds: 2), // Thời gian hiển thị
                       ),
                     );

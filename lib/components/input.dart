@@ -4,14 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class InputField extends StatefulWidget {
-  final String hintText;
-  final TextEditingController controller;
-  final bool isNumeric;
-  final TextInputType keyboardType;
-  final int maxLength;
-  final bool isSmallText;
-  final Function(String)? onChanged;
-
   const InputField({
     Key? key,
     required this.hintText,
@@ -22,6 +14,13 @@ class InputField extends StatefulWidget {
     this.isSmallText = false,
     this.onChanged,
   }) : super(key: key);
+  final String hintText;
+  final TextEditingController controller;
+  final bool isNumeric;
+  final TextInputType keyboardType;
+  final int maxLength;
+  final bool isSmallText;
+  final Function(String)? onChanged;
 
   @override
   _InputFieldState createState() => _InputFieldState();
@@ -43,15 +42,15 @@ class _InputFieldState extends State<InputField> {
 
   void _handleInputChange(String value) {
     // Xóa dấu phân cách nghìn để lấy giá trị thực
-    String numericString = _removeThousandsSeparator(value);
-    int newValue = int.tryParse(numericString) ?? 0;
+    var numericString = _removeThousandsSeparator(value);
+    var newValue = int.tryParse(numericString) ?? 0;
 
     setState(() {
       rawValue = newValue; // Cập nhật giá trị thực
     });
 
     // Định dạng số có dấu chấm
-    String formattedValue = _formatNumber(numericString);
+    var formattedValue = _formatNumber(numericString);
 
     // Cập nhật TextField mà không làm mất vị trí con trỏ
     widget.controller.value = TextEditingValue(
@@ -67,7 +66,7 @@ class _InputFieldState extends State<InputField> {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle inputStyle = widget.isSmallText ? txtsmall : txt;
+    final inputStyle = widget.isSmallText ? txtsmall : txt;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -105,13 +104,6 @@ class _InputFieldState extends State<InputField> {
 }
 
 class InputClassic extends StatelessWidget {
-  final String hintText;
-  final TextEditingController? controller;
-  final TextInputType keyboardType;
-  final bool obscureText;
-  final bool hasBorder;
-  final bool hasPadding;
-
   const InputClassic({
     super.key,
     required this.hintText,
@@ -121,6 +113,12 @@ class InputClassic extends StatelessWidget {
     this.hasBorder = true, // Mặc định có viền
     this.hasPadding = true, // Mặc định có padding
   });
+  final String hintText;
+  final TextEditingController? controller;
+  final TextInputType keyboardType;
+  final bool obscureText;
+  final bool hasBorder;
+  final bool hasPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -169,11 +167,6 @@ class InputClassic extends StatelessWidget {
 }
 
 class InputWithClearIcon extends StatefulWidget {
-  final String hintText;
-  final TextEditingController controller;
-  final TextInputType keyboardType;
-  final bool obscureText;
-
   const InputWithClearIcon({
     super.key,
     required this.hintText,
@@ -181,6 +174,10 @@ class InputWithClearIcon extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
   });
+  final String hintText;
+  final TextEditingController controller;
+  final TextInputType keyboardType;
+  final bool obscureText;
 
   @override
   _InputWithClearIconState createState() => _InputWithClearIconState();

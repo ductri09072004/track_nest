@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/feature/home/components/expense_content.dart';
-import 'package:testverygood/feature/home/components/income_content.dart';
 
 class BodyMain extends StatelessWidget {
   const BodyMain({super.key});
@@ -68,7 +67,6 @@ class BodyMain extends StatelessWidget {
     //   ),
     // );
 
-
     // return DefaultTabController(
     //   length: 2,
     //   child: Scaffold(
@@ -114,7 +112,7 @@ class BodyMain extends StatelessWidget {
     //     ),
     //   ),
     // );
-    
+
     // return const Padding(
     //   padding: EdgeInsets.only(top: 12, bottom: 12, right: 20, left: 20),
     //   child: SingleChildScrollView(

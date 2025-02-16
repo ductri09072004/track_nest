@@ -30,7 +30,7 @@ class WPage1 extends StatelessWidget {
               // Căn lề trái cho văn bản
               const Align(
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   'Manage your finances easily and set financial goals and monitor your progress',
                   style: texttop,
                 ),
