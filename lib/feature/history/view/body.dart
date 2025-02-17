@@ -6,24 +6,6 @@ class BodyMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Positioned(
-    //   top: MediaQuery.of(context).size.height / 5,
-    //   left: 0,
-    //   right: 0,
-    //   child: Container(
-    //     height: MediaQuery.of(context).size.height,
-    //     decoration: const BoxDecoration(
-    //       color: Color(0xFFFDFDFD),
-    //     ),
-    //     child: const Column(
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         Content(),
-    //       ],
-    //     ),
-    //   ),
-    // );
-
     return Positioned(
       top: MediaQuery.of(context).size.height / 5,
       left: 0,
@@ -33,10 +15,7 @@ class BodyMain extends StatelessWidget {
         padding: const EdgeInsets.only(top: 12, bottom: 110),
         decoration: const BoxDecoration(
           color: Color(0xFFFDFDFD),
-          // color: Color(0xFFA561CA),
         ),
-        // BarChart(),
-        //
         child: const SingleChildScrollView(
           padding: EdgeInsets.only(bottom: 140),
           child: Content(),
