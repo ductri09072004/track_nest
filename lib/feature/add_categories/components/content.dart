@@ -6,18 +6,6 @@ class Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Column(
-    //   children: [
-    //     Container(
-    //       height: MediaQuery.of(context).size.height,
-    //       // width: 0,
-    //       // padding: const EdgeInsets.only(bottom: 110),
-    //       color: const Color(0xFF791CAC),
-    //       child: const Text('dataasfasfasdffasf'),
-    //     ),
-    //   ],
-    // );
-
     return Container(
       width: double.infinity, // Chiếm toàn bộ chiều rộng màn hình
       height: MediaQuery.of(context)
@@ -46,7 +34,6 @@ class Content extends StatelessWidget {
                       ),
                       const Text('Eating', style: txt),
                       const Spacer(),
-                      // SvgPicture.asset('lib/assets/icon/figma_svg/close.svg'),
                       GestureDetector(
                         onTap: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -83,7 +70,6 @@ class Content extends StatelessWidget {
                       ),
                       const Text('Eating', style: txt),
                       const Spacer(),
-                      // SvgPicture.asset('lib/assets/icon/figma_svg/close.svg'),
                       GestureDetector(
                         onTap: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -122,7 +108,6 @@ class Content extends StatelessWidget {
                       ),
                       const Text('Eating', style: txt),
                       const Spacer(),
-                      // SvgPicture.asset('lib/assets/icon/figma_svg/close.svg'),
                       GestureDetector(
                         onTap: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -142,7 +127,6 @@ class Content extends StatelessWidget {
                       ),
                     ],
                   ),
-
                 ],
               ),
             ),

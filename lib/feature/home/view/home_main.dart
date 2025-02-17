@@ -8,16 +8,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return const Scaffold(
-    //   body: Stack(
-    //     children: [
-    //       HeaderMain(
-    //         showTitle: false,
-    //       ),
-    //       BodyMain(),
-    //     ],
-    //   ),
-    // );
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

@@ -39,14 +39,6 @@ class AddPage extends StatelessWidget {
                     right: 20,
                     bottom: 30,
                   ),
-                  // child: Column(
-                  //   children: [
-                  //     Text(
-                  //       'ADD ITEM TO EXPENSES',
-                  //       style: texttop,
-                  //     ),
-                  //   ],
-                  // ),
                 ),
                 // Nút 1: Scan Bill
                 buildSettingItem(

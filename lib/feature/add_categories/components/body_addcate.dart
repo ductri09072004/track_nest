@@ -10,9 +10,7 @@ class BodyMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        // padding: const EdgeInsets.all(20),
         children: [
-          // const SizedBox(height: 16),
           const Text('Type', style: txmain,),
           const SizedBox(height: 10,),
           Row(
@@ -24,7 +22,6 @@ class BodyMain extends StatelessWidget {
                   onToggle: (index) {},
                 ),
               ),
-              // const Expanded(child: Text('ddfasdfata')),
             ],
           ),
           const SizedBox(height: 16,),

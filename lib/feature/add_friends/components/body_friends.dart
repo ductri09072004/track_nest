@@ -7,65 +7,6 @@ class BodyMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Container(
-    //   width: double.infinity, // Chiếm toàn bộ chiều rộng màn hình
-    //   height: MediaQuery.of(context).size.height, // Chiếm toàn bộ chiều cao màn hình
-
-    //   padding: const EdgeInsets.only(top: 10, bottom: 10, left: 16, right: 16),
-    //   child: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       // Đoạn text "Best friend"
-    //       const Text('🌟 Best friend', style: txtcate),
-    //       // Đoạn đường kẻ
-    //       Container(
-    //         margin: const EdgeInsets.symmetric(vertical: 12),
-    //         height: 2, // Độ dày của đường kẻ
-    //         color: Colors.black, // Màu sắc của đường kẻ
-    //       ),
-    //       // Các đoạn text tiếp theo
-    //       const Text('Duc Tri (You)', style: txtmem),
-    //       const SizedBox(height: 10),
-    //       const Text('MTri', style: txtmem),
-    //       const SizedBox(height: 10),
-    //       const Text('Phuc', style: txtmem),
-
-    //       const SizedBox(height: 20),
-
-    //       const Text('🌟 Best friend', style: txtcate),
-    //       // Đoạn đường kẻ
-    //       Container(
-    //         margin: const EdgeInsets.symmetric(vertical: 12),
-    //         height: 2, // Độ dày của đường kẻ
-    //         color: Colors.black, // Màu sắc của đường kẻ
-    //       ),
-    //       // Các đoạn text tiếp theo
-    //       const Text('Duc Tri (You)', style: txtmem),
-    //       const SizedBox(height: 10),
-    //       const Text('MTri', style: txtmem),
-    //       const SizedBox(height: 10),
-    //       const Text('Phuc', style: txtmem),
-
-    //       const Spacer(),
-
-    //       Center(
-    //         child: GestureDetector(
-    //           onTap: () {
-    //             // Chuyển đến màn hình khác (ví dụ AddFriendPage)
-    //             Navigator.push(
-    //               context,
-    //               MaterialPageRoute(builder: (context) => const AddGroupPage()),
-    //             );
-    //           },
-    //           child: SvgPicture.asset(
-    //             'lib/assets/icon/active_navbar/addA_icon.svg',
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
-
     return Container(
       width: double.infinity, // Chiếm toàn bộ chiều rộng màn hình
       height: MediaQuery.of(context)
@@ -155,7 +96,6 @@ class BodyMain extends StatelessWidget {
               ),
             ),
           ),
-
           // Nút thêm bạn bè (luôn cố định dưới cùng)
           Align(
             alignment: Alignment.bottomCenter,
@@ -175,7 +115,6 @@ class BodyMain extends StatelessWidget {
         ],
       ),
     );
-
   }
 
   static const TextStyle txtcate = TextStyle(
