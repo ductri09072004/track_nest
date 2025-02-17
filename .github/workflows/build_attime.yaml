@@ -4,13 +4,13 @@ on:
     - cron: '0 16 * * *' # 11:00 PM UTC mỗi ngày múi giờ việt nam là 16utc
   push:
     branches:
-      - develop
+      - dev
     paths:
       - "lib/**"
       - "test/**"
   pull_request:
     branches:
-      - develop
+      - dev
     paths:
       - "lib/**"
       - "test/**"
