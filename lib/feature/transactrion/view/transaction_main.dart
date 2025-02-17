@@ -42,7 +42,7 @@ class _TransactionMainState extends State<TransactionMain> {
     const String chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     Random random = Random();
     return String.fromCharCodes(Iterable.generate(
-        10, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
+        10, (_) => chars.codeUnitAt(random.nextInt(chars.length)),),);
   }
 
   @override

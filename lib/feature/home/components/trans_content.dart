@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ExpContent extends StatelessWidget {
-  const ExpContent({super.key});
+class TransContent extends StatelessWidget {
+  const TransContent({super.key});
 
   @override
   Widget build(BuildContext context) {
