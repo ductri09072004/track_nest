@@ -2,13 +2,13 @@ name: Build On-change
 on:
   push:
     branches:
-      - develop
+      - dev
     paths:
       - "lib/**"
       - "test/**"
   pull_request:
     branches:
-      - develop
+      - dev
     paths:
       - "lib/**"
       - "test/**"
