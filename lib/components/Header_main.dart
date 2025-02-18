@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
+import 'package:testverygood/components/categoriesheader.dart';
 import 'package:testverygood/components/date.dart'; // Import HorizontalList từ đây
 
 class HeaderMain extends StatefulWidget {
@@ -10,12 +11,14 @@ class HeaderMain extends StatefulWidget {
     this.showIcons = true,
     this.showHorizontalList = true,
     this.showTitle = true,
+    this.isExpense = true,
   });
 
   final bool showBalance;
   final bool showIcons;
   final bool showHorizontalList;
   final bool showTitle;
+  final bool isExpense;
 
   @override
   _HeaderMainState createState() => _HeaderMainState();
@@ -59,36 +62,17 @@ class _HeaderMainState extends State<HeaderMain> {
           content: const Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Icon(Icons.restaurant),
-                      Text('Eating'),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Icon(Icons.restaurant),
-                      Text('Eating'),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Icon(Icons.restaurant),
-                      Text('Eating'),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Icon(Icons.restaurant),
-                      Text('Eating'),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
+              Text('Categories', style: texttop),
+              SizedBox(height: 10),
+              // CategoriesSearch(
+              //   isExpense: isExpense,
+              //   onCategorySelected: (String category) {
+              //     setState(() {
+              //       selectedCategory = category;
+              //     });
+              //   },
+              // ),
+              // const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
