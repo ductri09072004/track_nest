@@ -18,30 +18,6 @@ class ExpContent extends StatelessWidget {
           buildDateSection('6 December 2025'),
           buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
           buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('6 December 2025'),
-          buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
-          buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('6 December 2025'),
-          buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
-          buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('6 December 2025'),
-          buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
-          buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('6 December 2025'),
-          buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
-          buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('6 December 2025'),
-          buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
-          buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('6 December 2026'),
-          buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
-          buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
         ],
       ),
     );
@@ -66,7 +42,11 @@ class ExpContent extends StatelessWidget {
   }
 
   Widget buildExpenseRow(
-      String title, String budget, String price, bool isRed) {
+    String title,
+    String budget,
+    String price,
+    bool isRed,
+  ) {
     return Row(
       children: [
         SvgPicture.asset('lib/assets/icon/home_icon/girl_icon.svg'),

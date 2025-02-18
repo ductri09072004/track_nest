@@ -31,7 +31,7 @@ class WPage2 extends StatelessWidget {
               // Căn lề trái cho văn bản
               const Align(
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   'Split the bill with your friends fast and effortlessly and track shared costs',
                   style: texttop,
                 ),

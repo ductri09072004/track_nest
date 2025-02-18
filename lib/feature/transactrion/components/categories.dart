@@ -3,15 +3,16 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class CategoriesText extends StatefulWidget {
-  final bool isExpense;
-
-  final Function(String) onCategorySelected; // Nhận callback
+  // Nhận callback
 
   const CategoriesText({
     Key? key,
     required this.isExpense,
     required this.onCategorySelected, // Bắt buộc phải có
   }) : super(key: key);
+  final bool isExpense;
+
+  final Function(String) onCategorySelected;
 
   @override
   _CategoriesTextState createState() => _CategoriesTextState();
@@ -34,10 +35,10 @@ class _CategoriesTextState extends State<CategoriesText> {
           await http.get(Uri.parse('http://3.26.221.69:5000/api/categories'));
 
       if (response.statusCode == 200) {
-        var rawData = response.body;
+        final rawData = response.body;
         print('Raw Data từ API: $rawData');
 
-        var data = json.decode(rawData);
+        final data = json.decode(rawData);
 
         if (data is List && data.isNotEmpty) {
           setState(() {
@@ -70,7 +71,8 @@ class _CategoriesTextState extends State<CategoriesText> {
       child: errorMessage.isNotEmpty
           ? Center(
               child:
-                  Text(errorMessage, style: const TextStyle(color: Colors.red)))
+                  Text(errorMessage, style: const TextStyle(color: Colors.red)),
+            )
           : customerData == null
               ? const Center(child: CircularProgressIndicator())
               : _buildUserList(),
@@ -106,9 +108,8 @@ class _CategoriesTextState extends State<CategoriesText> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: filteredList.map((user) {
-          final String categoryName =
-              (user['name'] ?? 'Không có dữ liệu').toString();
-          final bool isSelected = selectedCategory == categoryName;
+          final categoryName = (user['name'] ?? 'Không có dữ liệu').toString();
+          final isSelected = selectedCategory == categoryName;
 
           return GestureDetector(
             onTap: () {

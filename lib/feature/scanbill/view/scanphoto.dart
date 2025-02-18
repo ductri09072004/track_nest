@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:testverygood/components/HeaderA.dart';
+import 'package:testverygood/feature/scanbill/components/btn_add.dart';
+import 'package:testverygood/feature/scanbill/components/btn_success.dart';
 
 class ImagePickerScreen extends StatefulWidget {
   @override
@@ -10,7 +13,7 @@ class ImagePickerScreen extends StatefulWidget {
 
 class _ImagePickerScreenState extends State<ImagePickerScreen> {
   File? _imageFile;
-  String _extractedText = 'Chưa có nội dung';
+  String _extractedText = 'No content yet';
 
   final ImagePicker _picker = ImagePicker();
 
@@ -44,7 +47,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
             if (match != null) {
               String cleanText = match.group(0)!;
               cleanText = cleanText.replaceAll(
-                RegExp(r'[.,+-]'),
+                RegExp('[.,+-]'),
                 '',
               );
               cleanText = cleanText.replaceAll(
@@ -61,7 +64,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
 
       if (filteredLines.isEmpty) {
         setState(() {
-          _extractedText = 'Không tìm thấy văn bản có số hợp lệ';
+          _extractedText = 'No valid text found';
         });
       } else {
         setState(() {
@@ -70,76 +73,70 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
       }
     } catch (e) {
       setState(() {
-        _extractedText = 'Có lỗi xảy ra khi xử lý: $e';
+        _extractedText = 'An error occurred while processing: $e';
       });
     } finally {
       await textRecognizer.close();
     }
   }
 
+  void _rescan() {
+    setState(() {
+      _imageFile = null;
+      _extractedText = 'No content yet';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chọn ảnh và quét văn bản'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            if (_imageFile != null)
-              Container(
-                width: double.infinity,
-                height: 300,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Image.file(
-                  _imageFile!,
-                  fit: BoxFit.cover,
-                ),
-              )
-            else
-              Container(
-                width: double.infinity,
-                height: 300,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Center(
-                  child: Text('Chưa có ảnh nào được chọn'),
-                ),
-              ),
-            const SizedBox(height: 16),
-            const Text(
-              'Kết quả trích xuất văn bản:',
-              style: TextStyle(fontWeight: FontWeight.bold),
+      appBar: const HeaderA(title: 'Scan the Text'),
+      body: Column(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Container(
+              width: double.infinity,
+              color: const Color(0xFF808080),
+              child: _imageFile != null
+                  ? InteractiveViewer(
+                      minScale: 1,
+                      maxScale: 5,
+                      child: Image.file(
+                        _imageFile!,
+                        fit:
+                            BoxFit.cover, // Giúp ảnh lấp đầy toàn bộ khung hình
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                    )
+                  : const Center(
+                      child: Text(
+                        'Current no available image',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Lato',
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
             ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Text(
-                  _extractedText,
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ),
+          ),
+          if (_imageFile == null ||
+              _extractedText == 'No valid text found' ||
+              _extractedText!.trim().isEmpty)
+            ImagePickerOptions(
+              onPickImage: () => _pickImage(ImageSource.gallery),
+              onPickCam: () => _pickImage(ImageSource.camera),
+              showWarning: _imageFile != null,
+            )
+          else
+            BtnSuccess(
+              extractedText:
+                  _extractedText, // Truyền extractedText vào BtnSuccess
+              onRescan: _rescan,
             ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: () => _pickImage(ImageSource.gallery),
-              icon: const Icon(Icons.photo),
-              label: const Text('Chọn từ thư viện'),
-            ),
-            const SizedBox(height: 8),
-            ElevatedButton.icon(
-              onPressed: () => _pickImage(ImageSource.camera),
-              icon: const Icon(Icons.camera),
-              label: const Text('Chụp ảnh'),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }

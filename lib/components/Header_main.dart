@@ -3,11 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:testverygood/components/date.dart'; // Import HorizontalList từ đây
 
 class HeaderMain extends StatelessWidget {
-  final bool showBalance;
-  final bool showIcons; // Kiểm soát hiển thị các icon
-  final bool showHorizontalList; // Kiểm soát hiển thị HorizontalList
-  final bool showTitle;
-
   const HeaderMain({
     super.key,
     this.showBalance = true, // Mặc định hiển thị balance
@@ -15,6 +10,10 @@ class HeaderMain extends StatelessWidget {
     this.showHorizontalList = true, // Mặc định hiển thị HorizontalList
     this.showTitle = true,
   });
+  final bool showBalance;
+  final bool showIcons; // Kiểm soát hiển thị các icon
+  final bool showHorizontalList; // Kiểm soát hiển thị HorizontalList
+  final bool showTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -50,19 +49,19 @@ class HeaderMain extends StatelessWidget {
                     //   'lib/assets/icon/home_icon/calendar_icon.svg',
                     // )
                     GestureDetector(
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("chọn ngày!"),
-                              duration:
-                                  Duration(seconds: 2), // Thời gian hiển thị
-                            ),
-                          );
-                        },
-                        child: SvgPicture.asset(
-                          'lib/assets/icon/home_icon/calendar_icon.svg',
-                        ),
-                      )
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('chọn ngày!'),
+                            duration:
+                                Duration(seconds: 2), // Thời gian hiển thị
+                          ),
+                        );
+                      },
+                      child: SvgPicture.asset(
+                        'lib/assets/icon/home_icon/calendar_icon.svg',
+                      ),
+                    )
                   else
                     const SizedBox(width: 24), // Kích thước tương tự icon
                   const SizedBox(width: 24),
@@ -71,19 +70,19 @@ class HeaderMain extends StatelessWidget {
                     //   'lib/assets/icon/home_icon/search_icon.svg',
                     // )
                     GestureDetector(
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("tìm kiếm"),
-                              duration:
-                                  Duration(seconds: 2), // Thời gian hiển thị
-                            ),
-                          );
-                        },
-                        child: SvgPicture.asset(
-                          'lib/assets/icon/home_icon/search_icon.svg',
-                        ),
-                      )
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('tìm kiếm'),
+                            duration:
+                                Duration(seconds: 2), // Thời gian hiển thị
+                          ),
+                        );
+                      },
+                      child: SvgPicture.asset(
+                        'lib/assets/icon/home_icon/search_icon.svg',
+                      ),
+                    )
                   else
                     const SizedBox(width: 24),
                 ],
@@ -144,4 +143,3 @@ class HeaderMain extends StatelessWidget {
   static const TextStyle texttitle =
       TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'Lato');
 }
-

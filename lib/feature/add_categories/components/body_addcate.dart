@@ -24,15 +24,31 @@ class BodyMain extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16,),
-          const Text('Icon',style: txmain,),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 16,
+          ),
+          const Text(
+            'Icon',
+            style: txmain,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           const InputClassic(hintText: '🎁'),
-          const SizedBox(height: 16,),
-          const Text('Category name',style: txmain,),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 16,
+          ),
+          const Text(
+            'Category name',
+            style: txmain,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           const InputClassic(hintText: 'Present'),
-          const SizedBox(height: 16,),
+          const SizedBox(
+            height: 16,
+          ),
           Row(
             children: [
               Expanded(
@@ -41,7 +57,7 @@ class BodyMain extends StatelessWidget {
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text("Đã lưu!"),
+                        content: Text('Đã lưu!'),
                         duration: Duration(seconds: 2), // Thời gian hiển thị
                       ),
                     );

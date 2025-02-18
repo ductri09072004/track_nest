@@ -15,7 +15,9 @@ import 'package:testverygood/feature/transactrion/components/calendar.dart';
 import 'package:testverygood/feature/transactrion/components/categories.dart';
 
 class TransactionMain extends StatefulWidget {
-  const TransactionMain({super.key});
+  final String data;
+
+  const TransactionMain({Key? key, this.data = ''}) : super(key: key);
 
   @override
   _TransactionMainState createState() => _TransactionMainState();
@@ -39,29 +41,36 @@ class _TransactionMainState extends State<TransactionMain> {
   }
 
   String generateCateId() {
-    const String chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    Random random = Random();
-    return String.fromCharCodes(Iterable.generate(
-        10, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    var random = Random();
+    return String.fromCharCodes(
+      Iterable.generate(
+        10,
+        (_) => chars.codeUnitAt(random.nextInt(chars.length)),
+      ),
+    );
   }
 
   @override
   void initState() {
     super.initState();
     _loadUUID(); // Lấy UUID khi widget khởi tạo
+
+    if (widget.data.isNotEmpty) {
+      numericController.text = widget.data;
+    }
   }
 
   Future<void> _loadUUID() async {
-    String? storedUUID = await storage.read(key: 'unique_id');
+    var storedUUID = await storage.read(key: 'unique_id');
     setState(() {
       uuid = storedUUID ?? 'Không tìm thấy UUID';
     });
   }
 
   Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile =
-        await picker.pickImage(source: ImageSource.gallery);
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
@@ -76,7 +85,7 @@ class _TransactionMainState extends State<TransactionMain> {
         'http://3.26.221.69:5000/api/transactions', //192.168.1.16
       );
 
-      final Map<String, dynamic> transactionData = {
+      final transactionData = <String, dynamic>{
         'cate_id': selectedCategory,
         'date':
             '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
@@ -86,7 +95,7 @@ class _TransactionMainState extends State<TransactionMain> {
         'tofrom': fromController.text.isNotEmpty ? fromController.text : '',
         'trans_id': generateCateId(),
         'type': isExpense ? 'expense' : 'income',
-        'user_id': uuid
+        'user_id': uuid,
       };
 
       final response = await http.post(
@@ -104,7 +113,8 @@ class _TransactionMainState extends State<TransactionMain> {
         );
       } else {
         print(
-            'Lỗi khi lưu giao dịch: ${response.statusCode} - ${response.body}');
+          'Lỗi khi lưu giao dịch: ${response.statusCode} - ${response.body}',
+        );
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Lưu thất bại: ${response.body}')),
         );

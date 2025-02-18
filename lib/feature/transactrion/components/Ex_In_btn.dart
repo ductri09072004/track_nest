@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ExInBtn extends StatefulWidget {
+  const ExInBtn({super.key, required this.labels, required this.onToggle});
   final List<String> labels;
   final ValueChanged<int> onToggle;
-
-  const ExInBtn({super.key, required this.labels, required this.onToggle});
 
   @override
   _ExInBtnState createState() => _ExInBtnState();
@@ -45,7 +44,9 @@ class _ExInBtnState extends State<ExInBtn> {
                             blurRadius: 4, // Độ mờ
                             spreadRadius: 1, // Độ lan rộng
                             offset: const Offset(
-                                0, 3), // Dịch chuyển bóng xuống dưới
+                              0,
+                              3,
+                            ), // Dịch chuyển bóng xuống dưới
                           ),
                         ]
                       : [], // Không có bóng nếu không được chọn

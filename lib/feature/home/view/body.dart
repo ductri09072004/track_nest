@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/feature/home/components/expense_content.dart';
-import 'package:testverygood/feature/home/components/income_content.dart';
 
 class BodyMain extends StatelessWidget {
   const BodyMain({super.key});

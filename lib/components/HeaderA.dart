@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HeaderA extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
-  final VoidCallback? onBack;
-
   const HeaderA({
     Key? key,
     required this.title,
     this.onBack,
   }) : super(key: key);
+  final String title;
+  final VoidCallback? onBack;
 
   @override
   Widget build(BuildContext context) {
