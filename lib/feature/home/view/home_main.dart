@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/Header_main.dart';
-import 'package:testverygood/feature/home/components/expense_content.dart';
 import 'package:testverygood/feature/home/view/body.dart';
 
 class HomePage extends StatelessWidget {
@@ -16,7 +15,7 @@ class HomePage extends StatelessWidget {
             SliverAppBar(
               expandedHeight: 280,
               pinned: true,
-              backgroundColor:Color(0xFFA561CA),
+              backgroundColor: Color(0xFFA561CA),
               toolbarHeight: 55,
               flexibleSpace: FlexibleSpaceBar(
                 background: HeaderMain(

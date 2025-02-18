@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Dropdown extends StatelessWidget {
-  final String? selectedValue; // Giá trị hiện tại
-  final List<String> options; // Danh sách các tùy chọn
-  final String hintText; // Gợi ý hiển thị khi chưa chọn
-  final ValueChanged<String?> onChanged; // Hàm callback khi thay đổi giá trị
+  // Hàm callback khi thay đổi giá trị
 
   const Dropdown({
     Key? key,
@@ -13,6 +10,10 @@ class Dropdown extends StatelessWidget {
     required this.hintText,
     required this.onChanged,
   }) : super(key: key);
+  final String? selectedValue; // Giá trị hiện tại
+  final List<String> options; // Danh sách các tùy chọn
+  final String hintText; // Gợi ý hiển thị khi chưa chọn
+  final ValueChanged<String?> onChanged;
 
   @override
   Widget build(BuildContext context) {

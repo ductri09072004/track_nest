@@ -25,10 +25,14 @@ class Content extends StatelessWidget {
                       const Padding(
                         padding: EdgeInsets.only(
                           top: 8,
-                          bottom:8,
-                          left: 6,),
+                          bottom: 8,
+                          left: 6,
+                        ),
                       ),
-                      const Text('🍽️',style: txticon,),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
                       const SizedBox(
                         width: 6,
                       ),
@@ -38,7 +42,7 @@ class Content extends StatelessWidget {
                         onTap: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text("Đã xóa!"),
+                              content: Text('Đã xóa!'),
                               duration:
                                   Duration(seconds: 2), // Thời gian hiển thị
                             ),
@@ -48,10 +52,14 @@ class Content extends StatelessWidget {
                           'lib/assets/icon/figma_svg/close.svg',
                         ),
                       ),
-                      const SizedBox(width: 6,),
+                      const SizedBox(
+                        width: 6,
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     children: [
                       const Padding(
@@ -74,7 +82,7 @@ class Content extends StatelessWidget {
                         onTap: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text("Đã xóa!"),
+                              content: Text('Đã xóa!'),
                               duration:
                                   Duration(seconds: 2), // Thời gian hiển thị
                             ),
@@ -89,7 +97,9 @@ class Content extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     children: [
                       const Padding(
@@ -112,7 +122,7 @@ class Content extends StatelessWidget {
                         onTap: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text("Đã xóa!"),
+                              content: Text('Đã xóa!'),
                               duration:
                                   Duration(seconds: 2), // Thời gian hiển thị
                             ),

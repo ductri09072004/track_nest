@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class TransContent extends StatelessWidget {
-  const TransContent({super.key});
+class IncomeContent extends StatelessWidget {
+  const IncomeContent({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 12, left: 20, right: 20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -16,30 +16,6 @@ class TransContent extends StatelessWidget {
           buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
           const SizedBox(height: 12),
           buildDateSection('6 December 2025'),
-          buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
-          buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('6 December 2025'),
-          buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
-          buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('6 December 2025'),
-          buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
-          buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('6 December 2025'),
-          buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
-          buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('6 December 2025'),
-          buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
-          buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('6 December 2025'),
-          buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
-          buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
-          const SizedBox(height: 12),
-          buildDateSection('6 December 2026'),
           buildExpenseRow('Eating', 'Budget: 300.000d', '100.000d', true),
           buildExpenseRow('Friends', 'Budget: 300.000d', '100.000d', false),
         ],
@@ -66,7 +42,11 @@ class TransContent extends StatelessWidget {
   }
 
   Widget buildExpenseRow(
-      String title, String budget, String price, bool isRed) {
+    String title,
+    String budget,
+    String price,
+    bool isRed,
+  ) {
     return Row(
       children: [
         SvgPicture.asset('lib/assets/icon/home_icon/girl_icon.svg'),
