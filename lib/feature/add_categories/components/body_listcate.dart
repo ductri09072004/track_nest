@@ -50,15 +50,11 @@ class BodyMain extends StatelessWidget {
                 children: [
                   // Nội dung cho tab "Expense"
                   SizedBox.expand(
-                    child: SingleChildScrollView(
                       child: Content(),
-                    ),
                   ),
                   // Nội dung cho tab "Income"
                   SizedBox.expand(
-                    child: SingleChildScrollView(
                       child: Content(),
-                    ),
                   ),
                 ],
               ),

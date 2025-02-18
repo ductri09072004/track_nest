@@ -1,19 +1,136 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:testverygood/components/date.dart'; // Import HorizontalList từ đây
 
-class HeaderMain extends StatelessWidget {
+class HeaderMain extends StatefulWidget {
   const HeaderMain({
     super.key,
-    this.showBalance = true, // Mặc định hiển thị balance
-    this.showIcons = true, // Mặc định hiển thị icon
-    this.showHorizontalList = true, // Mặc định hiển thị HorizontalList
+    this.showBalance = true,
+    this.showIcons = true,
+    this.showHorizontalList = true,
     this.showTitle = true,
   });
+
   final bool showBalance;
-  final bool showIcons; // Kiểm soát hiển thị các icon
-  final bool showHorizontalList; // Kiểm soát hiển thị HorizontalList
+  final bool showIcons;
+  final bool showHorizontalList;
   final bool showTitle;
+
+  @override
+  _HeaderMainState createState() => _HeaderMainState();
+}
+
+class _HeaderMainState extends State<HeaderMain> {
+  int selectedMonth = DateTime.now().month;
+  int selectedYear = DateTime.now().year;
+  int currentYear = DateTime.now().year;
+  final int minYear = DateTime.now().year - 10;
+  final int maxYear = DateTime.now().year + 10;
+
+  void _showMonthPickerDialog(BuildContext context) {
+    showMonthPicker(
+      context: context,
+      initialDate: DateTime(selectedYear, selectedMonth),
+      firstDate: DateTime(minYear),
+      lastDate: DateTime(maxYear),
+    ).then((date) {
+      if (date != null) {
+        setState(() {
+          selectedMonth = date.month;
+          selectedYear = date.year;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('You selected ${date.month} ${date.year}'),
+          ),
+        );
+      }
+    });
+  }
+
+  void _showSearchDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Search'),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Icon(Icons.restaurant),
+                      Text('Eating'),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Icon(Icons.restaurant),
+                      Text('Eating'),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Icon(Icons.restaurant),
+                      Text('Eating'),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Icon(Icons.restaurant),
+                      Text('Eating'),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        labelText: 'February 2025',
+                        prefixIcon: Icon(Icons.calendar_today),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        labelText: 'May 2025',
+                        prefixIcon: Icon(Icons.calendar_today),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng dialog
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Xử lý tìm kiếm nếu cần
+                Navigator.of(context).pop(); // Đóng dialog
+              },
+              child: const Text('Apply'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,55 +161,33 @@ class HeaderMain extends StatelessWidget {
               child: Row(
                 children: [
                   const Spacer(),
-                  if (showIcons)
-                    // SvgPicture.asset(
-                    //   'lib/assets/icon/home_icon/calendar_icon.svg',
-                    // )
+                  if (widget.showIcons)
                     GestureDetector(
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('chọn ngày!'),
-                            duration:
-                                Duration(seconds: 2), // Thời gian hiển thị
-                          ),
-                        );
-                      },
+                      onTap: () => _showMonthPickerDialog(context),
                       child: SvgPicture.asset(
                         'lib/assets/icon/home_icon/calendar_icon.svg',
                       ),
                     )
                   else
-                    const SizedBox(width: 24), // Kích thước tương tự icon
+                    const SizedBox(width: 24),
                   const SizedBox(width: 24),
-                  if (showIcons)
-                    // SvgPicture.asset(
-                    //   'lib/assets/icon/home_icon/search_icon.svg',
-                    // )
+                  if (widget.showIcons)
                     GestureDetector(
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('tìm kiếm'),
-                            duration:
-                                Duration(seconds: 2), // Thời gian hiển thị
-                          ),
-                        );
-                      },
+                      onTap: () => _showSearchDialog(context),
                       child: SvgPicture.asset(
                         'lib/assets/icon/home_icon/search_icon.svg',
                       ),
                     )
                   else
                     const SizedBox(width: 24),
+                  // const SizedBox(width: 24),
                 ],
               ),
             ),
             const SizedBox(height: 10),
-            if (showHorizontalList) // Kiểm tra điều kiện hiển thị HorizontalList
-              const HorizontalList(),
+            if (widget.showHorizontalList) const HorizontalList(),
             const SizedBox(height: 30),
-            if (showBalance) // Kiểm tra điều kiện hiển thị balance
+            if (widget.showBalance)
               const Padding(
                 padding: EdgeInsets.only(
                   left: 20,
@@ -112,7 +207,7 @@ class HeaderMain extends StatelessWidget {
                   ],
                 ),
               ),
-            if (showTitle) // Kiểm tra điều kiện hiển thị balance
+            if (widget.showTitle)
               const Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: Column(

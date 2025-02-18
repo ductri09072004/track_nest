@@ -11,7 +11,7 @@ class Content extends StatelessWidget {
       height: MediaQuery.of(context)
           .size
           .height, // Chiếm toàn bộ chiều cao màn hình
-      padding: const EdgeInsets.only(top: 10, bottom: 240),
+      padding: const EdgeInsets.only(top: 10, bottom: 12,),
       child: Column(
         children: [
           // Danh sách có thể cuộn
@@ -117,6 +117,524 @@ class Content extends StatelessWidget {
                         width: 6,
                       ),
                       const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Eating', style: txt),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Đã xóa!'),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          'lib/assets/icon/figma_svg/close.svg',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 6,
+                        ),
+                      ),
+                      const Text(
+                        '🍽️',
+                        style: txticon,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const Text('Shopping', style: txt),
                       const Spacer(),
                       GestureDetector(
                         onTap: () {
