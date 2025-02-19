@@ -36,9 +36,9 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
     try {
       final recognizedText = await textRecognizer.processImage(inputImage);
 
-      final regex = RegExp(r'[+-]?\d{1,3}(?:,\d{3})*(?:\.\d+)?\s*(VND|đ)');
+      final regex = RegExp(
+          r'[+-]?\d{1,3}(?:,\d{3})*(?:\.\d+)?\s*(VND|đ)?'); // Bao gồm cả số âm
 
-      // Lọc các dòng chứa số và "VND" hoặc "đ"
       List<String> filteredLines = recognizedText.text
           .split('\n')
           .where((line) => regex.hasMatch(line))
@@ -47,30 +47,44 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
             if (match != null) {
               String cleanText = match.group(0)!;
               cleanText = cleanText.replaceAll(
-                RegExp('[.,+-]'),
-                '',
-              );
-              cleanText = cleanText.replaceAll(
                 RegExp(r'\s*(VND|đ)'),
                 '',
-              );
+              ); // Xóa đơn vị tiền tệ
               return cleanText;
             }
             return '';
           })
-          .where((line) => line.isNotEmpty) // Bỏ các dòng rỗng
-          .toSet() // Loại bỏ dòng trùng lặp
+          .where((line) => line.isNotEmpty)
+          .toSet()
           .toList();
 
       if (filteredLines.isEmpty) {
         setState(() {
           _extractedText = 'No valid text found';
         });
-      } else {
-        setState(() {
-          _extractedText = filteredLines.join('\n');
-        });
+        return;
       }
+
+      // Chuyển đổi danh sách thành số
+      List<double> amounts = filteredLines
+          .map((line) => double.tryParse(line.replaceAll(',', '')) ?? 0)
+          .toList();
+
+      // Tách số dương và số âm
+      List<double> positiveNumbers = amounts.where((num) => num > 0).toList();
+      List<double> negativeNumbers = amounts.where((num) => num < 0).toList();
+
+      double maxAmount = positiveNumbers.isEmpty
+          ? 0
+          : positiveNumbers.reduce((a, b) => a > b ? a : b);
+      double totalNegative =
+          negativeNumbers.fold(0, (sum, num) => sum + num.abs());
+
+      double finalResult = maxAmount - totalNegative;
+
+      setState(() {
+        _extractedText = finalResult.toStringAsFixed(0);
+      });
     } catch (e) {
       setState(() {
         _extractedText = 'An error occurred while processing: $e';
