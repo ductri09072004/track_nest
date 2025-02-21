@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final storage = const FlutterSecureStorage();
 final uuid = const Uuid();
@@ -48,8 +49,11 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   // Khởi tạo và lấy UUID
   WidgetsFlutterBinding.ensureInitialized();
-  var uniqueId = await getOrCreateUniqueId();
+  await dotenv.load(); // Load API key từ file .env
+  var apiKey = dotenv.env['API_KEY'];
+  log('🔥 Loaded API Key: $apiKey');
 
+  var uniqueId = await getOrCreateUniqueId();
   log('App Started with Unique ID: $uniqueId');
 
   runApp(await builder());

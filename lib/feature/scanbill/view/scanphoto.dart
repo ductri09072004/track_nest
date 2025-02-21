@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/feature/scanbill/components/btn_add.dart';
 import 'package:testverygood/feature/scanbill/components/btn_success.dart';
+import 'package:testverygood/feature/scanbill/components/Nest_AI.dart';
 
 class ImagePickerScreen extends StatefulWidget {
   @override
@@ -22,9 +23,8 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
-        _extractedText = 'Đang xử lý...';
+        _extractedText = 'Nest AI is scanning...';
       });
-      // Thực hiện OCR
       await _extractText(_imageFile!);
     }
   }
@@ -35,60 +35,16 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
 
     try {
       final recognizedText = await textRecognizer.processImage(inputImage);
+      String rawText = recognizedText.text;
 
-      final regex = RegExp(
-          r'[+-]?\d{1,3}(?:,\d{3})*(?:\.\d+)?\s*(VND|đ)?'); // Bao gồm cả số âm
+      // Gửi văn bản OCR đến GPT để lấy tổng tiền
+      String? gptResponse = await GptService().getTotalAmount(rawText);
 
-      List<String> filteredLines = recognizedText.text
-          .split('\n')
-          .where((line) => regex.hasMatch(line))
-          .map((line) {
-            final match = regex.firstMatch(line);
-            if (match != null) {
-              String cleanText = match.group(0)!;
-              cleanText = cleanText.replaceAll(
-                RegExp(r'\s*(VND|đ)'),
-                '',
-              ); // Xóa đơn vị tiền tệ
-              return cleanText;
-            }
-            return '';
-          })
-          .where((line) => line.isNotEmpty)
-          .toSet()
-          .toList();
-
-      if (filteredLines.isEmpty) {
-        setState(() {
-          _extractedText = 'No valid text found';
-        });
-        return;
-      }
-
-      // Chuyển đổi danh sách thành số
-      List<double> amounts = filteredLines
-          .map((line) => double.tryParse(line.replaceAll(',', '')) ?? 0)
-          .toList();
-
-      // Tách số dương và số âm
-      List<double> positiveNumbers = amounts.where((num) => num > 0).toList();
-      List<double> negativeNumbers = amounts.where((num) => num < 0).toList();
-
-      double maxAmount = positiveNumbers.isEmpty
-          ? 0
-          : positiveNumbers.reduce((a, b) => a > b ? a : b);
-      double totalNegative =
-          negativeNumbers.fold(0, (sum, num) => sum + num.abs());
-
-      double finalResult = maxAmount - totalNegative;
-
-      setState(() {
-        _extractedText = finalResult.toStringAsFixed(0);
-      });
+      setState(
+        () => _extractedText = gptResponse!,
+      ); // Nếu null, _extractedText sẽ là null
     } catch (e) {
-      setState(() {
-        _extractedText = 'An error occurred while processing: $e';
-      });
+      setState(() => _extractedText = 'No valid amount found');
     } finally {
       await textRecognizer.close();
     }
@@ -118,8 +74,6 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
                       maxScale: 5,
                       child: Image.file(
                         _imageFile!,
-                        fit:
-                            BoxFit.cover, // Giúp ảnh lấp đầy toàn bộ khung hình
                         width: double.infinity,
                         height: double.infinity,
                       ),
@@ -136,9 +90,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
                     ),
             ),
           ),
-          if (_imageFile == null ||
-              _extractedText == 'No valid text found' ||
-              _extractedText!.trim().isEmpty)
+          if (_imageFile == null || _extractedText == 'No valid amount found')
             ImagePickerOptions(
               onPickImage: () => _pickImage(ImageSource.gallery),
               onPickCam: () => _pickImage(ImageSource.camera),
@@ -146,8 +98,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
             )
           else
             BtnSuccess(
-              extractedText:
-                  _extractedText, // Truyền extractedText vào BtnSuccess
+              extractedText: _extractedText,
               onRescan: _rescan,
             ),
         ],

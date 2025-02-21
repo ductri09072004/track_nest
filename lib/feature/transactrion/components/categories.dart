@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CategoriesText extends StatefulWidget {
-  // Nhận callback
-
   const CategoriesText({
     Key? key,
     required this.isExpense,
-    required this.onCategorySelected, // Bắt buộc phải có
+    required this.onCategorySelected,
   }) : super(key: key);
-  final bool isExpense;
 
+  final bool isExpense;
+  // ignore: inference_failure_on_function_return_type
   final Function(String) onCategorySelected;
 
   @override
@@ -19,14 +19,39 @@ class CategoriesText extends StatefulWidget {
 }
 
 class _CategoriesTextState extends State<CategoriesText> {
-  Map<String, dynamic>? customerData;
+  final storage = const FlutterSecureStorage();
+  String? uuid;
+  List<Map<String, dynamic>> categories = [];
   String errorMessage = '';
-  String? selectedCategory; // Biến lưu mục đã chọn
+  String? selectedCategory;
 
   @override
   void initState() {
     super.initState();
-    fetchCustomerData();
+    _loadUUID();
+  }
+
+  @override
+  void didUpdateWidget(covariant CategoriesText oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.isExpense != widget.isExpense) {
+      fetchCustomerData();
+    }
+  }
+
+  Future<void> _loadUUID() async {
+    String? storedUUID = await storage.read(key: 'unique_id');
+    setState(() {
+      uuid = storedUUID;
+    });
+
+    if (uuid != null) {
+      await fetchCustomerData();
+    } else {
+      setState(() {
+        errorMessage = 'Không tìm thấy UUID!';
+      });
+    }
   }
 
   Future<void> fetchCustomerData() async {
@@ -38,21 +63,21 @@ class _CategoriesTextState extends State<CategoriesText> {
         final rawData = response.body;
         print('Raw Data từ API: $rawData');
 
-        final data = json.decode(rawData);
+        // final Map<String, dynamic> data = json.decode(rawData);
+        final data = json.decode(rawData) as Map<String, dynamic>;
+        // Lọc danh mục theo user_id và type (expense/income)
+        final filteredCategories = data.entries
+            .where((entry) =>
+                entry.value['user_id'] == uuid &&
+                entry.value['type'] ==
+                    (widget.isExpense ? 'expense' : 'income'))
+            .map((entry) => entry.value as Map<String, dynamic>)
+            .toList();
 
-        if (data is List && data.isNotEmpty) {
-          setState(() {
-            customerData = data.first as Map<String, dynamic>;
-          });
-        } else if (data is Map<String, dynamic>) {
-          setState(() {
-            customerData = data;
-          });
-        } else {
-          setState(() {
-            errorMessage = 'Dữ liệu từ API không đúng định dạng!';
-          });
-        }
+        setState(() {
+          categories = filteredCategories;
+          selectedCategory = null; // Reset lựa chọn khi đổi type
+        });
       } else {
         setState(() {
           errorMessage = 'Lỗi kết nối API: ${response.statusCode}';
@@ -73,51 +98,31 @@ class _CategoriesTextState extends State<CategoriesText> {
               child:
                   Text(errorMessage, style: const TextStyle(color: Colors.red)),
             )
-          : customerData == null
+          : categories.isEmpty
               ? const Center(child: CircularProgressIndicator())
-              : _buildUserList(),
+              : _buildCategoryList(),
     );
   }
 
-  Widget _buildUserList() {
-    final userList = customerData?['user1'];
-
-    if (userList == null) {
+  Widget _buildCategoryList() {
+    if (categories.isEmpty) {
       return const Center(child: Text('Không có dữ liệu'));
-    }
-
-    if (userList is! List) {
-      return const Center(
-        child: Text('Lỗi: Dữ liệu không phải danh sách'),
-      );
-    }
-    final filteredList = userList
-        .where(
-          (user) =>
-              user is Map<String, dynamic> &&
-              user['type'] == (widget.isExpense ? 'expense' : 'income'),
-        )
-        .toList();
-
-    if (filteredList.isEmpty) {
-      return const Center(child: Text('Không có mục nào thuộc "expense"'));
     }
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: filteredList.map((user) {
-          final categoryName = (user['name'] ?? 'Không có dữ liệu').toString();
+        children: categories.map((category) {
+          final categoryName = category['name'] ?? 'Không có dữ liệu';
           final isSelected = selectedCategory == categoryName;
 
           return GestureDetector(
             onTap: () {
               setState(() {
-                selectedCategory = categoryName; // Gán giá trị đã chọn
+                selectedCategory = categoryName;
               });
               widget.onCategorySelected(categoryName);
-              print('Bạn đã chọn: $categoryName');
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -134,14 +139,12 @@ class _CategoriesTextState extends State<CategoriesText> {
               child: Column(
                 children: [
                   Text(
-                    '${user["icon"] ?? "Không có dữ liệu"}',
-                    style: const TextStyle(
-                      fontSize: 36,
-                    ),
+                    '${category["icon"] ?? "❓"}',
+                    style: const TextStyle(fontSize: 36),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    categoryName,
+                    categoryName as String,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight:
