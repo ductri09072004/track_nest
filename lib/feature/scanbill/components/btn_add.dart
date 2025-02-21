@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:testverygood/feature/scanbill/components/btn_choose_AI.dart';
+import 'package:testverygood/feature/scanbill/components/btnchoose.dart';
 
-class ImagePickerOptions extends StatelessWidget {
+class ImagePickerOptions extends StatefulWidget {
   final VoidCallback onPickImage;
   final VoidCallback onPickCam;
-  final bool showWarning; // Thêm tham số này
+  final bool showWarning;
+  final Function(String) onModelSelected;
 
   const ImagePickerOptions({
     Key? key,
     required this.onPickImage,
     required this.onPickCam,
-    this.showWarning = false, // Mặc định là false
+    required this.onModelSelected,
+    this.showWarning = false,
   }) : super(key: key);
+
+  @override
+  _ImagePickerOptionsState createState() => _ImagePickerOptionsState();
+}
+
+class _ImagePickerOptionsState extends State<ImagePickerOptions> {
+  String _selectedModel = 'Nest_AI'; // Mặc định
+
+  void _updateSelectedModel(String model) {
+    setState(() {
+      _selectedModel = model;
+    });
+    widget.onModelSelected(model);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,67 +48,34 @@ class ImagePickerOptions extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (showWarning) ...[
-                // Kiểm tra nếu cần hiển thị cảnh báo
+              if (widget.showWarning) ...[
                 const Text(
                   'Please select or take photos again !',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Lato',
-                    color: Colors.black,
-                  ),
+                      fontSize: 20, fontFamily: 'Lato', color: Colors.black),
                 ),
                 const SizedBox(height: 12),
                 const Text(
                   'Your photo is not in the correct format',
                   style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'Lato',
-                    color: Colors.red,
-                  ),
+                      fontSize: 16, fontFamily: 'Lato', color: Colors.red),
                 ),
                 const SizedBox(height: 12),
               ],
-              _buildButton(
+              BtnChooseAi(
+                iconPath: 'lib/assets/icon/OCR_icon/nest_ai.svg',
+                onModelSelected:
+                    _updateSelectedModel, // Gửi giá trị đến ImagePickerOptions
+              ),
+              CustomButton(
                 text: 'Choose from gallery',
                 iconPath: 'lib/assets/icon/OCR_icon/addpic.svg',
-                onPressed: onPickImage,
+                onPressed: widget.onPickImage,
               ),
-              _buildButton(
+              CustomButton(
                 text: 'Take a picture',
                 iconPath: 'lib/assets/icon/OCR_icon/addcam.svg',
-                onPressed: onPickCam,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildButton({
-    required String text,
-    required String iconPath,
-    required VoidCallback onPressed,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: SizedBox(
-        width: double.infinity,
-        child: TextButton(
-          onPressed: onPressed,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(iconPath),
-              const SizedBox(height: 8),
-              Text(
-                text,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'Lato',
-                  color: Colors.black,
-                ),
+                onPressed: widget.onPickCam,
               ),
             ],
           ),

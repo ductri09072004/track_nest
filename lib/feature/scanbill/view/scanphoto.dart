@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:testverygood/components/HeaderA.dart';
+import 'package:testverygood/feature/scanbill/components/Nest_AI.dart';
 import 'package:testverygood/feature/scanbill/components/btn_add.dart';
 import 'package:testverygood/feature/scanbill/components/btn_success.dart';
-import 'package:testverygood/feature/scanbill/components/Nest_AI.dart';
+import 'package:testverygood/feature/scanbill/components/Gpt_AI.dart';
 
 class ImagePickerScreen extends StatefulWidget {
   @override
@@ -15,21 +16,33 @@ class ImagePickerScreen extends StatefulWidget {
 class _ImagePickerScreenState extends State<ImagePickerScreen> {
   File? _imageFile;
   String _extractedText = 'No content yet';
+  String _selectedModel = 'Nest_AI';
 
   final ImagePicker _picker = ImagePicker();
+
+  void _updateModel(String model) {
+    setState(() {
+      _selectedModel = model;
+    });
+  }
 
   Future<void> _pickImage(ImageSource source) async {
     final XFile? pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
-        _extractedText = 'Nest AI is scanning...';
+        _extractedText = '$_selectedModel is scanning...'; // Cập nhật model AI
       });
-      await _extractText(_imageFile!);
+
+      if (_selectedModel == 'Nest_AI') {
+        await _nestAI(_imageFile!);
+      } else {
+        await _gptAI(_imageFile!);
+      }
     }
   }
 
-  Future<void> _extractText(File imageFile) async {
+  Future<void> _gptAI(File imageFile) async {
     final inputImage = InputImage.fromFile(imageFile);
     final textRecognizer = TextRecognizer();
 
@@ -48,6 +61,13 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
     } finally {
       await textRecognizer.close();
     }
+  }
+
+  Future<void> _nestAI(File imageFile) async {
+    String result = await NestAI().processImage(imageFile);
+    setState(() {
+      _extractedText = result;
+    });
   }
 
   void _rescan() {
@@ -95,6 +115,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
               onPickImage: () => _pickImage(ImageSource.gallery),
               onPickCam: () => _pickImage(ImageSource.camera),
               showWarning: _imageFile != null,
+              onModelSelected: _updateModel,
             )
           else
             BtnSuccess(

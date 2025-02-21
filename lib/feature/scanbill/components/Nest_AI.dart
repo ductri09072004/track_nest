@@ -1,42 +1,54 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
-class GptService {
-  static final String apiKey = dotenv.env['API_KEY'] ?? '';
-  static const String endpoint = 'https://api.openai.com/v1/chat/completions';
+class NestAI {
+  Future<String> processImage(File imageFile) async {
+    final inputImage = InputImage.fromFile(imageFile);
+    final textRecognizer = TextRecognizer();
 
-  Future<String?> getTotalAmount(String extractedText) async {
-    final response = await http.post(
-      Uri.parse(endpoint),
-      headers: {
-        'Authorization': 'Bearer $apiKey',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'model': 'gpt-4',
-        'temperature': 0.3,
-        'max_tokens': 10,
-        'messages': [
-          {
-            'role': 'system',
-            'content':
-                'Chỉ trích xuất số tiền từ văn bản. Chỉ trả về số tiền tổng, Ví dụ: 900000 không phải 900,000 hay 900.000',
-          },
-          {'role': 'user', 'content': extractedText}
-        ]
-      }),
-    );
+    try {
+      final recognizedText = await textRecognizer.processImage(inputImage);
+      final regex = RegExp(r'[+-]?\d{1,3}(?:,\d{3})*(?:\.\d+)?\s*(VND|đ)?');
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      final String? gptResponse =
-          (data['choices'][0]['message']['content'] as String?)?.trim();
+      List<String> filteredLines = recognizedText.text
+          .split('\n')
+          .where((line) => regex.hasMatch(line))
+          .map((line) {
+            final match = regex.firstMatch(line);
+            if (match != null) {
+              String cleanText = match.group(0)!;
+              cleanText = cleanText.replaceAll(RegExp(r'\s*(VND|đ)'), '');
+              return cleanText;
+            }
+            return '';
+          })
+          .where((line) => line.isNotEmpty)
+          .toSet()
+          .toList();
 
-      // Nếu GPT trả về "null" thì đổi thành null trong Dart
-      return gptResponse?.toLowerCase() == 'null' ? null : gptResponse;
-    } else {
-      throw Exception('Lỗi GPT: ${response.body}');
+      if (filteredLines.isEmpty) return 'No valid text found';
+
+      List<double> amounts = filteredLines
+          .map((line) => double.tryParse(line.replaceAll(',', '')) ?? 0)
+          .toList();
+
+      List<double> positiveNumbers = amounts.where((num) => num > 0).toList();
+      List<double> negativeNumbers = amounts.where((num) => num < 0).toList();
+
+      double maxAmount = positiveNumbers.isEmpty
+          ? 0
+          : positiveNumbers.reduce((a, b) => a > b ? a : b);
+      double totalNegative =
+          negativeNumbers.fold(0, (sum, num) => sum + num.abs());
+
+      double finalResult = maxAmount - totalNegative;
+
+      return finalResult.toStringAsFixed(0);
+    } catch (e) {
+      return 'An error occurred while processing: $e';
+    } finally {
+      await textRecognizer.close();
     }
   }
 }
