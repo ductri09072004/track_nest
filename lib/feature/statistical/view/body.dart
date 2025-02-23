@@ -13,44 +13,8 @@ class _BodyMainState extends State<BodyMain> {
   Map<String, double> expenseData = {};
   Map<String, double> incomeData = {};
 
-  void _updateExpenseData(Map<String, double> data) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && data != expenseData) {
-        setState(() {
-          expenseData = data;
-        });
-      }
-    });
-  }
-
-  void _updateIncomeData(Map<String, double> data) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && data != incomeData) {
-        setState(() {
-          incomeData = data;
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    var expenseList = expenseData.entries.map((entry) {
-      return ExpenseData(
-        title: entry.key,
-        percent: '${entry.value.toStringAsFixed(2)}%',
-        price: '${entry.value.toStringAsFixed(0)}đ',
-      );
-    }).toList();
-
-    var incomeList = incomeData.entries.map((entry) {
-      return ExpenseData(
-        title: entry.key,
-        percent: '${entry.value.toStringAsFixed(2)}%',
-        price: '${entry.value.toStringAsFixed(0)}đ',
-      );
-    }).toList();
-
     return Positioned(
       top: MediaQuery.of(context).size.height / 5,
       left: 0,
@@ -61,11 +25,11 @@ class _BodyMainState extends State<BodyMain> {
         decoration: const BoxDecoration(
           color: Color(0xFFFDFDFD),
         ),
-        child: DefaultTabController(
+        child: const DefaultTabController(
           length: 2,
           child: Column(
             children: [
-              const TabBar(
+              TabBar(
                 indicatorPadding: EdgeInsets.symmetric(horizontal: -44),
                 indicator: BoxDecoration(
                   border: Border(
@@ -104,13 +68,14 @@ class _BodyMainState extends State<BodyMain> {
                           height: 250,
                           child: Barchart(
                             tabType: 'expense',
-                            onDataReady: _updateExpenseData,
                           ),
                         ),
                         Expanded(
                           child: SingleChildScrollView(
-                            padding: const EdgeInsets.only(bottom: 110),
-                            child: Content(data: expenseList), // ✅ Đã sửa
+                            padding: EdgeInsets.only(bottom: 110),
+                            child: Content(
+                              tabType: 'expense',
+                            ), // ✅ Đã sửa
                           ),
                         ),
                       ],
@@ -121,13 +86,14 @@ class _BodyMainState extends State<BodyMain> {
                           height: 250,
                           child: Barchart(
                             tabType: 'income',
-                            onDataReady: _updateIncomeData,
                           ),
                         ),
                         Expanded(
                           child: SingleChildScrollView(
-                            padding: const EdgeInsets.only(bottom: 110),
-                            child: Content(data: incomeList), // ✅ Đã sửa
+                            padding: EdgeInsets.only(bottom: 110),
+                            child: Content(
+                              tabType: 'income',
+                            ),
                           ),
                         ),
                       ],

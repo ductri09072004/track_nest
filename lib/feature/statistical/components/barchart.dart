@@ -6,9 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:testverygood/bootstrap.dart';
 
 class Barchart extends StatefulWidget {
-  const Barchart({required this.tabType, required this.onDataReady, super.key});
+  const Barchart({required this.tabType, super.key});
   final String tabType;
-  final Function(Map<String, double>) onDataReady;
 
   @override
   _BarchartState createState() => _BarchartState();
@@ -141,10 +140,6 @@ class _BarchartState extends State<Barchart> {
         value['percentage'] = (value['money']! / totalMoney) * 100;
       });
     }
-
-    // Truyền dữ liệu bao gồm cả phần trăm
-    widget.onDataReady(
-        categoryData.map((key, value) => MapEntry(key, value['percentage']!)));
 
     final List<Color> colors = Colors.primaries;
 
