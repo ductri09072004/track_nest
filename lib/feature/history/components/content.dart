@@ -43,7 +43,7 @@ class _ContentState extends State<Content> {
           } else if (snapshot.hasError) {
             return Text('Lỗi: ${snapshot.error}');
           } else if (snapshot.hasData) {
-            var transactions = snapshot.data!;
+            final transactions = snapshot.data!;
             if (transactions.isEmpty) {
               return const Text('Không có dữ liệu');
             } else {
@@ -51,8 +51,9 @@ class _ContentState extends State<Content> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: transactions.map((transaction) {
                   // Kiểm tra xem key có tồn tại trong đối tượng hay không
-                  var cateId = transaction['cate_id'] ?? 'Không có thông tin';
-                  var groupMemId = transaction['money'] ?? 'Không có thông tin';
+                  final cateId = transaction['cate_id'] ?? 'Không có thông tin';
+                  final groupMemId =
+                      transaction['money'] ?? 'Không có thông tin';
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

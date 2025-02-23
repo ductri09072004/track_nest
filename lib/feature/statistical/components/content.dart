@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
+class ExpenseData {
+  ExpenseData({
+    required this.percent,
+    required this.title,
+    required this.price,
+  });
+  final String percent;
+  final String title;
+  final String price;
+}
+
 class Content extends StatelessWidget {
-  const Content({super.key});
+  const Content({super.key, required this.data});
+  final List<ExpenseData> data;
 
   @override
   Widget build(BuildContext context) {
@@ -9,80 +21,51 @@ class Content extends StatelessWidget {
       padding: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
-          const SizedBox(height: 12),
-          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
-          const SizedBox(height: 12),
-          buildDateSection('15.93%', 'Eating', '1 transaction', '170.000đ'),
-          const SizedBox(height: 12),
-          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
-          const SizedBox(height: 12),
-          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
-          const SizedBox(height: 12),
-          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
-          const SizedBox(height: 12),
-          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
-          const SizedBox(height: 12),
-          buildDateSection('15.93%', 'Eating', '1 transaction', '70.000đ'),
-          const SizedBox(height: 12),
-          buildDateSection('15.93%', 'Eating', '1 transaction', '170.000đ'),
-          const SizedBox(height: 12),
-          buildDateSection('15.93%', 'Eating', '1 transaction', '270.000đ'),
-          const SizedBox(height: 12),
-          buildDateSection('15.93%', 'Eating', '1 transaction', '370.000đ'),
-          const SizedBox(height: 12),
-          buildDateSection('15.93%', 'Eating', '1 transaction', '470.000đ'),
-          const SizedBox(height: 12),
-          buildDateSection('15.93%', 'Eating', '1 transaction', '100.000đ'),
-          const SizedBox(height: 12),
-        ],
+        children: data
+            .map(
+              (expense) => Column(
+                children: [
+                  buildDateSection(
+                    expense.percent,
+                    expense.title,
+                    expense.price,
+                  ),
+                  const SizedBox(height: 12),
+                ],
+              ),
+            )
+            .toList(),
       ),
     );
   }
 
   Widget buildDateSection(
-      String percent, String title, String tranc, String price,) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    String percent,
+    String title,
+    String price,
+  ) {
+    return Row(
       children: [
-        Row(
+        Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: const Color(0xFF537FF1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            percent,
+            style: perText,
+          ),
+        ),
+        const SizedBox(width: 10), // Khoảng cách giữa phần trăm và title
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: const Color(0xFF537FF1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                percent,
-                style: perText,
-              ),
-            ),
-
-            const SizedBox(
-              width: 10,
-            ), // Thêm khoảng cách giữa phần trăm và title
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: titleText,
-                ),
-                Text(
-                  tranc,
-                  style: titleicon2, // Đặt style khác cho thông tin giao dịch
-                ),
-              ],
-            ),
-            const Spacer(),
-            Text(
-              price,
-              style: titleprice,
-            ),
+            Text(title, style: titleText),
           ],
         ),
+        const Spacer(),
+        Text(price, style: titleprice),
       ],
     );
   }
@@ -96,10 +79,6 @@ class Content extends StatelessWidget {
     fontFamily: 'Lato_Regular',
     color: Color(0xFFFFFFFF),
   );
-  static const TextStyle titleicon = TextStyle(
-    fontSize: 16,
-    fontFamily: 'Lato_Regular',
-  );
   static const TextStyle titleicon2 = TextStyle(
     fontSize: 12,
     fontFamily: 'Lato_Light',
@@ -107,10 +86,5 @@ class Content extends StatelessWidget {
   static const TextStyle titleprice = TextStyle(
     fontSize: 18,
     fontFamily: 'Lato',
-  );
-  static const TextStyle titleprice2 = TextStyle(
-    fontSize: 16,
-    fontFamily: 'Lato_Regular',
-    color: Color(0xFF5CB338),
   );
 }

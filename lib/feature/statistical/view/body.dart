@@ -2,38 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:testverygood/feature/statistical/components/barchart.dart';
 import 'package:testverygood/feature/statistical/components/content.dart';
 
-class BodyMain extends StatelessWidget {
+class BodyMain extends StatefulWidget {
   const BodyMain({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // return Positioned(
-    //   top: MediaQuery.of(context).size.height / 5,
-    //   left: 0,
-    //   right: 0,
-    //   child: Container(
-    //     height: MediaQuery.of(context).size.height,
-    //     padding: const EdgeInsets.only(top: 12, bottom: 110),
-    //     decoration: const BoxDecoration(
-    //       color: Color(0xFFFDFDFD),
-    //     ),
-    //     child: const Column(
-    //       children: [
-    //         SizedBox(
-    //           height: 250, // Chiều cao cố định của BarChart
-    //           child: Barchart(),
-    //         ),
-    //         Expanded(
-    //           child: SingleChildScrollView(
-    //             padding: EdgeInsets.only(bottom: 110),
-    //             child: Content(),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
+  _BodyMainState createState() => _BodyMainState();
+}
 
+class _BodyMainState extends State<BodyMain> {
+  Map<String, double> expenseData = {};
+  Map<String, double> incomeData = {};
+
+  void _updateExpenseData(Map<String, double> data) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && data != expenseData) {
+        setState(() {
+          expenseData = data;
+        });
+      }
+    });
+  }
+
+  void _updateIncomeData(Map<String, double> data) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && data != incomeData) {
+        setState(() {
+          incomeData = data;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var expenseList = expenseData.entries.map((entry) {
+      return ExpenseData(
+        title: entry.key,
+        percent: '${entry.value.toStringAsFixed(2)}%',
+        price: '${entry.value.toStringAsFixed(0)}đ',
+      );
+    }).toList();
+
+    var incomeList = incomeData.entries.map((entry) {
+      return ExpenseData(
+        title: entry.key,
+        percent: '${entry.value.toStringAsFixed(2)}%',
+        price: '${entry.value.toStringAsFixed(0)}đ',
+      );
+    }).toList();
 
     return Positioned(
       top: MediaQuery.of(context).size.height / 5,
@@ -41,21 +57,20 @@ class BodyMain extends StatelessWidget {
       right: 0,
       child: Container(
         height: MediaQuery.of(context).size.height,
-        // padding: const EdgeInsets.only(top: 12, bottom: 110),
         padding: const EdgeInsets.only(bottom: 110),
         decoration: const BoxDecoration(
           color: Color(0xFFFDFDFD),
         ),
-        child: const DefaultTabController(
-          length: 2, // Số lượng tab
+        child: DefaultTabController(
+          length: 2,
           child: Column(
             children: [
-              TabBar(
+              const TabBar(
                 indicatorPadding: EdgeInsets.symmetric(horizontal: -44),
                 indicator: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: Color(0xFF791CAC), // Màu của indicator
+                      color: Color(0xFF791CAC),
                       width: 3,
                     ),
                   ),
@@ -73,7 +88,6 @@ class BodyMain extends StatelessWidget {
                   fontSize: 14,
                   fontFamily: 'lato',
                 ),
-                // Thêm dòng này để loại bỏ viền đen mặc định
                 splashFactory: NoSplash.splashFactory,
                 indicatorColor: Colors.transparent,
                 tabs: [
@@ -84,32 +98,36 @@ class BodyMain extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    // Nội dung cho tab "Income"
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 250, // Giữ cố định BarChart
-                          child: Barchart(),
-                        ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            padding: EdgeInsets.only(bottom: 110),
-                            child: Content(),
-                          ),
-                        ),
-                      ],
-                    ),
-                    // Nội dung cho tab "Expenses"
                     Column(
                       children: [
                         SizedBox(
                           height: 250,
-                          child: Barchart(), // Có thể thay bằng BarChart khác nếu cần
+                          child: Barchart(
+                            tabType: 'expense',
+                            onDataReady: _updateExpenseData,
+                          ),
                         ),
                         Expanded(
                           child: SingleChildScrollView(
-                            padding: EdgeInsets.only(bottom: 110),
-                            child: Content(), // Có thể thay đổi nội dung khác nếu cần
+                            padding: const EdgeInsets.only(bottom: 110),
+                            child: Content(data: expenseList), // ✅ Đã sửa
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 250,
+                          child: Barchart(
+                            tabType: 'income',
+                            onDataReady: _updateIncomeData,
+                          ),
+                        ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            padding: const EdgeInsets.only(bottom: 110),
+                            child: Content(data: incomeList), // ✅ Đã sửa
                           ),
                         ),
                       ],

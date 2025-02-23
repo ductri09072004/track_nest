@@ -23,14 +23,14 @@ class GptService {
             'content':
                 'Chỉ trích xuất số tiền từ văn bản. Chỉ trả về số tiền tổng, Ví dụ: 900000 không phải 900,000 hay 900.000',
           },
-          {'role': 'user', 'content': extractedText}
-        ]
+          {'role': 'user', 'content': extractedText},
+        ],
       }),
     );
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      final String? gptResponse =
+      final gptResponse =
           (data['choices'][0]['message']['content'] as String?)?.trim();
 
       // Nếu GPT trả về "null" thì đổi thành null trong Dart

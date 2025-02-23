@@ -3,11 +3,6 @@ import 'package:testverygood/feature/scanbill/components/btn_choose_AI.dart';
 import 'package:testverygood/feature/scanbill/components/btnchoose.dart';
 
 class ImagePickerOptions extends StatefulWidget {
-  final VoidCallback onPickImage;
-  final VoidCallback onPickCam;
-  final bool showWarning;
-  final Function(String) onModelSelected;
-
   const ImagePickerOptions({
     Key? key,
     required this.onPickImage,
@@ -15,18 +10,18 @@ class ImagePickerOptions extends StatefulWidget {
     required this.onModelSelected,
     this.showWarning = false,
   }) : super(key: key);
+  final VoidCallback onPickImage;
+  final VoidCallback onPickCam;
+  final bool showWarning;
+  final Function(String) onModelSelected;
 
   @override
   _ImagePickerOptionsState createState() => _ImagePickerOptionsState();
 }
 
 class _ImagePickerOptionsState extends State<ImagePickerOptions> {
-  String _selectedModel = 'Nest_AI'; // Mặc định
-
   void _updateSelectedModel(String model) {
-    setState(() {
-      _selectedModel = model;
-    });
+    setState(() {});
     widget.onModelSelected(model);
   }
 
@@ -52,13 +47,19 @@ class _ImagePickerOptionsState extends State<ImagePickerOptions> {
                 const Text(
                   'Please select or take photos again !',
                   style: TextStyle(
-                      fontSize: 20, fontFamily: 'Lato', color: Colors.black),
+                    fontSize: 20,
+                    fontFamily: 'Lato',
+                    color: Colors.black,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 const Text(
                   'Your photo is not in the correct format',
                   style: TextStyle(
-                      fontSize: 16, fontFamily: 'Lato', color: Colors.red),
+                    fontSize: 16,
+                    fontFamily: 'Lato',
+                    color: Colors.red,
+                  ),
                 ),
                 const SizedBox(height: 12),
               ],

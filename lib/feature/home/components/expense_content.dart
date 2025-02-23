@@ -32,7 +32,7 @@ class _ExpContentState extends State<ExpContent> {
 
   // Hàm này chỉ tải UUID và trigger lại setState để cập nhật khi UUID có giá trị
   Future<void> _loadUUID() async {
-    var storedUUID = await storage.read(key: 'unique_id');
+    final storedUUID = await storage.read(key: 'unique_id');
     setState(() {
       uuid = storedUUID;
     });
@@ -90,8 +90,8 @@ class _ExpContentState extends State<ExpContent> {
             );
 
           // Nhóm giao dịch theo ngày
-          Map<String, List<Map<String, dynamic>>> groupedByDate = {};
-          for (var transaction in transactions) {
+          var groupedByDate = <String, List<Map<String, dynamic>>>{};
+          for (final transaction in transactions) {
             final date = transaction['date'] as String;
             if (!groupedByDate.containsKey(date)) {
               groupedByDate[date] = [];
@@ -115,7 +115,7 @@ class _ExpContentState extends State<ExpContent> {
                       '${formatCurrency(int.parse(transaction['money'].toString()))}đ',
                       transaction['type'] == 'expense',
                     );
-                  }).toList(),
+                  }),
                 ],
               );
             }).toList(),

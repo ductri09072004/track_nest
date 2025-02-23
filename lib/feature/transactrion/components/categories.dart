@@ -5,10 +5,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CategoriesText extends StatefulWidget {
   const CategoriesText({
-    Key? key,
+    super.key,
     required this.isExpense,
     required this.onCategorySelected,
-  }) : super(key: key);
+  });
 
   final bool isExpense;
   // ignore: inference_failure_on_function_return_type
@@ -40,7 +40,7 @@ class _CategoriesTextState extends State<CategoriesText> {
   }
 
   Future<void> _loadUUID() async {
-    String? storedUUID = await storage.read(key: 'unique_id');
+    var storedUUID = await storage.read(key: 'unique_id');
     setState(() {
       uuid = storedUUID;
     });
@@ -67,10 +67,12 @@ class _CategoriesTextState extends State<CategoriesText> {
         final data = json.decode(rawData) as Map<String, dynamic>;
         // Lọc danh mục theo user_id và type (expense/income)
         final filteredCategories = data.entries
-            .where((entry) =>
-                entry.value['user_id'] == uuid &&
-                entry.value['type'] ==
-                    (widget.isExpense ? 'expense' : 'income'))
+            .where(
+              (entry) =>
+                  entry.value['user_id'] == uuid &&
+                  entry.value['type'] ==
+                      (widget.isExpense ? 'expense' : 'income'),
+            )
             .map((entry) => entry.value as Map<String, dynamic>)
             .toList();
 

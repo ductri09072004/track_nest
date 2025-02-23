@@ -4,17 +4,17 @@ import 'package:testverygood/feature/transactrion/app.dart'; // Import màn hìn
 import 'package:testverygood/feature/split/app.dart'; // Import màn hình chia tiền
 
 class BtnSuccess extends StatelessWidget {
-  final String extractedText; // Số tiền trích xuất từ bill
-  final VoidCallback onRescan;
   const BtnSuccess({
     Key? key,
     required this.extractedText,
     required this.onRescan,
   }) : super(key: key);
+  final String extractedText; // Số tiền trích xuất từ bill
+  final VoidCallback onRescan;
 
   String formatCurrency(String value) {
     try {
-      int number = int.parse(value);
+      var number = int.parse(value);
       return NumberFormat.currency(locale: 'vi_VN', symbol: 'VND')
           .format(number);
     } catch (e) {

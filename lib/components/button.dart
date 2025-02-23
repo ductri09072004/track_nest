@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class ToggleSwitch extends StatelessWidget {
   const ToggleSwitch({
-    super.key,
     required this.value,
     required this.onChanged,
+    super.key,
   });
   final bool value;
   final ValueChanged<bool> onChanged;
@@ -45,8 +45,8 @@ class Button extends StatelessWidget {
   const Button({
     required this.label,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final String label;
   final VoidCallback onPressed;
 

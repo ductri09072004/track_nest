@@ -28,7 +28,7 @@ class _BodyMainState extends State<BodyMain> {
   }
 
   Future<void> _loadUUID() async {
-    var storedUUID = await storage.read(key: 'unique_id');
+    final storedUUID = await storage.read(key: 'unique_id');
     setState(() {
       uuid = storedUUID;
     });

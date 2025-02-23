@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ExInBtn extends StatefulWidget {
-  const ExInBtn({super.key, required this.labels, required this.onToggle});
+  const ExInBtn({required this.labels, required this.onToggle, super.key});
   final List<String> labels;
   final ValueChanged<int> onToggle;
 

@@ -5,16 +5,17 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_svg/svg.dart';
 
 class Content extends StatefulWidget {
-  final String categoryType; // Nhận categoryType từ TabBar
+  // Nhận categoryType từ TabBar
 
   const Content({super.key, required this.categoryType});
+  final String categoryType;
 
   @override
   _ContentState createState() => _ContentState();
 }
 
 class _ContentState extends State<Content> {
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
   String? uuid;
   Future<Map<String, dynamic>>? futureData;
 
@@ -25,7 +26,7 @@ class _ContentState extends State<Content> {
   }
 
   Future<void> _loadUUID() async {
-    String? storedUUID = await storage.read(key: 'unique_id');
+    var storedUUID = await storage.read(key: 'unique_id');
     if (storedUUID != null) {
       setState(() {
         uuid = storedUUID;
@@ -48,14 +49,16 @@ class _ContentState extends State<Content> {
       // Lọc dữ liệu theo user_id và categoryType
       return data.map((key, value) {
         return MapEntry(key, {
-          "id": key, // Giữ ID từ key của Map
+          'id': key, // Giữ ID từ key của Map
           ...(value is Map<String, dynamic>
               ? value
               : {}), // Kiểm tra kiểu trước khi spread
         });
       })
-        ..removeWhere((key, value) =>
-            value['user_id'] != uuid || value['type'] != widget.categoryType);
+        ..removeWhere(
+          (key, value) =>
+              value['user_id'] != uuid || value['type'] != widget.categoryType,
+        );
     } else {
       throw Exception('Không thể tải dữ liệu');
     }
@@ -101,14 +104,15 @@ class _ContentState extends State<Content> {
             return Center(child: Text('Lỗi: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(
-                child: Text('Không có dữ liệu cho ${widget.categoryType}'));
+              child: Text('Không có dữ liệu cho ${widget.categoryType}'),
+            );
           }
 
-          Map<String, dynamic> categories = snapshot.data!;
+          var categories = snapshot.data!;
           return ListView(
             children: categories.entries.map((entry) {
-              var category = entry.value;
-              String id = entry.key; // Lấy ID trực tiếp từ key của Map
+              final category = entry.value;
+              var id = entry.key; // Lấy ID trực tiếp từ key của Map
 
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),

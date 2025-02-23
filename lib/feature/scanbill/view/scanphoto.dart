@@ -9,6 +9,8 @@ import 'package:testverygood/feature/scanbill/components/btn_success.dart';
 import 'package:testverygood/feature/scanbill/components/Gpt_AI.dart';
 
 class ImagePickerScreen extends StatefulWidget {
+  const ImagePickerScreen({super.key});
+
   @override
   _ImagePickerScreenState createState() => _ImagePickerScreenState();
 }
@@ -27,7 +29,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
-    final XFile? pickedFile = await _picker.pickImage(source: source);
+    final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
@@ -48,10 +50,10 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
 
     try {
       final recognizedText = await textRecognizer.processImage(inputImage);
-      String rawText = recognizedText.text;
+      var rawText = recognizedText.text;
 
       // Gửi văn bản OCR đến GPT để lấy tổng tiền
-      String? gptResponse = await GptService().getTotalAmount(rawText);
+      var gptResponse = await GptService().getTotalAmount(rawText);
 
       setState(
         () => _extractedText = gptResponse!,
@@ -64,7 +66,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   }
 
   Future<void> _nestAI(File imageFile) async {
-    String result = await NestAI().processImage(imageFile);
+    var result = await NestAI().processImage(imageFile);
     setState(() {
       _extractedText = result;
     });

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
 class NestAI {
@@ -9,16 +8,25 @@ class NestAI {
 
     try {
       final recognizedText = await textRecognizer.processImage(inputImage);
-      final regex = RegExp(r'[+-]?\d{1,3}(?:,\d{3})*(?:\.\d+)?\s*(VND|đ)?');
 
-      List<String> filteredLines = recognizedText.text
+      // Regex chỉ lấy số có ít nhất 4 chữ số và có thể có đơn vị tiền tệ
+      final regex =
+          RegExp(r'(?<!\d)(\d{1,3}(?:,\d{3})*(?:\.\d+)?)(?=\s*(VND|đ)?)');
+
+      var filteredLines = recognizedText.text
           .split('\n')
-          .where((line) => regex.hasMatch(line))
+          .where(regex.hasMatch)
           .map((line) {
             final match = regex.firstMatch(line);
             if (match != null) {
-              String cleanText = match.group(0)!;
-              cleanText = cleanText.replaceAll(RegExp(r'\s*(VND|đ)'), '');
+              var cleanText = match.group(1)!;
+              cleanText = cleanText.replaceAll(',', ''); // Xóa dấu phẩy
+
+              // Bỏ qua nếu là số điện thoại (đủ 10 chữ số liên tục)
+              if (RegExp(r'^\d{10}$').hasMatch(cleanText)) {
+                return '';
+              }
+
               return cleanText;
             }
             return '';
@@ -27,24 +35,18 @@ class NestAI {
           .toSet()
           .toList();
 
-      if (filteredLines.isEmpty) return 'No valid text found';
+      if (filteredLines.isEmpty) return 'No valid currency found';
 
-      List<double> amounts = filteredLines
-          .map((line) => double.tryParse(line.replaceAll(',', '')) ?? 0)
+      var amounts = filteredLines
+          .map((line) => double.tryParse(line) ?? 0)
+          .where((num) => num >= 1000) // Chỉ lấy giá trị >= 1000 VND
           .toList();
 
-      List<double> positiveNumbers = amounts.where((num) => num > 0).toList();
-      List<double> negativeNumbers = amounts.where((num) => num < 0).toList();
+      if (amounts.isEmpty) return 'No valid amount found';
 
-      double maxAmount = positiveNumbers.isEmpty
-          ? 0
-          : positiveNumbers.reduce((a, b) => a > b ? a : b);
-      double totalNegative =
-          negativeNumbers.fold(0, (sum, num) => sum + num.abs());
+      var maxAmount = amounts.reduce((a, b) => a > b ? a : b);
 
-      double finalResult = maxAmount - totalNegative;
-
-      return finalResult.toStringAsFixed(0);
+      return maxAmount.toStringAsFixed(0);
     } catch (e) {
       return 'An error occurred while processing: $e';
     } finally {

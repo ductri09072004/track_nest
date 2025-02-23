@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomButton extends StatelessWidget {
-  final String text;
-  final String iconPath;
-  final VoidCallback onPressed;
-
   const CustomButton({
     Key? key,
     required this.text,
     required this.iconPath,
     required this.onPressed,
   }) : super(key: key);
+  final String text;
+  final String iconPath;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {

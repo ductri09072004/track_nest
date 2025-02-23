@@ -15,9 +15,8 @@ import 'package:testverygood/feature/transactrion/components/calendar.dart';
 import 'package:testverygood/feature/transactrion/components/categories.dart';
 
 class TransactionMain extends StatefulWidget {
-  final String data;
-
   const TransactionMain({Key? key, this.data = ''}) : super(key: key);
+  final String data;
 
   @override
   _TransactionMainState createState() => _TransactionMainState();
@@ -42,7 +41,7 @@ class _TransactionMainState extends State<TransactionMain> {
 
   String generateCateId() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    var random = Random();
+    final random = Random();
     return String.fromCharCodes(
       Iterable.generate(
         10,
@@ -62,7 +61,7 @@ class _TransactionMainState extends State<TransactionMain> {
   }
 
   Future<void> _loadUUID() async {
-    var storedUUID = await storage.read(key: 'unique_id');
+    final storedUUID = await storage.read(key: 'unique_id');
     setState(() {
       uuid = storedUUID ?? 'Không tìm thấy UUID';
     });
