@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:month_picker_dialog/month_picker_dialog.dart';
-import 'package:testverygood/components/categoriesheader.dart';
-import 'package:testverygood/components/date.dart'; // Import HorizontalList từ đây
+import 'package:testverygood/components/categories.dart';
+import 'package:testverygood/components/date.dart';
+import 'package:testverygood/components/selectMonth.dart';
+import 'package:testverygood/components/filterSearch.dart';
 
 class HeaderMain extends StatefulWidget {
   const HeaderMain({
@@ -11,110 +12,19 @@ class HeaderMain extends StatefulWidget {
     this.showIcons = true,
     this.showHorizontalList = true,
     this.showTitle = true,
-    this.isExpense = true,
   });
 
   final bool showBalance;
   final bool showIcons;
   final bool showHorizontalList;
   final bool showTitle;
-  final bool isExpense;
 
   @override
   _HeaderMainState createState() => _HeaderMainState();
 }
 
 class _HeaderMainState extends State<HeaderMain> {
-  int selectedMonth = DateTime.now().month;
-  int selectedYear = DateTime.now().year;
-  int currentYear = DateTime.now().year;
-  final int minYear = DateTime.now().year - 10;
-  final int maxYear = DateTime.now().year + 10;
-
-  void _showMonthPickerDialog(BuildContext context) {
-    showMonthPicker(
-      context: context,
-      initialDate: DateTime(selectedYear, selectedMonth),
-      firstDate: DateTime(minYear),
-      lastDate: DateTime(maxYear),
-    ).then((date) {
-      if (date != null) {
-        setState(() {
-          selectedMonth = date.month;
-          selectedYear = date.year;
-        });
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('You selected ${date.month} ${date.year}'),
-          ),
-        );
-      }
-    });
-  }
-
-  void _showSearchDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Search'),
-          content: const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Categories', style: texttop),
-              SizedBox(height: 10),
-              // CategoriesSearch(
-              //   isExpense: isExpense,
-              //   onCategorySelected: (String category) {
-              //     setState(() {
-              //       selectedCategory = category;
-              //     });
-              //   },
-              // ),
-              // const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        labelText: 'February 2025',
-                        prefixIcon: Icon(Icons.calendar_today),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        labelText: 'May 2025',
-                        prefixIcon: Icon(Icons.calendar_today),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Đóng dialog
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                // Xử lý tìm kiếm nếu cần
-                Navigator.of(context).pop(); // Đóng dialog
-              },
-              child: const Text('Apply'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  ValueNotifier<DateTime> selectedMonth = ValueNotifier<DateTime>(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +57,8 @@ class _HeaderMainState extends State<HeaderMain> {
                   const Spacer(),
                   if (widget.showIcons)
                     GestureDetector(
-                      onTap: () => _showMonthPickerDialog(context),
+                      onTap: () => showMonthPickerDialog(
+                          context, selectedMonth,), // Gọi từ selectMonth.dart
                       child: SvgPicture.asset(
                         'lib/assets/icon/home_icon/calendar_icon.svg',
                       ),
@@ -157,14 +68,14 @@ class _HeaderMainState extends State<HeaderMain> {
                   const SizedBox(width: 24),
                   if (widget.showIcons)
                     GestureDetector(
-                      onTap: () => _showSearchDialog(context),
+                      onTap: () =>
+                          showSearchDialog(context), // Gọi từ filterSearch.dart
                       child: SvgPicture.asset(
                         'lib/assets/icon/home_icon/search_icon.svg',
                       ),
                     )
                   else
                     const SizedBox(width: 24),
-                  // const SizedBox(width: 24),
                 ],
               ),
             ),
@@ -219,6 +130,7 @@ class _HeaderMainState extends State<HeaderMain> {
 
   static const TextStyle texttop =
       TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'Lato');
+
   static const TextStyle texttitle =
       TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'Lato');
 }
