@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Content extends StatefulWidget {
   const Content({super.key});
@@ -9,49 +11,70 @@ class Content extends StatefulWidget {
 }
 
 class _ContentState extends State<Content> {
+  late Future<List<dynamic>> data;
+
+  @override
+  void initState() {
+    super.initState();
+    data = fetchData(); // Gọi API khi màn hình được khởi tạo
+  }
+
+  Future<List<dynamic>> fetchData() async {
+    final response =
+        await http.get(Uri.parse('http://3.26.221.69:5000/api/grouptrans'));
+
+    if (response.statusCode == 200) {
+      // Chuyển dữ liệu JSON thành list
+      return json.decode(response.body) as List<dynamic>;
+    } else {
+      throw Exception('Không thể tải dữ liệu');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // const SizedBox(height: 10),
-          buildDateSection('Ngày giao dịch', '12/02/2024'),
-          const SizedBox(height: 10),
-          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
-          buildExpenseRow('Phí dịch vụ', '50.000đ', false),
-          const SizedBox(height: 10),
-          buildDateSection('Ngày giao dịch', '12/02/2024'),
-          const SizedBox(height: 10),
-          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
-          buildExpenseRow('Phí dịch vụ', '50.000đ', false),
-          const SizedBox(height: 10),
-          buildDateSection('Ngày giao dịch', '12/02/2024'),
-          const SizedBox(height: 10),
-          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
-          buildExpenseRow('Phí dịch vụ', '50.000đ', false),
-          const SizedBox(height: 10),
-          buildDateSection('Ngày giao dịch', '12/02/2024'),
-          const SizedBox(height: 10),
-          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
-          buildExpenseRow('Phí dịch vụ', '450.000đ', false),
-          const SizedBox(height: 10),
-          buildDateSection('Ngày giao dịch', '12/02/2024'),
-          const SizedBox(height: 10),
-          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
-          buildExpenseRow('Phí dịch vụ', '350.000đ', false),
-          const SizedBox(height: 10),
-          buildDateSection('Ngày giao dịch', '12/02/2024'),
-          const SizedBox(height: 10),
-          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
-          buildExpenseRow('Phí dịch vụ', '250.000đ', false),
-          const SizedBox(height: 10),
-          buildDateSection('Ngày giao dịch', '12/02/2024'),
-          const SizedBox(height: 10),
-          buildExpenseRow('Chi phí vận chuyển', '200.000đ', true),
-          buildExpenseRow('Phí dịch vụ', '150.000đ', false),
-        ],
+      child: FutureBuilder<List<dynamic>>(
+        future: data,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Lỗi: ${snapshot.error}');
+          } else if (snapshot.hasData) {
+            var transactions = snapshot.data!;
+            if (transactions.isEmpty) {
+              return const Text('Không có dữ liệu');
+            } else {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: transactions.map((transaction) {
+                  // Kiểm tra xem key có tồn tại trong đối tượng hay không
+                  var cateId = transaction['cate_id'] ?? 'Không có thông tin';
+                  var groupMemId = transaction['money'] ?? 'Không có thông tin';
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Chi phí vận chuyển: $cateId đ',
+                        style: titleprice,
+                      ),
+                      Text(
+                        'Phí dịch vụ: $groupMemId đ',
+                        style: titleprice2,
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  );
+                }).toList(),
+              );
+            }
+          } else {
+            return const Text('Không có dữ liệu');
+          }
+        },
       ),
     );
   }
@@ -78,19 +101,6 @@ class _ContentState extends State<Content> {
           height: 2,
           color: const Color(0xFF000000),
           width: double.infinity,
-        ),
-      ],
-    );
-  }
-
-  Widget buildExpenseRow(String title, String price, bool isRed) {
-    return Row(
-      children: [
-        Text(title, style: titleicon),
-        const Spacer(),
-        Text(
-          price,
-          style: isRed ? titleprice : titleprice2,
         ),
       ],
     );

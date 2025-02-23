@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:testverygood/feature/scanbill/app.dart';
 import 'package:testverygood/feature/scanbill/view/scanphoto.dart';
 import 'package:testverygood/feature/split/app.dart';
 import 'package:testverygood/feature/transactrion/app.dart';
@@ -13,80 +12,81 @@ class AddPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Lớp nền màu tím
+          // Hình nền màu tím
           Positioned.fill(
             child: Container(
               color: const Color(0xFFA561CA),
             ),
           ),
-          // Hình nền SVG
+          // Hình nền SVG chiếm toàn bộ màn hình
           Positioned.fill(
-            top: -290,
-            right: -180,
             child: SvgPicture.asset(
               'lib/assets/svg/Background.svg',
               fit: BoxFit.cover,
             ),
           ),
-          // Nội dung chính với cuộn
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(
-                    top: 30,
-                    left: 20,
-                    right: 20,
-                    bottom: 30,
+          // Nội dung chính
+          SafeArea(
+            child: SizedBox(
+              height:
+                  MediaQuery.of(context).size.height, // Chiếm toàn bộ chiều cao
+              child: Column(
+                children: [
+                  const SizedBox(height: 80),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          buildSettingItem(
+                            context: context,
+                            iconPath: 'lib/assets/icon/add_icon/scan_icon.svg',
+                            label: 'SCAN BILL',
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ImagePickerScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          buildSettingItem(
+                            context: context,
+                            iconPath: 'lib/assets/icon/add_icon/add_icon.svg',
+                            label: 'ADD MANUALLY',
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const TransactionMain(),
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          buildSettingItem(
+                            context: context,
+                            iconPath: 'lib/assets/icon/add_icon/add_icon.svg',
+                            label: 'ADD SPLIT MANUALLY',
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SplitPage(),
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 30),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                // Nút 1: Scan Bill
-                buildSettingItem(
-                  context: context,
-                  iconPath: 'lib/assets/icon/add_icon/scan_icon.svg',
-                  label: 'SCAN BILL',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ImagePickerScreen(),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 10),
-                // Nút 2: Add Manually
-                buildSettingItem(
-                  context: context,
-                  iconPath: 'lib/assets/icon/add_icon/add_icon.svg',
-                  label: 'ADD MANUALLY',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TransactionMain(),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 10),
-                // Nút 3: Add Split Manually
-                buildSettingItem(
-                  context: context,
-                  iconPath: 'lib/assets/icon/add_icon/add_icon.svg',
-                  label: 'ADD SPLIT MANUALLY',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SplitPage(),
-                      ),
-                    );
-                  },
-                ),
-
-                // const SizedBox(height: 104),
-              ],
+                  // Chỉnh khoảng cách dưới cùng
+                ],
+              ),
             ),
           ),
         ],
@@ -102,9 +102,9 @@ class AddPage extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return GestureDetector(
-      onTap: onTap, // Xử lý sự kiện nhấn
+      onTap: onTap,
       child: Container(
-        width: double.infinity, // Chiếm toàn bộ chiều ngang
+        width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 44),
         padding: const EdgeInsets.symmetric(vertical: 54),
         decoration: BoxDecoration(
@@ -121,16 +121,9 @@ class AddPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Icon SVG
-            SvgPicture.asset(
-              iconPath,
-            ),
+            SvgPicture.asset(iconPath),
             const SizedBox(height: 10),
-            // Text
-            Text(
-              label,
-              style: txtbtn,
-            ),
+            Text(label, style: txtbtn),
           ],
         ),
       ),
@@ -143,47 +136,4 @@ class AddPage extends StatelessWidget {
     color: Colors.black,
     fontFamily: 'Lato',
   );
-
-  static const TextStyle texttop = TextStyle(
-    color: Colors.white,
-    fontSize: 20,
-    fontFamily: 'Lato',
-  );
-}
-
-// Các trang chuyển tiếp
-class ScanBillPage extends StatelessWidget {
-  const ScanBillPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Scan Bill')),
-      body: const Center(child: Text('Scan Bill Page')),
-    );
-  }
-}
-
-class AddManuallyPage extends StatelessWidget {
-  const AddManuallyPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Add Manually')),
-      body: const Center(child: Text('Add Manually Page')),
-    );
-  }
-}
-
-class AddSplitManuallyPage extends StatelessWidget {
-  const AddSplitManuallyPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Add Split Manually')),
-      body: const Center(child: Text('Add Split Manually Page')),
-    );
-  }
 }
