@@ -123,6 +123,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
             BtnSuccess(
               extractedText: _extractedText,
               onRescan: _rescan,
+              imageTransaction: _imageFile!.path,
             ),
         ],
       ),

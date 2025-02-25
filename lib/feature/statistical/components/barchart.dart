@@ -37,6 +37,7 @@ class _BarchartState extends State<Barchart> {
   }
 
   Future<void> fetchData() async {
+    if (!mounted) return;
     setState(() {
       isLoading = true;
       errorMessage = '';
@@ -68,10 +69,12 @@ class _BarchartState extends State<Barchart> {
         throw Exception('Không thể tải dữ liệu');
       }
     } catch (e) {
-      setState(() {
-        errorMessage = 'Lỗi khi tải dữ liệu: $e';
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          errorMessage = 'Lỗi khi tải dữ liệu: $e';
+          isLoading = false;
+        });
+      }
     }
   }
 

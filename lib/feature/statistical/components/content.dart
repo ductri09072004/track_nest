@@ -48,6 +48,7 @@ class _ContentState extends State<Content> {
   }
 
   Future<void> fetchData() async {
+    if (!mounted) return;
     setState(() {
       isLoading = true;
       errorMessage = '';
@@ -96,10 +97,12 @@ class _ContentState extends State<Content> {
         throw Exception('Không thể tải dữ liệu');
       }
     } catch (e) {
-      setState(() {
-        errorMessage = 'Lỗi khi tải dữ liệu: $e';
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          errorMessage = 'Lỗi khi tải dữ liệu: $e';
+          isLoading = false;
+        });
+      }
     }
   }
 

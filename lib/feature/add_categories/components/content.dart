@@ -75,16 +75,16 @@ class _ContentState extends State<Content> {
           futureData = fetchData(); // Cập nhật danh sách sau khi xóa
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Xóa thành công!')),
+          const SnackBar(content: Text('Delete success!')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Xóa thất bại: ${response.body}')),
+          SnackBar(content: Text('Delete failed: ${response.body}')),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Lỗi khi xóa: $e')),
+        SnackBar(content: Text('Delete failed: $e')),
       );
     }
   }
@@ -101,10 +101,10 @@ class _ContentState extends State<Content> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Lỗi: ${snapshot.error}'));
+            return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(
-              child: Text('Không có dữ liệu cho ${widget.categoryType}'),
+              child: Text('No data for ${widget.categoryType}'),
             );
           }
 

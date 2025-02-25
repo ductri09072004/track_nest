@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:testverygood/bootstrap.dart';
+import 'package:testverygood/feature/home/components/icon_content.dart';
 
 class ExpContent extends StatefulWidget {
   const ExpContent({super.key});
@@ -30,7 +30,6 @@ class _ExpContentState extends State<ExpContent> {
     _loadUUID();
   }
 
-  // Hàm này chỉ tải UUID và trigger lại setState để cập nhật khi UUID có giá trị
   Future<void> _loadUUID() async {
     final storedUUID = await storage.read(key: 'unique_id');
     setState(() {
@@ -38,7 +37,6 @@ class _ExpContentState extends State<ExpContent> {
     });
   }
 
-  // Hàm để fetch dữ liệu từ API
   Future<List<Map<String, dynamic>>> fetchData() async {
     if (uuid == null) {
       throw Exception('UUID is not loaded');
@@ -63,12 +61,10 @@ class _ExpContentState extends State<ExpContent> {
 
   @override
   Widget build(BuildContext context) {
-    // Nếu uuid chưa được load, hiển thị CircularProgressIndicator
     if (uuid == null) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    // Gọi API và fetch data sau khi UUID có giá trị
     futureData = fetchData();
 
     return Padding(
@@ -81,7 +77,7 @@ class _ExpContentState extends State<ExpContent> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Lỗi: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('Không có dữ liệu'));
+            return const Center(child: Text('There are no transactions'));
           }
 
           final transactions = snapshot.data!
@@ -89,34 +85,38 @@ class _ExpContentState extends State<ExpContent> {
               (a, b) => (b['date'] as String).compareTo(a['date'] as String),
             );
 
-          // Nhóm giao dịch theo ngày
-          var groupedByDate = <String, List<Map<String, dynamic>>>{};
+          var groupedByMonthYear = <String, List<Map<String, dynamic>>>{};
           for (final transaction in transactions) {
-            final date = transaction['date'] as String;
-            if (!groupedByDate.containsKey(date)) {
-              groupedByDate[date] = [];
+            final dateParts = (transaction['date'] as String).split('/');
+            if (dateParts.length < 3) {
+              continue;
             }
-            groupedByDate[date]!.add(transaction);
+            final monthYear =
+                '${dateParts[0]}/${dateParts[1]}/${dateParts[2]}'; // Định dạng MM/yy
+
+            if (!groupedByMonthYear.containsKey(monthYear)) {
+              groupedByMonthYear[monthYear] = [];
+            }
+            groupedByMonthYear[monthYear]!.add(transaction);
           }
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: groupedByDate.entries.map((entry) {
-              final date = entry.key;
-              final transactionsForDate = entry.value;
+            children: groupedByMonthYear.entries.map((entry) {
+              final monthYear = entry.key;
+              final transactionsForMonthYear = entry.value;
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  buildDateSection(date),
-                  ...transactionsForDate.map((transaction) {
-                    return buildExpenseRow(
-                      transaction['cate_id'] as String? ?? 'Không xác định',
-                      '${formatCurrency(int.parse(transaction['money'].toString()))}đ',
-                      transaction['type'] == 'expense',
-                    );
-                  }),
-                ],
+                children: transactionsForMonthYear.map((transaction) {
+                  return buildExpenseRow(
+                    IconDisplayScreen(cateId: transaction['cate_id'] as String),
+                    transaction['cate_id'] as String? ?? 'Không xác định',
+                    '${transaction['type'] == 'expense' ? '-' : '+'}${formatCurrency(int.parse(transaction['money'].toString()))}đ',
+                    transaction['type'] == 'expense',
+                    monthYear,
+                  );
+                }).toList(),
               );
             }).toList(),
           );
@@ -125,51 +125,48 @@ class _ExpContentState extends State<ExpContent> {
     );
   }
 
-  Widget buildDateSection(String date) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          date,
-          style: titleText,
+  Widget buildExpenseRow(
+      Widget iconWidget, String title, String price, bool isRed, String date) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color(0xFFFAF5FF), // Màu nền nhẹ
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: const Color(0xFFC084FC)),
         ),
-        const SizedBox(height: 12),
-        Container(
-          height: 2,
-          color: const Color(0xFFD9D9D9),
-          width: double.infinity,
-        ),
-      ],
-    );
-  }
-
-  Widget buildExpenseRow(String title, String price, bool isRed) {
-    return Row(
-      children: [
-        SvgPicture.asset('lib/assets/icon/home_icon/girl_icon.svg'),
-        const SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.all(16),
+        child: Row(
           children: [
-            Text(title, style: titleicon),
+            iconWidget,
+            const SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: titleicon),
+                const SizedBox(height: 4),
+                Text(date, style: titledate),
+              ],
+            ),
+            const Spacer(),
+            Text(
+              price,
+              style: isRed ? titleprice : titleprice2,
+            ),
           ],
         ),
-        const Spacer(),
-        Text(
-          price,
-          style: isRed ? titleprice : titleprice2,
-        ),
-      ],
+      ),
     );
   }
 
-  static const TextStyle titleText = TextStyle(
-    fontSize: 18,
-    fontFamily: 'Lato',
-  );
   static const TextStyle titleicon = TextStyle(
     fontSize: 16,
     fontFamily: 'Lato',
+  );
+  static const TextStyle titledate = TextStyle(
+    fontSize: 12,
+    fontFamily: 'Lato_Light',
+    color: Color(0xFF808080),
   );
   static const TextStyle titleprice = TextStyle(
     fontSize: 16,

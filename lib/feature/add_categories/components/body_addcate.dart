@@ -44,7 +44,7 @@ class _BodyMainState extends State<BodyMain> {
 
     if (nameController.text.isEmpty || iconController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vui lòng nhập đủ thông tin!')),
+        const SnackBar(content: Text('Please enter all information!')),
       );
       return;
     }
@@ -67,11 +67,11 @@ class _BodyMainState extends State<BodyMain> {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Lưu giao dịch thành công!')),
+          const SnackBar(content: Text('Saved transaction successfully!')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Lưu thất bại: ${response.body}')),
+          SnackBar(content: Text('Save failed ${response.body}')),
         );
       }
     } catch (e) {
