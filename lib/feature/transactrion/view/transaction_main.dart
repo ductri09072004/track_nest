@@ -12,6 +12,8 @@ import 'package:testverygood/components/input.dart';
 import 'package:testverygood/feature/transactrion/components/Ex_In_btn.dart';
 import 'package:testverygood/feature/transactrion/components/calendar.dart';
 import 'package:testverygood/feature/transactrion/components/categories.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:testverygood/feature/main_navbar.dart';
 
 class TransactionMain extends StatefulWidget {
   const TransactionMain({Key? key, this.data = '', this.imageTransaction = ''})
@@ -26,6 +28,7 @@ class TransactionMain extends StatefulWidget {
 
 class _TransactionMainState extends State<TransactionMain> {
   File? _selectedImage;
+  InterstitialAd? _interstitialAd;
   bool isExpense = true;
   String? uuid;
   final FlutterSecureStorage storage = const FlutterSecureStorage();
@@ -33,7 +36,7 @@ class _TransactionMainState extends State<TransactionMain> {
   final TextEditingController fromController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
   final TextEditingController numericController = TextEditingController();
-  String selectedCategory = 'Chưa chọn danh mục';
+  String selectedCategory = '';
   bool isLoading = false;
 
   void _updateSelectedDate(DateTime newDate) {
@@ -82,6 +85,20 @@ class _TransactionMainState extends State<TransactionMain> {
         _selectedImage = File(pickedFile.path);
       });
     }
+  }
+
+  Future<void> _loadInterstitialAd() async {
+    await InterstitialAd.load(
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // ID quảng cáo test
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          _interstitialAd = ad;
+          _interstitialAd!.show(); // Hiển thị ngay khi load xong
+        },
+        onAdFailedToLoad: (LoadAdError error) {},
+      ),
+    );
   }
 
   Future<String?> _uploadImageToCloudinary(File imageFile) async {
@@ -159,6 +176,23 @@ class _TransactionMainState extends State<TransactionMain> {
         isLoading = false; // Ẩn vòng xoay sau khi hoàn tất
       });
     }
+  }
+
+  void navigateToTargetPage(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      // ignore: inference_failure_on_instance_creation
+      MaterialPageRoute(builder: (context) => const MainPage()),
+    );
+  }
+
+  Future<void> handleSaveTransaction(BuildContext context) async {
+    await Future.wait([
+      _loadInterstitialAd(), // Chạy quảng cáo
+      saveTransaction(), // Chạy lưu giao dịch
+    ]);
+
+    navigateToTargetPage(context); // Chuyển trang sau khi cả hai hoàn tất
   }
 
   @override
@@ -291,7 +325,8 @@ class _TransactionMainState extends State<TransactionMain> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: isLoading ? null : saveTransaction,
+                    onPressed:
+                        isLoading ? null : () => handleSaveTransaction(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF791CAC),
                       padding: const EdgeInsets.symmetric(vertical: 12),

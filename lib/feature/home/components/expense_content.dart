@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:testverygood/bootstrap.dart';
 import 'package:testverygood/feature/home/components/icon_content.dart';
+import 'package:testverygood/feature/edit_transactions/edit_main.dart';
 
 class ExpContent extends StatefulWidget {
   const ExpContent({super.key});
@@ -59,6 +60,18 @@ class _ExpContentState extends State<ExpContent> {
     }
   }
 
+  void navigateToDetailPage(BuildContext context, String title, Widget icon) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditMain(
+          transid: title,
+          icon: icon,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (uuid == null) {
@@ -111,10 +124,11 @@ class _ExpContentState extends State<ExpContent> {
                 children: transactionsForMonthYear.map((transaction) {
                   return buildExpenseRow(
                     IconDisplayScreen(cateId: transaction['cate_id'] as String),
-                    transaction['cate_id'] as String? ?? 'Không xác định',
+                    transaction['cate_id'] as String? ?? 'null',
                     '${transaction['type'] == 'expense' ? '-' : '+'}${formatCurrency(int.parse(transaction['money'].toString()))}đ',
                     transaction['type'] == 'expense',
                     monthYear,
+                    transaction['trans_id'] as String? ?? 'null',
                   );
                 }).toList(),
               );
@@ -125,35 +139,40 @@ class _ExpContentState extends State<ExpContent> {
     );
   }
 
-  Widget buildExpenseRow(
-      Widget iconWidget, String title, String price, bool isRed, String date) {
+  Widget buildExpenseRow(Widget iconWidget, String title, String price,
+      bool isRed, String date, String trans) {
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 10),
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFFFAF5FF), // Màu nền nhẹ
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: const Color(0xFFC084FC)),
-        ),
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            iconWidget,
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: titleicon),
-                const SizedBox(height: 4),
-                Text(date, style: titledate),
-              ],
-            ),
-            const Spacer(),
-            Text(
-              price,
-              style: isRed ? titleprice : titleprice2,
-            ),
-          ],
+      child: GestureDetector(
+        onTap: () {
+          navigateToDetailPage(context, trans, iconWidget);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFFFAF5FF),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: const Color(0xFFC084FC)),
+          ),
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              iconWidget,
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: titleicon),
+                  const SizedBox(height: 4),
+                  Text(date, style: titledate),
+                ],
+              ),
+              const Spacer(),
+              Text(
+                price,
+                style: isRed ? titleprice : titleprice2,
+              ),
+            ],
+          ),
         ),
       ),
     );

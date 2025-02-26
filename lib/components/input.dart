@@ -69,7 +69,7 @@ class _InputFieldState extends State<InputField> {
     final inputStyle = widget.isSmallText ? txtsmall : txt;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: EdgeInsets.zero,
       child: TextField(
         controller: widget.controller,
         keyboardType:

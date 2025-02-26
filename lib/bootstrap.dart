@@ -9,6 +9,7 @@ import 'package:testverygood/components/data_defaut/categories_json.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_mobile_ads/google_mobile_ads.dart'; // Import Google Mobile Ads
 
 const storage = FlutterSecureStorage();
 const uuid = Uuid();
@@ -43,12 +44,6 @@ Future<String> getOrCreateUniqueId() async {
   return uniqueId;
 }
 
-Future<bool> isFirstLaunch() async {
-  String? firstLaunch = await storage.read(key: 'is_first_launch');
-  log('📌 is_first_launch = $firstLaunch');
-  return firstLaunch == null;
-}
-
 Future<void> saveTransaction(String uniqueId) async {
   try {
     final url = Uri.parse('http://3.26.221.69:5000/api/categories');
@@ -74,7 +69,6 @@ Future<void> saveTransaction(String uniqueId) async {
       }
     }
 
-    // Lưu trạng thái đã chạy lần đầu tiên
     await storage.write(key: 'is_first_launch', value: 'false');
   } catch (e) {
     log('❌ Đã xảy ra lỗi khi lưu danh mục: $e');
@@ -94,19 +88,22 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   final apiKey = dotenv.env['API_KEY'];
   log('🔥 Loaded API Key: $apiKey');
 
+  // Khởi tạo Google Mobile Ads
+  await MobileAds.instance.initialize();
+  log('📢 Google Mobile Ads SDK đã được khởi tạo.');
+
   // Lấy hoặc tạo UUID duy nhất cho thiết bị
   final uniqueId = await getOrCreateUniqueId();
   log('🔥 App khởi chạy với ID: $uniqueId');
 
-  // Kiểm tra xem app đã mở lần đầu hay chưa
+  // Kiểm tra lần đầu mở app
   final isFirstLaunch = await storage.read(key: 'is_first_launch');
   log('📌 is_first_launch = $isFirstLaunch');
 
   if (isFirstLaunch == null) {
     log('🆕 Lần đầu mở app, chạy saveTransaction()...');
     await saveTransaction(uniqueId);
-    await storage.write(
-        key: 'is_first_launch', value: 'false'); // Đánh dấu app đã mở
+    await storage.write(key: 'is_first_launch', value: 'false');
   } else {
     log('🔄 App đã được mở trước đó, không chạy saveTransaction().');
   }
