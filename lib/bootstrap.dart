@@ -75,6 +75,35 @@ Future<void> saveTransaction(String uniqueId) async {
   }
 }
 
+Future<void> createAccount(String uniqueId) async {
+  try {
+    final url = Uri.parse('http://3.26.221.69:5000/api/account');
+
+    final transactionData = {
+      'date_buy': 'null',
+      'email': 'null',
+      'type_id': 'free',
+      'user_id': uniqueId,
+    };
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(transactionData),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      log('✔️ Tạo tài khoản thành công: ${transactionData['user_id']}');
+    } else {
+      log('❌ Lỗi khi tạo tài khoản ${transactionData['user_id']}: ${response.body}');
+    }
+
+    await storage.write(key: 'is_first_launch', value: 'false');
+  } catch (e) {
+    log('❌ Đã xảy ra lỗi khi tạo tài khoản: $e');
+  }
+}
+
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
@@ -103,6 +132,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   if (isFirstLaunch == null) {
     log('🆕 Lần đầu mở app, chạy saveTransaction()...');
     await saveTransaction(uniqueId);
+    await createAccount(uniqueId);
     await storage.write(key: 'is_first_launch', value: 'false');
   } else {
     log('🔄 App đã được mở trước đó, không chạy saveTransaction().');

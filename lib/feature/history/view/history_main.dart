@@ -10,7 +10,9 @@ class HistoryPage extends StatelessWidget {
     return const Scaffold(
       body: Stack(
         children: [
-          HeaderMain(showBalance: false),
+          HeaderMain(
+            title: 'History',
+          ),
           BodyMain(),
         ],
       ),

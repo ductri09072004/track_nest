@@ -119,15 +119,15 @@ class _BarchartState extends State<Barchart> {
   }
 
   Widget _buildChartWithLegend() {
-    var totalMoney = transactions.fold<double>(
-      0.0,
+    final totalMoney = transactions.fold<double>(
+      0,
       (sum, transaction) => sum + (transaction['money'] as num).toDouble(),
     );
 
-    var categoryData = <String, Map<String, double>>{};
+    final categoryData = <String, Map<String, double>>{};
     for (final transaction in transactions) {
-      var category = transaction['cate_id'].toString();
-      var money = (transaction['money'] as num).toDouble();
+      final category = transaction['cate_id'].toString();
+      final money = (transaction['money'] as num).toDouble();
 
       if (!categoryData.containsKey(category)) {
         categoryData[category] = {'money': 0, 'percentage': 0};
@@ -144,12 +144,12 @@ class _BarchartState extends State<Barchart> {
       });
     }
 
-    final List<Color> colors = Colors.primaries;
+    const List<Color> colors = Colors.primaries;
 
-    var sections = categoryData.entries.map((entry) {
-      var index = categoryData.keys.toList().indexOf(entry.key);
-      var money = entry.value['money']!;
-      var percentage = entry.value['percentage']!;
+    final sections = categoryData.entries.map((entry) {
+      final index = categoryData.keys.toList().indexOf(entry.key);
+      final money = entry.value['money']!;
+      final percentage = entry.value['percentage']!;
 
       return PieChartSectionData(
         value: money,
