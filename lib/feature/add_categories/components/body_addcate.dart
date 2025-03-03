@@ -1,82 +1,130 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:testverygood/components/button.dart';
 import 'package:testverygood/components/input.dart';
 import 'package:testverygood/feature/transactrion/components/Ex_In_btn.dart';
 
-class BodyMain extends StatelessWidget {
+class BodyMain extends StatefulWidget {
   const BodyMain({super.key});
+
+  @override
+  _BodyMainState createState() => _BodyMainState();
+}
+
+class _BodyMainState extends State<BodyMain> {
+  final storage = const FlutterSecureStorage();
+  String? uuid;
+  bool isExpense = true; // Mặc định là 'expense'
+
+  final TextEditingController iconController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUUID();
+  }
+
+  Future<void> _loadUUID() async {
+    final storedUUID = await storage.read(key: 'unique_id');
+    setState(() {
+      uuid = storedUUID;
+    });
+  }
+
+  Future<void> saveTransaction() async {
+    if (uuid == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Không tìm thấy UUID!')),
+      );
+      return;
+    }
+
+    if (nameController.text.isEmpty || iconController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter all information!')),
+      );
+      return;
+    }
+
+    try {
+      final url = Uri.parse('http://3.26.221.69:5000/api/categories');
+
+      final transactionData = {
+        'icon': iconController.text,
+        'name': nameController.text,
+        'type': isExpense ? 'expense' : 'income',
+        'user_id': uuid,
+      };
+
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(transactionData),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Saved transaction successfully!')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Save failed ${response.body}')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Đã xảy ra lỗi: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          const Text('Type', style: txmain,),
-          const SizedBox(height: 10,),
-          Row(
-            children: [
-              Expanded(
-                // Đảm bảo nút trượt chiếm toàn bộ chiều ngang
-                child: ExInBtn(
-                  labels: const ['Expenses', 'Income'],
-                  onToggle: (index) {},
+      body: Padding(
+        padding: EdgeInsets.zero,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Type', style: txmain),
+            const SizedBox(height: 10),
+            ExInBtn(
+              labels: const ['Expenses', 'Income'],
+              onToggle: (index) {
+                setState(() {
+                  isExpense = index ==
+                      0; // Nếu chọn "Expenses" thì true, ngược lại false
+                });
+              },
+            ),
+            const SizedBox(height: 16),
+            const Text('Icon', style: txmain),
+            const SizedBox(height: 10),
+            InputClassic(controller: iconController, hintText: 'Add icon'),
+            const SizedBox(height: 16),
+            const Text('Category name', style: txmain),
+            const SizedBox(height: 10),
+            InputClassic(controller: nameController, hintText: 'Add name'),
+            const Spacer(),
+            Row(
+              children: [
+                Expanded(
+                  child: Button(
+                    label: 'Save',
+                    onPressed: saveTransaction,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          const Text(
-            'Icon',
-            style: txmain,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          const InputClassic(hintText: '🎁'),
-          const SizedBox(
-            height: 16,
-          ),
-          const Text(
-            'Category name',
-            style: txmain,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          const InputClassic(hintText: 'Present'),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Button(
-                  label: 'Save',
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Đã lưu!'),
-                        duration: Duration(seconds: 2), // Thời gian hiển thị
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
   static const TextStyle txmain =
       TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Lato');
-  static const TextStyle txprice =
-      TextStyle(color: Colors.black, fontSize: 16, fontFamily: 'Lato');
-  static const TextStyle txtd =
-      TextStyle(color: Colors.black, fontSize: 30, fontFamily: 'Lato');
-  static const TextStyle txtpeo =
-      TextStyle(color: Colors.black, fontSize: 16, fontFamily: 'Lato_Regular');
 }
