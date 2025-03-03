@@ -3,10 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class HeaderA extends StatelessWidget implements PreferredSizeWidget {
   const HeaderA({
-    super.key,
+    Key? key,
     required this.title,
     this.onBack,
-  });
+  }) : super(key: key);
   final String title;
   final VoidCallback? onBack;
 

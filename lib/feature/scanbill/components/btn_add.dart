@@ -1,29 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/feature/scanbill/components/btn_choose_AI.dart';
-import 'package:testverygood/feature/scanbill/components/btnchoose.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class ImagePickerOptions extends StatefulWidget {
+class ImagePickerOptions extends StatelessWidget {
+  final VoidCallback onPickImage;
+  final VoidCallback onPickCam;
+  final bool showWarning; // Thêm tham số này
+
   const ImagePickerOptions({
     Key? key,
     required this.onPickImage,
     required this.onPickCam,
-    required this.onModelSelected,
-    this.showWarning = false,
+    this.showWarning = false, // Mặc định là false
   }) : super(key: key);
-  final VoidCallback onPickImage;
-  final VoidCallback onPickCam;
-  final bool showWarning;
-  final Function(String) onModelSelected;
-
-  @override
-  _ImagePickerOptionsState createState() => _ImagePickerOptionsState();
-}
-
-class _ImagePickerOptionsState extends State<ImagePickerOptions> {
-  void _updateSelectedModel(String model) {
-    setState(() {});
-    widget.onModelSelected(model);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +31,8 @@ class _ImagePickerOptionsState extends State<ImagePickerOptions> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (widget.showWarning) ...[
+              if (showWarning) ...[
+                // Kiểm tra nếu cần hiển thị cảnh báo
                 const Text(
                   'Please select or take photos again !',
                   style: TextStyle(
@@ -63,20 +52,46 @@ class _ImagePickerOptionsState extends State<ImagePickerOptions> {
                 ),
                 const SizedBox(height: 12),
               ],
-              BtnChooseAi(
-                iconPath: 'lib/assets/icon/OCR_icon/nest_ai.svg',
-                onModelSelected:
-                    _updateSelectedModel, // Gửi giá trị đến ImagePickerOptions
-              ),
-              CustomButton(
+              _buildButton(
                 text: 'Choose from gallery',
                 iconPath: 'lib/assets/icon/OCR_icon/addpic.svg',
-                onPressed: widget.onPickImage,
+                onPressed: onPickImage,
               ),
-              CustomButton(
+              _buildButton(
                 text: 'Take a picture',
                 iconPath: 'lib/assets/icon/OCR_icon/addcam.svg',
-                onPressed: widget.onPickCam,
+                onPressed: onPickCam,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButton({
+    required String text,
+    required String iconPath,
+    required VoidCallback onPressed,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: SizedBox(
+        width: double.infinity,
+        child: TextButton(
+          onPressed: onPressed,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(iconPath),
+              const SizedBox(height: 8),
+              Text(
+                text,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'Lato',
+                  color: Colors.black,
+                ),
               ),
             ],
           ),

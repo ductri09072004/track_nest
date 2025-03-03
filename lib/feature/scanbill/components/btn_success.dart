@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:testverygood/feature/split/app.dart'; // Import màn hình chia tiền
 import 'package:testverygood/feature/transactrion/app.dart'; // Import màn hình giao dịch
+import 'package:testverygood/feature/split/app.dart'; // Import màn hình chia tiền
 
 class BtnSuccess extends StatelessWidget {
+  final String extractedText; // Số tiền trích xuất từ bill
+  final VoidCallback onRescan;
   const BtnSuccess({
     Key? key,
     required this.extractedText,
-    required this.imageTransaction,
     required this.onRescan,
   }) : super(key: key);
 
-  final String extractedText; // Số tiền trích xuất từ bill
-  final String imageTransaction;
-  final VoidCallback onRescan;
-
   String formatCurrency(String value) {
     try {
-      var number = int.parse(value);
+      int number = int.parse(value);
       return NumberFormat.currency(locale: 'vi_VN', symbol: 'VND')
           .format(number);
     } catch (e) {
@@ -28,7 +25,6 @@ class BtnSuccess extends StatelessWidget {
   void _navigateToScreen(BuildContext context, Widget screen) {
     Navigator.push(
       context,
-      // ignore: inference_failure_on_instance_creation
       MaterialPageRoute(builder: (context) => screen),
     );
   }
@@ -76,10 +72,7 @@ class BtnSuccess extends StatelessWidget {
                 text: 'Add to personal transaction',
                 onPressed: () => _navigateToScreen(
                   context,
-                  TransactionMain(
-                    data: extractedText,
-                    imageTransaction: imageTransaction,
-                  ),
+                  TransactionMain(data: extractedText),
                 ),
               ),
               const SizedBox(height: 10),

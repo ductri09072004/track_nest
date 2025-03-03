@@ -4,12 +4,12 @@ class Dropdown extends StatelessWidget {
   // Hàm callback khi thay đổi giá trị
 
   const Dropdown({
-    super.key,
+    Key? key,
     required this.selectedValue,
     required this.options,
     required this.hintText,
     required this.onChanged,
-  });
+  }) : super(key: key);
   final String? selectedValue; // Giá trị hiện tại
   final List<String> options; // Danh sách các tùy chọn
   final String hintText; // Gợi ý hiển thị khi chưa chọn

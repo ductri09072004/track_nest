@@ -5,19 +5,18 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_svg/svg.dart';
 
 class Content extends StatefulWidget {
-  // Nhận categoryType từ TabBar
+  final String categoryType; // Nhận categoryType từ TabBar
 
   const Content({super.key, required this.categoryType});
-  final String categoryType;
 
   @override
   _ContentState createState() => _ContentState();
 }
 
 class _ContentState extends State<Content> {
-  final storage = const FlutterSecureStorage();
+  final storage = FlutterSecureStorage();
   String? uuid;
-  Future<Map<String, dynamic>>? futureData;
+  Future<List<Map<String, dynamic>>>? futureData;
 
   @override
   void initState() {
@@ -26,7 +25,7 @@ class _ContentState extends State<Content> {
   }
 
   Future<void> _loadUUID() async {
-    var storedUUID = await storage.read(key: 'unique_id');
+    String? storedUUID = await storage.read(key: 'unique_id');
     if (storedUUID != null) {
       setState(() {
         uuid = storedUUID;
@@ -35,7 +34,7 @@ class _ContentState extends State<Content> {
     }
   }
 
-  Future<Map<String, dynamic>> fetchData() async {
+  Future<List<Map<String, dynamic>>> fetchData() async {
     if (uuid == null) {
       throw Exception('UUID is not loaded');
     }
@@ -45,47 +44,16 @@ class _ContentState extends State<Content> {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as Map<String, dynamic>;
+      final transactions = data.entries
+          .map((entry) => entry.value as Map<String, dynamic>)
+          .toList();
 
-      // Lọc dữ liệu theo user_id và categoryType
-      return data.map((key, value) {
-        return MapEntry(key, {
-          'id': key, // Giữ ID từ key của Map
-          ...(value is Map<String, dynamic>
-              ? value
-              : {}), // Kiểm tra kiểu trước khi spread
-        });
-      })
-        ..removeWhere(
-          (key, value) =>
-              value['user_id'] != uuid || value['type'] != widget.categoryType,
-        );
+      return transactions.where((transaction) {
+        return transaction['user_id'] == uuid &&
+            transaction['type'] == widget.categoryType; // So sánh categoryType
+      }).toList();
     } else {
       throw Exception('Không thể tải dữ liệu');
-    }
-  }
-
-  Future<void> deleteCategory(String categoryId) async {
-    try {
-      final response = await http.delete(
-        Uri.parse('http://3.26.221.69:5000/api/categories/$categoryId'),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 204) {
-        setState(() {
-          futureData = fetchData(); // Cập nhật danh sách sau khi xóa
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Delete success!')),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Delete failed: ${response.body}')),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Delete failed: $e')),
-      );
     }
   }
 
@@ -95,25 +63,23 @@ class _ContentState extends State<Content> {
       width: double.infinity,
       height: MediaQuery.of(context).size.height,
       padding: const EdgeInsets.only(top: 10, bottom: 240),
-      child: FutureBuilder<Map<String, dynamic>>(
+      child: FutureBuilder<List<Map<String, dynamic>>>(
         future: futureData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: Text('Lỗi: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(
-              child: Text('No data for ${widget.categoryType}'),
-            );
+                child: Text('Không có dữ liệu cho ${widget.categoryType}'));
           }
 
-          var categories = snapshot.data!;
-          return ListView(
-            children: categories.entries.map((entry) {
-              final category = entry.value;
-              var id = entry.key; // Lấy ID trực tiếp từ key của Map
-
+          List<Map<String, dynamic>> categories = snapshot.data!;
+          return ListView.builder(
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              var category = categories[index];
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
                 child: Row(
@@ -123,8 +89,13 @@ class _ContentState extends State<Content> {
                     Text(category['name']?.toString() ?? 'Unknown', style: txt),
                     const Spacer(),
                     GestureDetector(
-                      onTap: () async {
-                        await deleteCategory(id); // Xóa theo ID từ key
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Đã xóa!'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
                       },
                       child: SvgPicture.asset(
                         'lib/assets/icon/figma_svg/close.svg',
@@ -134,7 +105,7 @@ class _ContentState extends State<Content> {
                   ],
                 ),
               );
-            }).toList(),
+            },
           );
         },
       ),
