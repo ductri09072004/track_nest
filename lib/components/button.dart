@@ -72,3 +72,41 @@ class Button extends StatelessWidget {
     );
   }
 }
+
+class OutlineButton extends StatelessWidget {
+  const OutlineButton({
+    required this.label,
+    required this.onPressed,
+    super.key,
+  });
+
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity, // Chiếm toàn bộ chiều ngang
+      child: OutlinedButton(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(
+              vertical: 12), // Điều chỉnh padding dọc
+          side:
+              const BorderSide(color: Color(0xFF013CBC), width: 2), // Viền màu
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16), // Bo góc của nút
+          ),
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontSize: 20,
+            fontFamily: 'Lato',
+            color: Color(0xFF013CBC), // Màu chữ trùng màu viền
+          ),
+        ),
+      ),
+    );
+  }
+}

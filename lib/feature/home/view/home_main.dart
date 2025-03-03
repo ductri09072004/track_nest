@@ -13,22 +13,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 280,
-            pinned: true,
-            backgroundColor: Color(0xFFA561CA),
-            toolbarHeight: 55,
-            flexibleSpace: FlexibleSpaceBar(
-              background: HeaderMain(
-                showTitle: false,
-              ),
-            ),
-          ),
-          SliverFillRemaining(
+      body: Column(
+        children: [
+          HeaderMain(
+            title: 'My Transactions',
+          ), // Phần header
+          Expanded(
             child: BodyMain(),
-          ),
+          ), // Phần nội dung chiếm phần còn lại của màn hình
         ],
       ),
     );

@@ -63,6 +63,7 @@ class _ExpContentState extends State<ExpContent> {
   void navigateToDetailPage(BuildContext context, String title, Widget icon) {
     Navigator.push(
       context,
+      // ignore: inference_failure_on_instance_creation
       MaterialPageRoute(
         builder: (context) => EditMain(
           transid: title,
@@ -79,6 +80,15 @@ class _ExpContentState extends State<ExpContent> {
     }
 
     futureData = fetchData();
+    DateTime parseDate(String dateString) {
+      List<String> parts = dateString.split('/');
+      if (parts.length < 3)
+        return DateTime(2000, 1, 1); // Giá trị mặc định tránh lỗi
+      int day = int.parse(parts[0]);
+      int month = int.parse(parts[1]);
+      int year = int.parse(parts[2]);
+      return DateTime(year, month, day);
+    }
 
     return Padding(
       padding: const EdgeInsets.only(top: 12, bottom: 12, left: 20, right: 20),
@@ -94,9 +104,12 @@ class _ExpContentState extends State<ExpContent> {
           }
 
           final transactions = snapshot.data!
-            ..sort(
-              (a, b) => (b['date'] as String).compareTo(a['date'] as String),
-            );
+            ..sort((a, b) {
+              DateTime dateA = parseDate(a['date'] as String);
+              DateTime dateB = parseDate(b['date'] as String);
+              return dateB
+                  .compareTo(dateA); // Sắp xếp giảm dần (mới nhất trước)
+            });
 
           var groupedByMonthYear = <String, List<Map<String, dynamic>>>{};
           for (final transaction in transactions) {
@@ -125,7 +138,7 @@ class _ExpContentState extends State<ExpContent> {
                   return buildExpenseRow(
                     IconDisplayScreen(cateId: transaction['cate_id'] as String),
                     transaction['cate_id'] as String? ?? 'null',
-                    '${transaction['type'] == 'expense' ? '-' : '+'}${formatCurrency(int.parse(transaction['money'].toString()))}đ',
+                    '${transaction['type'] == 'expense' ? '-' : '+'}${formatCurrency(int.parse(transaction['money'].toString()))} VND',
                     transaction['type'] == 'expense',
                     monthYear,
                     transaction['trans_id'] as String? ?? 'null',
@@ -149,9 +162,9 @@ class _ExpContentState extends State<ExpContent> {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: const Color(0xFFFAF5FF),
+            color: const Color(0xFFDBEAFE),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: const Color(0xFFC084FC)),
+            border: Border.all(color: const Color(0xFF1F62F2)),
           ),
           padding: const EdgeInsets.all(16),
           child: Row(
@@ -179,22 +192,22 @@ class _ExpContentState extends State<ExpContent> {
   }
 
   static const TextStyle titleicon = TextStyle(
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: 'Lato',
   );
   static const TextStyle titledate = TextStyle(
     fontSize: 12,
-    fontFamily: 'Lato_Light',
+    fontFamily: 'Lato',
     color: Color(0xFF808080),
   );
   static const TextStyle titleprice = TextStyle(
     fontSize: 16,
-    fontFamily: 'Lato_Regular',
+    fontFamily: 'Lato',
     color: Color(0xFFF44336),
   );
   static const TextStyle titleprice2 = TextStyle(
     fontSize: 16,
-    fontFamily: 'Lato_Regular',
+    fontFamily: 'Lato',
     color: Color(0xFF5CB338),
   );
 }

@@ -11,9 +11,7 @@ class SettingPage extends StatelessWidget {
       body: Stack(
         children: [
           HeaderMain(
-            showIcons: false,
-            showHorizontalList: false,
-            showBalance: false,
+            title: 'Setting',
           ),
           BodyMain(),
         ],

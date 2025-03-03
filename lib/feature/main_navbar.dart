@@ -46,15 +46,16 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed, // Đảm bảo màu nền hiển thị đúng
+        backgroundColor: Colors.white, // Màu nền navbar
+        showSelectedLabels: false, // Ẩn label khi icon được chọn
+        showUnselectedLabels: false, // Ẩn label khi icon chưa được chọn
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-        backgroundColor: const Color.fromARGB(255, 253, 253, 253),
-        selectedItemColor: Colors.white, // Màu của mục được chọn
-        unselectedItemColor: Colors.grey, // Màu của mục chưa được chọn
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(

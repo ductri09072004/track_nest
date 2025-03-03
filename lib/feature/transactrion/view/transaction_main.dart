@@ -89,7 +89,7 @@ class _TransactionMainState extends State<TransactionMain> {
 
   Future<void> _loadInterstitialAd() async {
     await InterstitialAd.load(
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // ID quảng cáo test
+      adUnitId: 'ca-app-pub-3940256099942544/5224354917',
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
@@ -125,7 +125,7 @@ class _TransactionMainState extends State<TransactionMain> {
     });
     try {
       final url = Uri.parse(
-        'http://3.26.221.69:5000/api/transactions', //192.168.1.16
+        'http://3.26.221.69:5000/api/transactions',
       );
       String? imageUrl;
       if (_selectedImage != null) {
