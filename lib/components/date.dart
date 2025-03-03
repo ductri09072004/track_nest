@@ -21,10 +21,10 @@ class _HorizontalListState extends State<HorizontalList> {
 
   // Hàm tạo danh sách các tháng từ thời điểm hiện tại
   void _generateMonthsList() {
-    final currentDate = DateTime.now();
+    var currentDate = DateTime.now();
     items = List.generate(12, (index) {
-      final monthDate = DateTime(currentDate.year, currentDate.month + index);
-      final monthName = _getMonthName(monthDate.month);
+      var monthDate = DateTime(currentDate.year, currentDate.month + index);
+      var monthName = _getMonthName(monthDate.month);
       return '$monthName ${monthDate.year}';
     });
   }
@@ -50,8 +50,8 @@ class _HorizontalListState extends State<HorizontalList> {
 
   // Hàm để đặt mặc định tháng hiện tại là mục được chọn
   void _setSelectedItem() {
-    final currentDate = DateTime.now();
-    final currentMonthYear =
+    var currentDate = DateTime.now();
+    var currentMonthYear =
         '${_getMonthName(currentDate.month)} ${currentDate.year}';
 
     // Kiểm tra xem tháng hiện tại có trong danh sách items không

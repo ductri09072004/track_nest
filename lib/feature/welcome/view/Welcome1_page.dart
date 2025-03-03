@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:testverygood/feature/main_navbar.dart';
 import 'package:testverygood/feature/welcome/components/page1.dart';
 import 'package:testverygood/feature/welcome/components/page2.dart';
+import 'package:testverygood/feature/main_navbar.dart';
 
 class WelcomeSlider extends StatefulWidget {
   const WelcomeSlider({super.key});

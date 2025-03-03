@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TimePickerComponent extends StatefulWidget {
-  const TimePickerComponent({required this.onDateSelected, super.key});
+  const TimePickerComponent({super.key, required this.onDateSelected});
   final Function(DateTime) onDateSelected;
 
   @override
