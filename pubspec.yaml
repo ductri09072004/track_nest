@@ -23,6 +23,9 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   uuid: ^4.5.1
   flutter_launcher_icons: ^0.14.3
+  flutter_dotenv: ^5.2.1
+  fl_chart: ^0.70.2
+  google_mobile_ads: ^5.3.1
   month_picker_dialog: ^6.0.3
 
 dev_dependencies:
@@ -42,6 +45,7 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
+  - .env
   - lib/assets/icon/
   - lib/assets/svg/
   - lib/assets/icon/active_navbar/

@@ -5,132 +5,78 @@ import 'package:testverygood/components/date.dart';
 import 'package:testverygood/components/selectMonth.dart';
 import 'package:testverygood/components/filterSearch.dart';
 
-class HeaderMain extends StatefulWidget {
-  const HeaderMain({
-    super.key,
-    this.showBalance = true,
-    this.showIcons = true,
-    this.showHorizontalList = true,
-    this.showTitle = true,
-  });
+class HeaderMain extends StatelessWidget {
+  final String title; // Thêm tham số tiêu đề
 
-  final bool showBalance;
-  final bool showIcons;
-  final bool showHorizontalList;
-  final bool showTitle;
-
-  @override
-  _HeaderMainState createState() => _HeaderMainState();
-}
-
-class _HeaderMainState extends State<HeaderMain> {
-  ValueNotifier<DateTime> selectedMonth = ValueNotifier<DateTime>(DateTime.now());
+  const HeaderMain({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: Container(
-            color: const Color(0xFFA561CA),
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xFFFFFFFF),
+        border: Border(
+          bottom: BorderSide(
+            color: Color(0xFFCFCFCF), // Màu viền dưới
           ),
         ),
-        Positioned.fill(
-          top: -290,
-          right: -180,
-          child: SvgPicture.asset(
-            'lib/assets/svg/Background.svg',
-            fit: BoxFit.cover,
-          ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 55,
-                left: 20,
-                right: 20,
-              ),
-              child: Row(
-                children: [
-                  const Spacer(),
-                  if (widget.showIcons)
-                    GestureDetector(
-                      onTap: () => showMonthPickerDialog(
-                          context, selectedMonth,), // Gọi từ selectMonth.dart
-                      child: SvgPicture.asset(
-                        'lib/assets/icon/home_icon/calendar_icon.svg',
-                      ),
-                    )
-                  else
-                    const SizedBox(width: 24),
-                  const SizedBox(width: 24),
-                  if (widget.showIcons)
-                    GestureDetector(
-                      onTap: () =>
-                          showSearchDialog(context), // Gọi từ filterSearch.dart
-                      child: SvgPicture.asset(
-                        'lib/assets/icon/home_icon/search_icon.svg',
-                      ),
-                    )
-                  else
-                    const SizedBox(width: 24),
-                ],
-              ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 55,
+              left: 20,
+              right: 20,
             ),
-            const SizedBox(height: 10),
-            if (widget.showHorizontalList) const HorizontalList(),
-            const SizedBox(height: 30),
-            if (widget.showBalance)
-              const Padding(
-                padding: EdgeInsets.only(
-                  left: 20,
-                  right: 20,
+            child: Row(
+              children: [
+                Text(
+                  title, // Thay thế "Hello" bằng giá trị truyền vào
+                  style: texttop,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Current Balance',
-                      style: texttop,
-                    ),
-                    Text(
-                      '2.000.000 đ',
-                      style: whiteTextStyle,
-                    ),
-                  ],
+                const Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('chọn ngày!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                  child: SvgPicture.asset(
+                    'lib/assets/icon/home_icon/calendar_icon.svg',
+                  ),
                 ),
-              ),
-            if (widget.showTitle)
-              const Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Setting',
-                      style: texttitle,
-                    ),
-                  ],
+                const SizedBox(width: 24),
+                GestureDetector(
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('tìm kiếm'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                  child: SvgPicture.asset(
+                    'lib/assets/icon/home_icon/search_icon.svg',
+                  ),
                 ),
-              ),
-          ],
-        ),
-      ],
+              ],
+            ),
+          ),
+          const SizedBox(height: 32),
+          const HorizontalList(),
+        ],
+      ),
     );
   }
 
-  static const TextStyle whiteTextStyle = TextStyle(
-    color: Colors.white,
-    fontSize: 36,
-    fontWeight: FontWeight.bold,
+  static const TextStyle texttop = TextStyle(
+    color: Colors.black,
+    fontSize: 18,
     fontFamily: 'Lato',
   );
-
-  static const TextStyle texttop =
-      TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'Lato');
-
-  static const TextStyle texttitle =
-      TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'Lato');
 }

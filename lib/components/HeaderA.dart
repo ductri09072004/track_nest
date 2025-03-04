@@ -3,10 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class HeaderA extends StatelessWidget implements PreferredSizeWidget {
   const HeaderA({
-    Key? key,
+    super.key,
     required this.title,
     this.onBack,
-  }) : super(key: key);
+  });
   final String title;
   final VoidCallback? onBack;
 
@@ -16,19 +16,8 @@ class HeaderA extends StatelessWidget implements PreferredSizeWidget {
       preferredSize: const Size.fromHeight(kToolbarHeight),
       child: Stack(
         children: [
-          Positioned.fill(
-            child: Container(
-              color: const Color(0xFFA561CA), // Màu nền tím
-            ),
-          ),
-          Positioned.fill(
-            child: SvgPicture.asset(
-              'lib/assets/svg/Background.svg',
-              fit: BoxFit.cover,
-            ),
-          ),
           AppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Color(0xFFFFFFFF),
             elevation: 0, // Xóa bóng của AppBar
             leading: IconButton(
               icon: SvgPicture.asset(

@@ -7,9 +7,8 @@ import 'package:testverygood/components/friendToggle.dart';
 import 'package:testverygood/components/input.dart';
 
 class SplitPage extends StatefulWidget {
-  final String data;
-
   const SplitPage({Key? key, this.data = ''}) : super(key: key);
+  final String data;
 
   @override
   _SplitPageState createState() => _SplitPageState();

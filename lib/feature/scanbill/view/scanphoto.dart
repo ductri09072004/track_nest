@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:testverygood/components/HeaderA.dart';
+import 'package:testverygood/feature/scanbill/components/Nest_AI.dart';
 import 'package:testverygood/feature/scanbill/components/btn_add.dart';
 import 'package:testverygood/feature/scanbill/components/btn_success.dart';
+import 'package:testverygood/feature/scanbill/components/Gpt_AI.dart';
 
 class ImagePickerScreen extends StatefulWidget {
+  const ImagePickerScreen({super.key});
+
   @override
   _ImagePickerScreenState createState() => _ImagePickerScreenState();
 }
@@ -14,84 +18,58 @@ class ImagePickerScreen extends StatefulWidget {
 class _ImagePickerScreenState extends State<ImagePickerScreen> {
   File? _imageFile;
   String _extractedText = 'No content yet';
+  String _selectedModel = 'Nest_AI';
 
   final ImagePicker _picker = ImagePicker();
 
+  void _updateModel(String model) {
+    setState(() {
+      _selectedModel = model;
+    });
+  }
+
   Future<void> _pickImage(ImageSource source) async {
-    final XFile? pickedFile = await _picker.pickImage(source: source);
+    final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
-        _extractedText = 'Đang xử lý...';
+        _extractedText = '$_selectedModel is scanning...'; // Cập nhật model AI
       });
-      // Thực hiện OCR
-      await _extractText(_imageFile!);
+
+      if (_selectedModel == 'Nest_AI') {
+        await _nestAI(_imageFile!);
+      } else {
+        await _gptAI(_imageFile!);
+      }
     }
   }
 
-  Future<void> _extractText(File imageFile) async {
+  Future<void> _gptAI(File imageFile) async {
     final inputImage = InputImage.fromFile(imageFile);
     final textRecognizer = TextRecognizer();
 
     try {
       final recognizedText = await textRecognizer.processImage(inputImage);
+      var rawText = recognizedText.text;
 
-      final regex = RegExp(
-          r'[+-]?\d{1,3}(?:,\d{3})*(?:\.\d+)?\s*(VND|đ)?'); // Bao gồm cả số âm
+      // Gửi văn bản OCR đến GPT để lấy tổng tiền
+      var gptResponse = await GptService().getTotalAmount(rawText);
 
-      List<String> filteredLines = recognizedText.text
-          .split('\n')
-          .where((line) => regex.hasMatch(line))
-          .map((line) {
-            final match = regex.firstMatch(line);
-            if (match != null) {
-              String cleanText = match.group(0)!;
-              cleanText = cleanText.replaceAll(
-                RegExp(r'\s*(VND|đ)'),
-                '',
-              ); // Xóa đơn vị tiền tệ
-              return cleanText;
-            }
-            return '';
-          })
-          .where((line) => line.isNotEmpty)
-          .toSet()
-          .toList();
-
-      if (filteredLines.isEmpty) {
-        setState(() {
-          _extractedText = 'No valid text found';
-        });
-        return;
-      }
-
-      // Chuyển đổi danh sách thành số
-      List<double> amounts = filteredLines
-          .map((line) => double.tryParse(line.replaceAll(',', '')) ?? 0)
-          .toList();
-
-      // Tách số dương và số âm
-      List<double> positiveNumbers = amounts.where((num) => num > 0).toList();
-      List<double> negativeNumbers = amounts.where((num) => num < 0).toList();
-
-      double maxAmount = positiveNumbers.isEmpty
-          ? 0
-          : positiveNumbers.reduce((a, b) => a > b ? a : b);
-      double totalNegative =
-          negativeNumbers.fold(0, (sum, num) => sum + num.abs());
-
-      double finalResult = maxAmount - totalNegative;
-
-      setState(() {
-        _extractedText = finalResult.toStringAsFixed(0);
-      });
+      setState(
+        () => _extractedText = gptResponse!,
+      ); // Nếu null, _extractedText sẽ là null
     } catch (e) {
-      setState(() {
-        _extractedText = 'An error occurred while processing: $e';
-      });
+      setState(() => _extractedText = 'No valid amount found');
     } finally {
       await textRecognizer.close();
     }
+  }
+
+  Future<void> _nestAI(File imageFile) async {
+    var result = await NestAI().processImage(imageFile);
+    setState(() {
+      _extractedText = result;
+    });
   }
 
   void _rescan() {
@@ -118,8 +96,6 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
                       maxScale: 5,
                       child: Image.file(
                         _imageFile!,
-                        fit:
-                            BoxFit.cover, // Giúp ảnh lấp đầy toàn bộ khung hình
                         width: double.infinity,
                         height: double.infinity,
                       ),
@@ -136,19 +112,18 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
                     ),
             ),
           ),
-          if (_imageFile == null ||
-              _extractedText == 'No valid text found' ||
-              _extractedText!.trim().isEmpty)
+          if (_imageFile == null || _extractedText == 'No valid amount found')
             ImagePickerOptions(
               onPickImage: () => _pickImage(ImageSource.gallery),
               onPickCam: () => _pickImage(ImageSource.camera),
               showWarning: _imageFile != null,
+              onModelSelected: _updateModel,
             )
           else
             BtnSuccess(
-              extractedText:
-                  _extractedText, // Truyền extractedText vào BtnSuccess
+              extractedText: _extractedText,
               onRescan: _rescan,
+              imageTransaction: _imageFile!.path,
             ),
         ],
       ),

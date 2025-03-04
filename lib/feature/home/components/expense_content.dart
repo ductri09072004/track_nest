@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:testverygood/bootstrap.dart';
+import 'package:testverygood/feature/home/components/icon_content.dart';
+import 'package:testverygood/feature/edit_transactions/edit_main.dart';
 
 class ExpContent extends StatefulWidget {
   const ExpContent({super.key});
@@ -30,15 +31,13 @@ class _ExpContentState extends State<ExpContent> {
     _loadUUID();
   }
 
-  // Hàm này chỉ tải UUID và trigger lại setState để cập nhật khi UUID có giá trị
   Future<void> _loadUUID() async {
-    var storedUUID = await storage.read(key: 'unique_id');
+    final storedUUID = await storage.read(key: 'unique_id');
     setState(() {
       uuid = storedUUID;
     });
   }
 
-  // Hàm để fetch dữ liệu từ API
   Future<List<Map<String, dynamic>>> fetchData() async {
     if (uuid == null) {
       throw Exception('UUID is not loaded');
@@ -61,15 +60,35 @@ class _ExpContentState extends State<ExpContent> {
     }
   }
 
+  void navigateToDetailPage(BuildContext context, String title, Widget icon) {
+    Navigator.push(
+      context,
+      // ignore: inference_failure_on_instance_creation
+      MaterialPageRoute(
+        builder: (context) => EditMain(
+          transid: title,
+          icon: icon,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Nếu uuid chưa được load, hiển thị CircularProgressIndicator
     if (uuid == null) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    // Gọi API và fetch data sau khi UUID có giá trị
     futureData = fetchData();
+    DateTime parseDate(String dateString) {
+      List<String> parts = dateString.split('/');
+      if (parts.length < 3)
+        return DateTime(2000, 1, 1); // Giá trị mặc định tránh lỗi
+      int day = int.parse(parts[0]);
+      int month = int.parse(parts[1]);
+      int year = int.parse(parts[2]);
+      return DateTime(year, month, day);
+    }
 
     return Padding(
       padding: const EdgeInsets.only(top: 12, bottom: 12, left: 20, right: 20),
@@ -81,42 +100,50 @@ class _ExpContentState extends State<ExpContent> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Lỗi: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('Không có dữ liệu'));
+            return const Center(child: Text('There are no transactions'));
           }
 
           final transactions = snapshot.data!
-            ..sort(
-              (a, b) => (b['date'] as String).compareTo(a['date'] as String),
-            );
+            ..sort((a, b) {
+              DateTime dateA = parseDate(a['date'] as String);
+              DateTime dateB = parseDate(b['date'] as String);
+              return dateB
+                  .compareTo(dateA); // Sắp xếp giảm dần (mới nhất trước)
+            });
 
-          // Nhóm giao dịch theo ngày
-          Map<String, List<Map<String, dynamic>>> groupedByDate = {};
-          for (var transaction in transactions) {
-            final date = transaction['date'] as String;
-            if (!groupedByDate.containsKey(date)) {
-              groupedByDate[date] = [];
+          var groupedByMonthYear = <String, List<Map<String, dynamic>>>{};
+          for (final transaction in transactions) {
+            final dateParts = (transaction['date'] as String).split('/');
+            if (dateParts.length < 3) {
+              continue;
             }
-            groupedByDate[date]!.add(transaction);
+            final monthYear =
+                '${dateParts[0]}/${dateParts[1]}/${dateParts[2]}'; // Định dạng MM/yy
+
+            if (!groupedByMonthYear.containsKey(monthYear)) {
+              groupedByMonthYear[monthYear] = [];
+            }
+            groupedByMonthYear[monthYear]!.add(transaction);
           }
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: groupedByDate.entries.map((entry) {
-              final date = entry.key;
-              final transactionsForDate = entry.value;
+            children: groupedByMonthYear.entries.map((entry) {
+              final monthYear = entry.key;
+              final transactionsForMonthYear = entry.value;
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  buildDateSection(date),
-                  ...transactionsForDate.map((transaction) {
-                    return buildExpenseRow(
-                      transaction['cate_id'] as String? ?? 'Không xác định',
-                      '${formatCurrency(int.parse(transaction['money'].toString()))}đ',
-                      transaction['type'] == 'expense',
-                    );
-                  }).toList(),
-                ],
+                children: transactionsForMonthYear.map((transaction) {
+                  return buildExpenseRow(
+                    IconDisplayScreen(cateId: transaction['cate_id'] as String),
+                    transaction['cate_id'] as String? ?? 'null',
+                    '${transaction['type'] == 'expense' ? '-' : '+'}${formatCurrency(int.parse(transaction['money'].toString()))} VND',
+                    transaction['type'] == 'expense',
+                    monthYear,
+                    transaction['trans_id'] as String? ?? 'null',
+                  );
+                }).toList(),
               );
             }).toList(),
           );
@@ -125,60 +152,62 @@ class _ExpContentState extends State<ExpContent> {
     );
   }
 
-  Widget buildDateSection(String date) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          date,
-          style: titleText,
+  Widget buildExpenseRow(Widget iconWidget, String title, String price,
+      bool isRed, String date, String trans) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      child: GestureDetector(
+        onTap: () {
+          navigateToDetailPage(context, trans, iconWidget);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFFDBEAFE),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: const Color(0xFF1F62F2)),
+          ),
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              iconWidget,
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: titleicon),
+                  const SizedBox(height: 4),
+                  Text(date, style: titledate),
+                ],
+              ),
+              const Spacer(),
+              Text(
+                price,
+                style: isRed ? titleprice : titleprice2,
+              ),
+            ],
+          ),
         ),
-        const SizedBox(height: 12),
-        Container(
-          height: 2,
-          color: const Color(0xFFD9D9D9),
-          width: double.infinity,
-        ),
-      ],
+      ),
     );
   }
 
-  Widget buildExpenseRow(String title, String price, bool isRed) {
-    return Row(
-      children: [
-        SvgPicture.asset('lib/assets/icon/home_icon/girl_icon.svg'),
-        const SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: titleicon),
-          ],
-        ),
-        const Spacer(),
-        Text(
-          price,
-          style: isRed ? titleprice : titleprice2,
-        ),
-      ],
-    );
-  }
-
-  static const TextStyle titleText = TextStyle(
+  static const TextStyle titleicon = TextStyle(
     fontSize: 18,
     fontFamily: 'Lato',
   );
-  static const TextStyle titleicon = TextStyle(
-    fontSize: 16,
+  static const TextStyle titledate = TextStyle(
+    fontSize: 12,
     fontFamily: 'Lato',
+    color: Color(0xFF808080),
   );
   static const TextStyle titleprice = TextStyle(
     fontSize: 16,
-    fontFamily: 'Lato_Regular',
+    fontFamily: 'Lato',
     color: Color(0xFFF44336),
   );
   static const TextStyle titleprice2 = TextStyle(
     fontSize: 16,
-    fontFamily: 'Lato_Regular',
+    fontFamily: 'Lato',
     color: Color(0xFF5CB338),
   );
 }

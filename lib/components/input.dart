@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 class InputField extends StatefulWidget {
   const InputField({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.controller,
     this.isNumeric = false,
@@ -13,7 +13,7 @@ class InputField extends StatefulWidget {
     this.maxLength = 20,
     this.isSmallText = false,
     this.onChanged,
-  }) : super(key: key);
+  });
   final String hintText;
   final TextEditingController controller;
   final bool isNumeric;
@@ -42,15 +42,15 @@ class _InputFieldState extends State<InputField> {
 
   void _handleInputChange(String value) {
     // Xóa dấu phân cách nghìn để lấy giá trị thực
-    var numericString = _removeThousandsSeparator(value);
-    var newValue = int.tryParse(numericString) ?? 0;
+    final numericString = _removeThousandsSeparator(value);
+    final newValue = int.tryParse(numericString) ?? 0;
 
     setState(() {
       rawValue = newValue; // Cập nhật giá trị thực
     });
 
     // Định dạng số có dấu chấm
-    var formattedValue = _formatNumber(numericString);
+    final formattedValue = _formatNumber(numericString);
 
     // Cập nhật TextField mà không làm mất vị trí con trỏ
     widget.controller.value = TextEditingValue(
@@ -69,7 +69,7 @@ class _InputFieldState extends State<InputField> {
     final inputStyle = widget.isSmallText ? txtsmall : txt;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: EdgeInsets.zero,
       child: TextField(
         controller: widget.controller,
         keyboardType:
@@ -105,8 +105,8 @@ class _InputFieldState extends State<InputField> {
 
 class InputClassic extends StatelessWidget {
   const InputClassic({
-    super.key,
     required this.hintText,
+    super.key,
     this.controller,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
@@ -168,9 +168,9 @@ class InputClassic extends StatelessWidget {
 
 class InputWithClearIcon extends StatefulWidget {
   const InputWithClearIcon({
-    super.key,
     required this.hintText,
     required this.controller,
+    super.key,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
   });

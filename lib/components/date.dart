@@ -8,7 +8,6 @@ class HorizontalList extends StatefulWidget {
 }
 
 class _HorizontalListState extends State<HorizontalList> {
-  // Khởi tạo items là một danh sách rỗng trước, và sẽ được cập nhật trong initState
   List<String> items = [];
   String? selectedItem;
 
@@ -19,17 +18,15 @@ class _HorizontalListState extends State<HorizontalList> {
     _setSelectedItem();
   }
 
-  // Hàm tạo danh sách các tháng từ thời điểm hiện tại
   void _generateMonthsList() {
-    var currentDate = DateTime.now();
+    final currentDate = DateTime.now();
     items = List.generate(12, (index) {
-      var monthDate = DateTime(currentDate.year, currentDate.month + index);
-      var monthName = _getMonthName(monthDate.month);
+      final monthDate = DateTime(currentDate.year, currentDate.month + index);
+      final monthName = _getMonthName(monthDate.month);
       return '$monthName ${monthDate.year}';
     });
   }
 
-  // Hàm để lấy tên tháng từ số tháng
   String _getMonthName(int month) {
     const monthNames = [
       'January',
@@ -48,13 +45,11 @@ class _HorizontalListState extends State<HorizontalList> {
     return monthNames[month - 1];
   }
 
-  // Hàm để đặt mặc định tháng hiện tại là mục được chọn
   void _setSelectedItem() {
-    var currentDate = DateTime.now();
-    var currentMonthYear =
+    final currentDate = DateTime.now();
+    final currentMonthYear =
         '${_getMonthName(currentDate.month)} ${currentDate.year}';
 
-    // Kiểm tra xem tháng hiện tại có trong danh sách items không
     if (items.contains(currentMonthYear)) {
       selectedItem = currentMonthYear;
     }
@@ -62,47 +57,46 @@ class _HorizontalListState extends State<HorizontalList> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 49,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: items.map((item) {
-            final isSelected = item == selectedItem;
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedItem = item;
-                });
-              },
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                ), // Khoảng cách giữa các phần tử
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                decoration: BoxDecoration(
-                  color:
-                      isSelected ? const Color(0xFF8B3BB7) : Colors.transparent,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Center(
-                  child: Text(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start, // Canh lề trên
+        children: items.map((item) {
+          final isSelected = item == selectedItem;
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedItem = item;
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // Không chiếm hết chiều cao
+                children: [
+                  Text(
                     item,
                     style: TextStyle(
-                      color: isSelected
-                          ? Colors.white
-                          : const Color.fromARGB(255, 255, 255, 255),
+                      color: isSelected ? Colors.black : Colors.grey,
                       fontSize: 16,
-                      fontFamily: 'Lato',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
+                  if (isSelected)
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      width: 111, // Độ dài của thanh dưới chữ
+                      height: 4, // Độ dày của thanh
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF013CBC),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                ],
               ),
-            );
-          }).toList(),
-        ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

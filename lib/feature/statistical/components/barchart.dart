@@ -1,57 +1,82 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:fl_chart/fl_chart.dart';
+import 'package:intl/intl.dart';
+import 'package:testverygood/bootstrap.dart';
 
 class Barchart extends StatefulWidget {
-  const Barchart({super.key});
+  const Barchart({required this.tabType, super.key});
+  final String tabType;
 
   @override
   _BarchartState createState() => _BarchartState();
 }
 
 class _BarchartState extends State<Barchart> {
-  Map<String, dynamic>? customerData;
+  List<Map<String, dynamic>> transactions = [];
   String errorMessage = '';
+  String? uuid;
+  bool isLoading = true;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   fetchCustomerData();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _loadUUID();
+  }
 
-  // Future<void> fetchCustomerData() async {
-  //   try {
-  //     final response = await http
-  //         .get(Uri.parse('http://blueduck97.ddns.net:5000/api/request'));
+  Future<void> _loadUUID() async {
+    final storedUUID = await storage.read(key: 'unique_id');
+    setState(() {
+      uuid = storedUUID;
+    });
 
-  //     if (response.statusCode == 200) {
-  //       var rawData = response.body;
-  //       print('Raw Data từ API: $rawData');
+    if (uuid != null) {
+      await fetchData();
+    }
+  }
 
-  //       var data = json.decode(rawData);
+  Future<void> fetchData() async {
+    if (!mounted) return;
+    setState(() {
+      isLoading = true;
+      errorMessage = '';
+    });
 
-  //       if (data is List && data.isNotEmpty) {
-  //         setState(() {
-  //           customerData = data.first as Map<String, dynamic>;
-  //         });
-  //       } else if (data is Map<String, dynamic>) {
-  //         setState(() {
-  //           customerData = data;
-  //         });
-  //       } else {
-  //         setState(() {
-  //           errorMessage = 'Dữ liệu từ API không đúng định dạng!';
-  //         });
-  //       }
-  //     } else {
-  //       setState(() {
-  //         errorMessage = 'Lỗi kết nối API: ${response.statusCode}';
-  //       });
-  //     }
-  //   } catch (e) {
-  //     setState(() {
-  //       errorMessage = 'Lỗi khi tải dữ liệu: $e';
-  //     });
-  //   }
-  // }
+    try {
+      final response =
+          await http.get(Uri.parse('http://3.26.221.69:5000/api/transactions'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        final allTransactions = data.entries
+            .map((entry) => entry.value as Map<String, dynamic>)
+            .toList();
+
+        var filteredTransactions = allTransactions
+            .where(
+              (transaction) =>
+                  transaction['user_id'] == uuid &&
+                  transaction['type'] == widget.tabType,
+            )
+            .toList();
+
+        setState(() {
+          transactions = filteredTransactions;
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Không thể tải dữ liệu');
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          errorMessage = 'Lỗi khi tải dữ liệu: $e';
+          isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,45 +101,141 @@ class _BarchartState extends State<Barchart> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: errorMessage.isNotEmpty
-              ? Center(
-                  child: Text(
-                    errorMessage,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                )
-              : customerData == null
-                  ? const Center(child: CircularProgressIndicator())
-                  : _buildUserList(),
+          child: isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : errorMessage.isNotEmpty
+                  ? Center(
+                      child: Text(
+                        errorMessage,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    )
+                  : transactions.isEmpty
+                      ? const Center(child: Text('There are no transactions'))
+                      : _buildChartWithLegend(),
         ),
       ),
     );
   }
 
-  Widget _buildUserList() {
-    final userList = customerData?['user1'];
+  Widget _buildChartWithLegend() {
+    final totalMoney = transactions.fold<double>(
+      0,
+      (sum, transaction) => sum + (transaction['money'] as num).toDouble(),
+    );
 
-    if (userList == null) {
-      return const Center(child: Text('Không có dữ liệu'));
+    final categoryData = <String, Map<String, double>>{};
+    for (final transaction in transactions) {
+      final category = transaction['cate_id'].toString();
+      final money = (transaction['money'] as num).toDouble();
+
+      if (!categoryData.containsKey(category)) {
+        categoryData[category] = {'money': 0, 'percentage': 0};
+      }
+
+      categoryData[category]!['money'] =
+          (categoryData[category]!['money'] ?? 0) + money;
     }
 
-    if (userList is! List) {
-      return const Center(
-        child: Text('Lỗi: Dữ liệu không phải danh sách'),
+    // Tính phần trăm từng loại
+    if (totalMoney > 0) {
+      categoryData.forEach((key, value) {
+        value['percentage'] = (value['money']! / totalMoney) * 100;
+      });
+    }
+
+    const List<Color> colors = Colors.primaries;
+
+    final sections = categoryData.entries.map((entry) {
+      final index = categoryData.keys.toList().indexOf(entry.key);
+      final money = entry.value['money']!;
+      final percentage = entry.value['percentage']!;
+
+      return PieChartSectionData(
+        value: money,
+        title: '${percentage.toStringAsFixed(1)}%',
+        color: colors[index % colors.length],
+        radius: 30,
+        titleStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       );
-    }
+    }).toList();
 
-    if (userList.isEmpty) {
-      return const Center(child: Text('Danh sách rỗng'));
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: userList
-          .whereType<Map<String, dynamic>>() // Lọc phần tử đúng kiểu
-          .map((user) {
-        return Text('Tên: ${user["name"] ?? "Không có dữ liệu"}');
-      }).toList(),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(width: 40),
+        Expanded(
+          child: Center(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  child: PieChart(
+                    PieChartData(
+                      sections: sections,
+                      centerSpaceRadius: 60,
+                      sectionsSpace: 2,
+                      borderData: FlBorderData(show: false),
+                    ),
+                  ),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Total:',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'lato_semi',
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      '${NumberFormat("#,###", "vi_VN").format(totalMoney)} đ',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 60),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: categoryData.entries.map((entry) {
+              var index = categoryData.keys.toList().indexOf(entry.key);
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 12,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        color: colors[index % colors.length],
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(entry.key),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 }

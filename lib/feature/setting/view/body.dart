@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:testverygood/feature/add_categories/view/categorylist_main.dart';
 import 'package:testverygood/feature/add_friends/app.dart';
+import 'package:testverygood/feature/subcription/app.dart';
 
 class BodyMain extends StatelessWidget {
   const BodyMain({super.key});
@@ -21,7 +22,8 @@ class BodyMain extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 12, bottom: 110, right: 20, left: 20),
+              padding: const EdgeInsets.only(
+                  top: 12, bottom: 110, right: 20, left: 20),
               child: Column(
                 children: [
                   InkWell(
@@ -40,7 +42,9 @@ class BodyMain extends StatelessWidget {
                           SvgPicture.asset(
                             'lib/assets/icon/setting_icon/people.svg',
                           ),
-                          const SizedBox(width: 10,), // Khoảng cách giữa icon và text
+                          const SizedBox(
+                            width: 10,
+                          ), // Khoảng cách giữa icon và text
                           const Text('Group Friend', style: txtpeo),
                           const Spacer(),
                           SvgPicture.asset(
@@ -71,6 +75,35 @@ class BodyMain extends StatelessWidget {
                             width: 10,
                           ), // Khoảng cách giữa icon và text
                           const Text('Categories', style: txtpeo),
+                          const Spacer(),
+                          SvgPicture.asset(
+                            'lib/assets/icon/setting_icon/next.svg',
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UpgradeAccountPage(),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            'lib/assets/icon/setting_icon/premium_icon.svg',
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ), // Khoảng cách giữa icon và text
+                          const Text('Subcription', style: txtpeo),
                           const Spacer(),
                           SvgPicture.asset(
                             'lib/assets/icon/setting_icon/next.svg',

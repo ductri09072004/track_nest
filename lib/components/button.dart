@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class ToggleSwitch extends StatelessWidget {
   const ToggleSwitch({
-    super.key,
     required this.value,
     required this.onChanged,
+    super.key,
   });
   final bool value;
   final ValueChanged<bool> onChanged;
@@ -45,8 +45,8 @@ class Button extends StatelessWidget {
   const Button({
     required this.label,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final String label;
   final VoidCallback onPressed;
 
@@ -67,6 +67,44 @@ class Button extends StatelessWidget {
           fontSize: 20,
           fontFamily: 'Lato',
           color: Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
+class OutlineButton extends StatelessWidget {
+  const OutlineButton({
+    required this.label,
+    required this.onPressed,
+    super.key,
+  });
+
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity, // Chiếm toàn bộ chiều ngang
+      child: OutlinedButton(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(
+              vertical: 12), // Điều chỉnh padding dọc
+          side:
+              const BorderSide(color: Color(0xFF013CBC), width: 2), // Viền màu
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16), // Bo góc của nút
+          ),
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontSize: 20,
+            fontFamily: 'Lato',
+            color: Color(0xFF013CBC), // Màu chữ trùng màu viền
+          ),
         ),
       ),
     );
