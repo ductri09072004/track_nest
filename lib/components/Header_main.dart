@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:testverygood/components/categories.dart';
 import 'package:testverygood/components/date.dart';
-import 'package:testverygood/components/selectMonth.dart';
 import 'package:testverygood/components/filterSearch.dart';
+import 'package:testverygood/components/selectMonth.dart';
 
 class HeaderMain extends StatelessWidget {
   final String title; // Thêm tham số tiêu đề
@@ -12,6 +11,7 @@ class HeaderMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectedMonth = ValueNotifier<DateTime>(DateTime.now());
     return Container(
       decoration: const BoxDecoration(
         color: Color(0xFFFFFFFF),
@@ -38,18 +38,13 @@ class HeaderMain extends StatelessWidget {
                 ),
                 const Spacer(),
                 GestureDetector(
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('chọn ngày!'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  },
+                  onTap: () => showMonthPickerDialog(
+                      context, selectedMonth,), // Gọi từ selectMonth.dart
                   child: SvgPicture.asset(
                     'lib/assets/icon/home_icon/calendar_icon.svg',
                   ),
                 ),
+
                 const SizedBox(width: 24),
                 GestureDetector(
                   onTap: () {
@@ -60,9 +55,13 @@ class HeaderMain extends StatelessWidget {
                       ),
                     );
                   },
-                  child: SvgPicture.asset(
-                    'lib/assets/icon/home_icon/search_icon.svg',
-                  ),
+                  child: GestureDetector(
+                      onTap: () =>
+                          showSearchDialog(context), // Gọi từ filterSearch.dart
+                      child: SvgPicture.asset(
+                        'lib/assets/icon/home_icon/search_icon.svg',
+                      ),
+                    ),
                 ),
               ],
             ),

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CategoriesText extends StatefulWidget {
   const CategoriesText({
-    required this.onCategorySelected, super.key,
+    super.key,
+    // required this.isExpense,
+    required this.onCategorySelected,
   });
 
+  // final bool isExpense;
+  // ignore: inference_failure_on_function_return_type
   final Function(String) onCategorySelected;
 
   @override
@@ -14,17 +19,42 @@ class CategoriesText extends StatefulWidget {
 }
 
 class _CategoriesTextState extends State<CategoriesText> {
-  List<dynamic>? categoriesData;
+  final storage = const FlutterSecureStorage();
+  String? uuid;
+  List<Map<String, dynamic>> categories = [];
   String errorMessage = '';
   String? selectedCategory;
 
   @override
   void initState() {
     super.initState();
-    fetchCategoriesData();
+    _loadUUID();
   }
 
-  Future<void> fetchCategoriesData() async {
+  // @override
+  // void didUpdateWidget(covariant CategoriesText oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   if (oldWidget.isExpense != widget.isExpense) {
+  //     fetchCustomerData();
+  //   }
+  // }
+
+  Future<void> _loadUUID() async {
+    var storedUUID = await storage.read(key: 'unique_id');
+    setState(() {
+      uuid = storedUUID;
+    });
+
+    if (uuid != null) {
+      await fetchCustomerData();
+    } else {
+      setState(() {
+        errorMessage = 'Không tìm thấy UUID!';
+      });
+    }
+  }
+
+  Future<void> fetchCustomerData() async {
     try {
       final response =
           await http.get(Uri.parse('http://3.26.221.69:5000/api/categories'));
@@ -33,36 +63,24 @@ class _CategoriesTextState extends State<CategoriesText> {
         final rawData = response.body;
         print('Raw Data từ API: $rawData');
 
-        try {
-          final data = json.decode(rawData);
+        // final Map<String, dynamic> data = json.decode(rawData);
+        final data = json.decode(rawData) as Map<String, dynamic>;
+        // Lọc danh mục theo user_id và type (expense/income)
+        final filteredCategories = data.entries
+            .where(
+              (entry) =>
+                  entry.value['user_id'] == uuid,
+                  // &&
+                  // entry.value['type'] ==
+                      // (widget.isExpense ? 'expense' : 'income'),
+            )
+            .map((entry) => entry.value as Map<String, dynamic>)
+            .toList();
 
-          if (data is Map<String, dynamic>) {
-            // Chuyển đổi Map thành List bằng cách lấy values
-            final validCategories = data.values.where((category) {
-              return category is Map<String, dynamic> &&
-                  category.containsKey('name');
-            }).toList();
-
-            if (validCategories.isNotEmpty) {
-              setState(() {
-                categoriesData = validCategories;
-                errorMessage = '';
-              });
-            } else {
-              setState(() {
-                errorMessage = 'API không có danh mục hợp lệ!';
-              });
-            }
-          } else {
-            setState(() {
-              errorMessage = 'Dữ liệu API không phải là danh sách hoặc Map!';
-            });
-          }
-        } catch (e) {
-          setState(() {
-            errorMessage = 'Lỗi khi phân tích JSON: $e';
-          });
-        }
+        setState(() {
+          categories = filteredCategories;
+          selectedCategory = null; // Reset lựa chọn khi đổi type
+        });
       } else {
         setState(() {
           errorMessage = 'Lỗi kết nối API: ${response.statusCode}';
@@ -75,8 +93,6 @@ class _CategoriesTextState extends State<CategoriesText> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -85,14 +101,14 @@ class _CategoriesTextState extends State<CategoriesText> {
               child:
                   Text(errorMessage, style: const TextStyle(color: Colors.red)),
             )
-          : categoriesData == null
+          : categories.isEmpty
               ? const Center(child: CircularProgressIndicator())
               : _buildCategoryList(),
     );
   }
 
   Widget _buildCategoryList() {
-    if (categoriesData == null || categoriesData!.isEmpty) {
+    if (categories.isEmpty) {
       return const Center(child: Text('Không có dữ liệu'));
     }
 
@@ -100,13 +116,8 @@ class _CategoriesTextState extends State<CategoriesText> {
       scrollDirection: Axis.horizontal,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: categoriesData!.map((category) {
-          if (category is! Map<String, dynamic>) {
-            return const SizedBox(); // Bỏ qua nếu dữ liệu không hợp lệ
-          }
-
-          final categoryName =
-              (category['name'] ?? 'Không có dữ liệu').toString();
+        children: categories.map((category) {
+          final categoryName = category['name'] ?? 'Không có dữ liệu';
           final isSelected = selectedCategory == categoryName;
 
           return GestureDetector(
@@ -115,7 +126,6 @@ class _CategoriesTextState extends State<CategoriesText> {
                 selectedCategory = categoryName;
               });
               widget.onCategorySelected(categoryName);
-              print('Bạn đã chọn: $categoryName');
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -132,12 +142,12 @@ class _CategoriesTextState extends State<CategoriesText> {
               child: Column(
                 children: [
                   Text(
-                    '${category["icon"] ?? "Không có dữ liệu"}',
+                    '${category["icon"] ?? "❓"}',
                     style: const TextStyle(fontSize: 36),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    categoryName,
+                    categoryName as String,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight:

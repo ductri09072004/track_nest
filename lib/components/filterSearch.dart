@@ -22,7 +22,7 @@ void showSearchDialog(BuildContext context) {
           children: [
             // Chọn Category
             const Text('Select Category:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
             const SizedBox(height: 8),
             CategoriesText(
               onCategorySelected: (String category) {
