@@ -1,20 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import 'package:testverygood/bootstrap.dart';
-
-class ExpenseData {
-  ExpenseData({
-    required this.percent,
-    required this.title,
-    required this.price,
-  });
-
-  final String percent;
-  final String title;
-  final String price;
-}
+import 'package:testverygood/components/data_api/content_barchart_data.dart';
 
 class Content extends StatefulWidget {
   const Content({required this.tabType, super.key});
@@ -33,73 +18,35 @@ class _ContentState extends State<Content> {
   @override
   void initState() {
     super.initState();
-    _loadUUID();
+    _initializeData();
   }
 
-  Future<void> _loadUUID() async {
-    final storedUUID = await storage.read(key: 'unique_id');
-    setState(() {
-      uuid = storedUUID;
-    });
-
-    if (uuid != null) {
-      await fetchData();
-    }
-  }
-
-  Future<void> fetchData() async {
-    if (!mounted) return;
-    setState(() {
-      isLoading = true;
-      errorMessage = '';
-    });
-
+  Future<void> _initializeData() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://3.26.221.69:5000/api/transactions'));
-
-      if (response.statusCode == 200) {
-        final decodedData = json.decode(response.body) as Map<String, dynamic>;
-        final transactions = decodedData.entries
-            .map((entry) => entry.value as Map<String, dynamic>)
-            .where(
-              (transaction) =>
-                  transaction['user_id'] == uuid &&
-                  transaction['type'] == widget.tabType,
-            )
-            .toList();
-
-        var categoryData = <String, double>{};
-        double totalMoney = 0.0;
-
-        for (final transaction in transactions) {
-          var category = transaction['cate_id'].toString();
-          var money = (transaction['money'] as num).toDouble();
-
-          totalMoney += money;
-          categoryData[category] = (categoryData[category] ?? 0) + money;
-        }
-
-        List<ExpenseData> formattedData = categoryData.entries.map((entry) {
-          double percentage = (entry.value / totalMoney) * 100;
-          return ExpenseData(
-            percent: '${percentage.toStringAsFixed(1)}%',
-            title: entry.key, // Thay thế bằng tên danh mục nếu có
-            price: '${NumberFormat("#,###", "vi_VN").format(entry.value)} VND',
-          );
-        }).toList();
-
+      final storedUUID = await loadUUID();
+      if (storedUUID == null) {
         setState(() {
-          data = formattedData;
+          errorMessage = 'Không tìm thấy UUID';
           isLoading = false;
         });
-      } else {
-        throw Exception('Không thể tải dữ liệu');
+        return;
       }
+
+      uuid = storedUUID;
+      final transactions = await fetchData(uuid!, widget.tabType);
+      setState(() {
+        data = processTransactions(transactions);
+        isLoading = false;
+      });
     } catch (e) {
       if (mounted) {
         setState(() {
           errorMessage = 'Lỗi khi tải dữ liệu: $e';
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
           isLoading = false;
         });
       }
@@ -108,8 +55,7 @@ class _ContentState extends State<Content> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
+    return Container(
       child: isLoading
           ? const Center(child: CircularProgressIndicator())
           : errorMessage.isNotEmpty

@@ -1,10 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:testverygood/components/button.dart';
-import 'package:testverygood/components/input.dart';
+import 'package:testverygood/components/component_app/button.dart';
+import 'package:testverygood/components/component_app/input.dart';
 import 'package:testverygood/feature/transactrion/components/Ex_In_btn.dart';
+import 'package:testverygood/components/data_api/add_cate.dart';
 
 class BodyMain extends StatefulWidget {
   const BodyMain({super.key});
@@ -16,15 +15,28 @@ class BodyMain extends StatefulWidget {
 class _BodyMainState extends State<BodyMain> {
   final storage = const FlutterSecureStorage();
   String? uuid;
-  bool isExpense = true; // Mặc định là 'expense'
+  bool isExpense = true;
 
   final TextEditingController iconController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final FocusNode iconFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _loadUUID();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        FocusScope.of(context).requestFocus(iconFocusNode);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    iconFocusNode.dispose();
+    super.dispose();
   }
 
   Future<void> _loadUUID() async {
@@ -34,49 +46,18 @@ class _BodyMainState extends State<BodyMain> {
     });
   }
 
-  Future<void> saveTransaction() async {
-    if (uuid == null) {
+  void _handleSaveTransaction() {
+    if (uuid != null) {
+      TransactionService.saveTransaction(
+        context: context,
+        uuid: uuid!,
+        icon: iconController.text,
+        name: nameController.text,
+        isExpense: isExpense,
+      );
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Không tìm thấy UUID!')),
-      );
-      return;
-    }
-
-    if (nameController.text.isEmpty || iconController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter all information!')),
-      );
-      return;
-    }
-
-    try {
-      final url = Uri.parse('http://3.26.221.69:5000/api/categories');
-
-      final transactionData = {
-        'icon': iconController.text,
-        'name': nameController.text,
-        'type': isExpense ? 'expense' : 'income',
-        'user_id': uuid,
-      };
-
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(transactionData),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Saved transaction successfully!')),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Save failed ${response.body}')),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Đã xảy ra lỗi: $e')),
       );
     }
   }
@@ -95,15 +76,18 @@ class _BodyMainState extends State<BodyMain> {
               labels: const ['Expenses', 'Income'],
               onToggle: (index) {
                 setState(() {
-                  isExpense = index ==
-                      0; // Nếu chọn "Expenses" thì true, ngược lại false
+                  isExpense = index == 0;
                 });
               },
             ),
             const SizedBox(height: 16),
             const Text('Icon', style: txmain),
             const SizedBox(height: 10),
-            InputClassic(controller: iconController, hintText: 'Add icon'),
+            InputClassic(
+              controller: iconController,
+              hintText: 'Add icon',
+              focusNode: iconFocusNode,
+            ),
             const SizedBox(height: 16),
             const Text('Category name', style: txmain),
             const SizedBox(height: 10),
@@ -114,7 +98,7 @@ class _BodyMainState extends State<BodyMain> {
                 Expanded(
                   child: Button(
                     label: 'Save',
-                    onPressed: saveTransaction,
+                    onPressed: _handleSaveTransaction,
                   ),
                 ),
               ],

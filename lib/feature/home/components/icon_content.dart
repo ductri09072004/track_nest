@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
+import 'package:testverygood/components/data_api/icon_data.dart';
 
 class IconDisplayScreen extends StatefulWidget {
   final String cateId;
@@ -13,59 +11,60 @@ class IconDisplayScreen extends StatefulWidget {
 }
 
 class _IconDisplayScreenState extends State<IconDisplayScreen> {
-  final storage = FlutterSecureStorage();
+  final DataService _dataService = DataService();
   String? uuid;
   List<Map<String, dynamic>> icons = [];
+  String errorMessage = '';
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _loadUUID();
+    _initialize();
   }
 
-  Future<void> _loadUUID() async {
-    final storedUUID = await storage.read(key: 'unique_id');
-    if (storedUUID != null) {
-      setState(() {
-        uuid = storedUUID;
-      });
-      await _fetchDataIcon(storedUUID);
-    }
-  }
-
-  Future<void> _fetchDataIcon(String uuid) async {
+  Future<void> _initialize() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://3.26.221.69:5000/api/categories'));
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body) as Map<String, dynamic>;
-        final iconList = data.entries
-            .map((entry) => entry.value as Map<String, dynamic>)
-            .toList();
+      final storedUUID = await _dataService.loadUUID();
+      if (storedUUID != null) {
+        if (mounted) {
+          setState(() {
+            uuid = storedUUID;
+          });
+        }
 
-        setState(() {
-          icons = iconList.where((icon) => icon['user_id'] == uuid).toList();
-        });
-      } else {
-        throw Exception('Không thể tải dữ liệu');
+        final fetchedIcons = await _dataService.fetchDataIcon(storedUUID);
+
+        if (mounted) {
+          setState(() {
+            icons = fetchedIcons;
+          });
+        }
       }
     } catch (e) {
-      print('Lỗi: $e');
+      if (mounted) {
+        setState(() {
+          errorMessage = 'Lỗi khi tải dữ liệu: $e';
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Tìm icon có 'name' trùng với cateId
     final matchingIcon = icons.firstWhere(
       (icon) => icon['name'] == widget.cateId,
-      orElse: () => {
-        'icon': '',
-      },
+      orElse: () => {'icon': ''},
     );
 
     return Text(
-      matchingIcon['icon'] as String, // Hiển thị icon dưới dạng text
+      matchingIcon['icon'] as String,
       style: const TextStyle(fontSize: 30),
     );
   }

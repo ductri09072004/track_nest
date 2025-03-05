@@ -38,12 +38,16 @@ class BtnSuccess extends StatelessWidget {
     return Expanded(
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        color: Colors.white,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(
+                height: 20,
+              ),
               const Text(
                 'Scan bill completed successfully!',
                 style: TextStyle(
@@ -110,7 +114,7 @@ class BtnSuccess extends StatelessWidget {
             borderRadius: BorderRadius.circular(22),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xff761C9A).withOpacity(0.5),
+                color: const Color.fromARGB(255, 55, 54, 114).withOpacity(0.5),
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: const Offset(0, 2),

@@ -5,6 +5,7 @@ import 'package:testverygood/feature/history/app.dart';
 import 'package:testverygood/feature/home/app.dart';
 import 'package:testverygood/feature/setting/app.dart';
 import 'package:testverygood/feature/statistical/app.dart';
+import 'package:testverygood/feature/scanbill/view/scanphoto.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -20,7 +21,7 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _pages = [
     const HomePage(),
     const StatisticalPage(),
-    const AddPage(),
+    const ImagePickerScreen(),
     const HistoryPage(),
     const SettingPage(),
   ];

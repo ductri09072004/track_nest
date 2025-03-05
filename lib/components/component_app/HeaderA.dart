@@ -17,7 +17,7 @@ class HeaderA extends StatelessWidget implements PreferredSizeWidget {
       child: Stack(
         children: [
           AppBar(
-            backgroundColor: Color(0xFFFFFFFF),
+            backgroundColor: const Color(0xFFFFFFFF),
             elevation: 0, // Xóa bóng của AppBar
             leading: IconButton(
               icon: SvgPicture.asset(
@@ -29,7 +29,7 @@ class HeaderA extends StatelessWidget implements PreferredSizeWidget {
             title: Text(
               title,
               style: const TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 20,
                 fontFamily: 'Lato',
               ),

@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
-import 'package:http/http.dart' as http;
-import 'package:testverygood/bootstrap.dart';
-import 'package:testverygood/feature/home/components/icon_content.dart';
+import 'package:testverygood/components/data_api/home_data.dart';
 import 'package:testverygood/feature/edit_transactions/edit_main.dart';
+import 'package:testverygood/feature/home/components/icon_content.dart';
 
 class ExpContent extends StatefulWidget {
   const ExpContent({super.key});
@@ -18,6 +14,20 @@ class _ExpContentState extends State<ExpContent> {
   String? uuid;
   late Future<List<Map<String, dynamic>>> futureData;
 
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    final storedUUID = await loadUUID();
+    setState(() {
+      uuid = storedUUID;
+      futureData = fetchData(uuid);
+    });
+  }
+
   String formatCurrency(int amount) {
     return amount.toString().replaceAllMapped(
           RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
@@ -25,45 +35,9 @@ class _ExpContentState extends State<ExpContent> {
         );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _loadUUID();
-  }
-
-  Future<void> _loadUUID() async {
-    final storedUUID = await storage.read(key: 'unique_id');
-    setState(() {
-      uuid = storedUUID;
-    });
-  }
-
-  Future<List<Map<String, dynamic>>> fetchData() async {
-    if (uuid == null) {
-      throw Exception('UUID is not loaded');
-    }
-
-    final response =
-        await http.get(Uri.parse('http://3.26.221.69:5000/api/transactions'));
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body) as Map<String, dynamic>;
-      final transactions = data.entries
-          .map((entry) => entry.value as Map<String, dynamic>)
-          .toList();
-
-      return transactions.where((transaction) {
-        return transaction['user_id'] == uuid;
-      }).toList();
-    } else {
-      throw Exception('Không thể tải dữ liệu');
-    }
-  }
-
   void navigateToDetailPage(BuildContext context, String title, Widget icon) {
     Navigator.push(
       context,
-      // ignore: inference_failure_on_instance_creation
       MaterialPageRoute(
         builder: (context) => EditMain(
           transid: title,
@@ -79,19 +53,8 @@ class _ExpContentState extends State<ExpContent> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    futureData = fetchData();
-    DateTime parseDate(String dateString) {
-      List<String> parts = dateString.split('/');
-      if (parts.length < 3)
-        return DateTime(2000, 1, 1); // Giá trị mặc định tránh lỗi
-      int day = int.parse(parts[0]);
-      int month = int.parse(parts[1]);
-      int year = int.parse(parts[2]);
-      return DateTime(year, month, day);
-    }
-
     return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 12, left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: FutureBuilder<List<Map<String, dynamic>>>(
         future: futureData,
         builder: (context, snapshot) {
@@ -103,22 +66,19 @@ class _ExpContentState extends State<ExpContent> {
             return const Center(child: Text('There are no transactions'));
           }
 
-          final transactions = snapshot.data!
-            ..sort((a, b) {
-              DateTime dateA = parseDate(a['date'] as String);
-              DateTime dateB = parseDate(b['date'] as String);
-              return dateB
-                  .compareTo(dateA); // Sắp xếp giảm dần (mới nhất trước)
-            });
+          final transactions = snapshot.data!;
+          transactions.sort((a, b) {
+            DateTime dateA = _parseDate(a['date'] as String);
+            DateTime dateB = _parseDate(b['date'] as String);
+            return dateB.compareTo(dateA);
+          });
 
           var groupedByMonthYear = <String, List<Map<String, dynamic>>>{};
           for (final transaction in transactions) {
             final dateParts = (transaction['date'] as String).split('/');
-            if (dateParts.length < 3) {
-              continue;
-            }
-            final monthYear =
-                '${dateParts[0]}/${dateParts[1]}/${dateParts[2]}'; // Định dạng MM/yy
+            if (dateParts.length < 3) continue;
+
+            final monthYear = '${dateParts[0]}/${dateParts[1]}/${dateParts[2]}';
 
             if (!groupedByMonthYear.containsKey(monthYear)) {
               groupedByMonthYear[monthYear] = [];
@@ -152,10 +112,19 @@ class _ExpContentState extends State<ExpContent> {
     );
   }
 
+  DateTime _parseDate(String dateString) {
+    List<String> parts = dateString.split('/');
+    if (parts.length < 3) return DateTime(2000, 1, 1);
+    int day = int.parse(parts[0]);
+    int month = int.parse(parts[1]);
+    int year = int.parse(parts[2]);
+    return DateTime(year, month, day);
+  }
+
   Widget buildExpenseRow(Widget iconWidget, String title, String price,
       bool isRed, String date, String trans) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: GestureDetector(
         onTap: () {
           navigateToDetailPage(context, trans, iconWidget);

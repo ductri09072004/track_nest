@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:testverygood/feature/subcription/components/free_contents.dart';
 import 'package:testverygood/feature/subcription/components/premium_contents.dart';
 import 'package:testverygood/feature/main_navbar.dart';
-import 'package:testverygood/components/button.dart';
+import 'package:testverygood/components/component_app/button.dart';
 
 class LinkEmail extends StatelessWidget {
   void navigateToTargetPage(BuildContext context) {

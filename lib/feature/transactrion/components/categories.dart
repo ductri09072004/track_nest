@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:testverygood/components/data_api/categori_trans_data.dart';
 
 class CategoriesText extends StatefulWidget {
   const CategoriesText({
@@ -11,7 +9,6 @@ class CategoriesText extends StatefulWidget {
   });
 
   final bool isExpense;
-  // ignore: inference_failure_on_function_return_type
   final Function(String) onCategorySelected;
 
   @override
@@ -19,75 +16,66 @@ class CategoriesText extends StatefulWidget {
 }
 
 class _CategoriesTextState extends State<CategoriesText> {
-  final storage = const FlutterSecureStorage();
+  final CategoryService _categoryService = CategoryService();
+
   String? uuid;
   List<Map<String, dynamic>> categories = [];
   String errorMessage = '';
   String? selectedCategory;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _loadUUID();
+    _initializeData();
   }
 
   @override
   void didUpdateWidget(covariant CategoriesText oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.isExpense != widget.isExpense) {
-      fetchCustomerData();
+      _fetchData();
     }
   }
 
-  Future<void> _loadUUID() async {
-    var storedUUID = await storage.read(key: 'unique_id');
-    setState(() {
-      uuid = storedUUID;
-    });
-
-    if (uuid != null) {
-      await fetchCustomerData();
-    } else {
-      setState(() {
-        errorMessage = 'Không tìm thấy UUID!';
-      });
-    }
-  }
-
-  Future<void> fetchCustomerData() async {
+  Future<void> _initializeData() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://3.26.221.69:5000/api/categories'));
-
-      if (response.statusCode == 200) {
-        final rawData = response.body;
-        print('Raw Data từ API: $rawData');
-
-        // final Map<String, dynamic> data = json.decode(rawData);
-        final data = json.decode(rawData) as Map<String, dynamic>;
-        // Lọc danh mục theo user_id và type (expense/income)
-        final filteredCategories = data.entries
-            .where(
-              (entry) =>
-                  entry.value['user_id'] == uuid &&
-                  entry.value['type'] ==
-                      (widget.isExpense ? 'expense' : 'income'),
-            )
-            .map((entry) => entry.value as Map<String, dynamic>)
-            .toList();
-
-        setState(() {
-          categories = filteredCategories;
-          selectedCategory = null; // Reset lựa chọn khi đổi type
-        });
+      uuid = await _categoryService.loadUUID();
+      if (uuid != null) {
+        await _fetchData();
       } else {
         setState(() {
-          errorMessage = 'Lỗi kết nối API: ${response.statusCode}';
+          errorMessage = 'Không tìm thấy UUID!';
         });
       }
     } catch (e) {
+      if (mounted) {
+        setState(() {
+          errorMessage = 'Lỗi khi tải dữ liệu: $e';
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _fetchData() async {
+    try {
+      final data = await _categoryService.fetchCustomerData(
+        uuid: uuid,
+        isExpense: widget.isExpense,
+      );
       setState(() {
-        errorMessage = 'Lỗi khi tải dữ liệu: $e';
+        categories = data;
+        selectedCategory = null;
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = e.toString();
       });
     }
   }

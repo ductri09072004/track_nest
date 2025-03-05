@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/components/button.dart';
-import 'package:testverygood/components/input.dart';
+import 'package:testverygood/components/component_app/button.dart';
+import 'package:testverygood/components/component_app/input.dart';
 
 class BodyMain extends StatefulWidget {
   const BodyMain({super.key});
@@ -24,6 +24,7 @@ class _BodyMainState extends State<BodyMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),

@@ -9,10 +9,7 @@ class BodyMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: MediaQuery.of(context).size.height / 5,
-      left: 0,
-      right: 0,
+    return Expanded(
       child: Container(
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
@@ -23,7 +20,7 @@ class BodyMain extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  top: 12, bottom: 110, right: 20, left: 20),
+                  top: 12, bottom: 20, right: 20, left: 20),
               child: Column(
                 children: [
                   InkWell(
@@ -127,7 +124,7 @@ class BodyMain extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 120),
+            const SizedBox(height: 20),
           ],
         ),
       ),

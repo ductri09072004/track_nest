@@ -1,60 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:testverygood/components/component_app/Ex_In_btn_Satis.dart';
 import 'package:testverygood/feature/add_categories/components/content.dart';
 import 'package:testverygood/feature/add_categories/view/addcate_main.dart';
 
-class BodyMain extends StatelessWidget {
+class BodyMain extends StatefulWidget {
   const BodyMain({super.key});
 
   @override
+  State<BodyMain> createState() => _BodyMainState();
+}
+
+class _BodyMainState extends State<BodyMain> {
+  int selectedIndex = 0; // Khai báo biến selectedIndex
+  final PageController _pageController =
+      PageController(); // Khai báo PageController
+
+  @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: Colors.white,
       height: MediaQuery.of(context).size.height,
-      // padding: const EdgeInsets.only(top: 12),
       child: DefaultTabController(
-        length: 2, // Số lượng tab
+        length: 2,
         child: Column(
           children: [
-            const TabBar(
-              indicatorPadding: EdgeInsets.symmetric(horizontal: -44),
-              indicator: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color(0xFF791CAC), // Màu của indicator
-                    width: 3,
-                  ),
-                ),
-              ),
-              indicatorSize: TabBarIndicatorSize.label,
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey,
-              labelStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                fontFamily: 'lato',
-              ),
-              unselectedLabelStyle: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 14,
-                fontFamily: 'lato',
-              ),
-              splashFactory: NoSplash.splashFactory,
-              indicatorColor: Colors.transparent,
-              tabs: [
-                Tab(text: 'Expense'),
-                Tab(text: 'Income'),
-              ],
+            ExInBtnStatis(
+              labels: const ['Expenses', 'Income'],
+              onToggle: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+                _pageController.animateToPage(
+                  index,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              },
             ),
-            const Expanded(
-              child: TabBarView(
-                children: [
-                  // Nội dung cho tab "Expense"
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                children: const [
                   SizedBox.expand(
                     child: SingleChildScrollView(
                       child: Content(categoryType: 'expense'),
                     ),
                   ),
-                  // Nội dung cho tab "Income"
                   SizedBox.expand(
                     child: SingleChildScrollView(
                       child: Content(categoryType: 'income'),
@@ -63,12 +55,10 @@ class BodyMain extends StatelessWidget {
                 ],
               ),
             ),
-            // Nút thêm category (luôn cố định dưới cùng)
             Align(
               alignment: Alignment.bottomCenter,
               child: GestureDetector(
                 onTap: () {
-                  // Chuyển đến màn hình AddCateMain
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -86,16 +76,4 @@ class BodyMain extends StatelessWidget {
       ),
     );
   }
-
-  static const TextStyle txtcate = TextStyle(
-    color: Colors.black,
-    fontSize: 20,
-    fontFamily: 'Lato',
-  );
-
-  static const TextStyle txtmem = TextStyle(
-    color: Colors.black,
-    fontSize: 16,
-    fontFamily: 'Lato_Regular',
-  );
 }

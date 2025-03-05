@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:testverygood/components/HeaderA.dart';
-import 'package:testverygood/components/button.dart';
-import 'package:testverygood/components/dropdown.dart';
-import 'package:testverygood/components/friendToggle.dart';
-import 'package:testverygood/components/input.dart';
+import 'package:testverygood/components/component_app/HeaderA.dart';
+import 'package:testverygood/components/component_app/button.dart';
+import 'package:testverygood/components/component_app/dropdown.dart';
+import 'package:testverygood/components/component_app/friendToggle.dart';
+import 'package:testverygood/components/component_app/input.dart';
 
 class SplitPage extends StatefulWidget {
   const SplitPage({Key? key, this.data = ''}) : super(key: key);

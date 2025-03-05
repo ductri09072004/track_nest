@@ -110,15 +110,18 @@ class InputClassic extends StatelessWidget {
     this.controller,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
-    this.hasBorder = true, // Mặc định có viền
-    this.hasPadding = true, // Mặc định có padding
+    this.hasBorder = true,
+    this.hasPadding = true,
+    this.focusNode, // Thêm focusNode
   });
+
   final String hintText;
   final TextEditingController? controller;
   final TextInputType keyboardType;
   final bool obscureText;
   final bool hasBorder;
   final bool hasPadding;
+  final FocusNode? focusNode; // FocusNode mới
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +129,7 @@ class InputClassic extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       obscureText: obscureText,
+      focusNode: focusNode, // Gán focusNode vào đây
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: const TextStyle(color: Colors.grey),
@@ -133,7 +137,7 @@ class InputClassic extends StatelessWidget {
         fillColor: Colors.transparent,
         contentPadding: hasPadding
             ? const EdgeInsets.symmetric(vertical: 12, horizontal: 16)
-            : EdgeInsets.zero, // Không có padding nếu `hasPadding` là false
+            : EdgeInsets.zero,
         border: hasBorder
             ? OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -142,7 +146,7 @@ class InputClassic extends StatelessWidget {
                   width: 1.5,
                 ),
               )
-            : InputBorder.none, // Không có viền nếu `hasBorder` là false
+            : InputBorder.none,
         enabledBorder: hasBorder
             ? OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:testverygood/components/HeaderA.dart';
+// import 'package:testverygood/components/component_app/HeaderA.dart';
 import 'package:testverygood/feature/scanbill/components/Nest_AI.dart';
 import 'package:testverygood/feature/scanbill/components/btn_add.dart';
 import 'package:testverygood/feature/scanbill/components/btn_success.dart';
@@ -82,7 +82,6 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const HeaderA(title: 'Scan the Text'),
       body: Column(
         children: [
           Expanded(

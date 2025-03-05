@@ -18,7 +18,7 @@ class BtnChooseAi extends StatefulWidget {
 }
 
 class _BtnChooseAiState extends State<BtnChooseAi> {
-  String _selectedText = 'Choose model AI';
+  String _selectedText = 'Nest_AI';
 
   void _showPopup(BuildContext context) {
     // ignore: inference_failure_on_function_invocation

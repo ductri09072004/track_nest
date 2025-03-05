@@ -1,7 +1,6 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intl/intl.dart';
+import 'package:testverygood/components/data_api/balence_api.dart';
 
 class BalanceCard extends StatefulWidget {
   const BalanceCard({super.key});
@@ -12,71 +11,44 @@ class BalanceCard extends StatefulWidget {
 
 class _BalanceCardState extends State<BalanceCard> {
   String? uuid;
-  final storage = const FlutterSecureStorage();
-  int expense = 0; // Tổng chi tiêu
-  int income = 0; // Tổng thu nhập
-  bool isLoading = true; // Trạng thái tải dữ liệu
+  int expense = 0;
+  int income = 0;
+  bool isLoading = true;
+  bool isBalanceVisible = true;
+  String errorMessage = '';
+
+  final DataService dataService = DataService();
 
   @override
   void initState() {
     super.initState();
-    _loadUUID();
+    _initializeData();
   }
 
-  Future<void> _loadUUID() async {
-    final storedUUID = await storage.read(key: 'unique_id');
-    setState(() {
-      uuid = storedUUID;
-    });
-
-    if (uuid != null) {
-      await fetchData();
-    }
-  }
-
-  Future<void> fetchData() async {
-    if (uuid == null) return;
-
+  Future<void> _initializeData() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://3.26.221.69:5000/api/transactions'));
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body) as Map<String, dynamic>;
-        final transactions = data.entries
-            .map((entry) => entry.value as Map<String, dynamic>)
-            .toList();
-
-        // Lọc giao dịch của user hiện tại
-        final userTransactions = transactions.where((t) {
-          return t['user_id'] == uuid;
-        }).toList();
-
-        // Tính tổng Expense và Income
-        var totalExpense = 0;
-        var totalIncome = 0;
-
-        for (var transaction in userTransactions) {
-          int amount = int.tryParse(transaction['money'].toString()) ?? 0;
-
-          if (transaction['type'] == 'expense') {
-            totalExpense += amount;
-          } else if (transaction['type'] == 'income') {
-            totalIncome += amount;
-          }
+      uuid = await dataService.loadUUID();
+      if (uuid != null) {
+        final data = await dataService.fetchData(uuid);
+        if (mounted) {
+          setState(() {
+            expense = data['expense']!;
+            income = data['income']!;
+          });
         }
-
-        setState(() {
-          expense = totalExpense;
-          income = totalIncome;
-          isLoading = false; // Kết thúc trạng thái tải
-        });
-      } else {
-        throw Exception('Không thể tải dữ liệu');
       }
     } catch (e) {
-      setState(() => isLoading = false);
-      print('Lỗi khi tải dữ liệu: $e');
+      if (mounted) {
+        setState(() {
+          errorMessage = 'Lỗi khi tải dữ liệu: $e';
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -98,34 +70,51 @@ class _BalanceCardState extends State<BalanceCard> {
           : Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Total balance',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontFamily: 'Lato',
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Total balance',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: 'Lato'),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        isBalanceVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isBalanceVisible = !isBalanceVisible;
+                        });
+                      },
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '${(income - expense).toStringAsFixed(0)}',
+                      isBalanceVisible
+                          ? NumberFormat('#,###', 'vi_VN')
+                              .format(income - expense)
+                          : '******',
                       style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontFamily: 'Lato',
-                      ),
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontFamily: 'Lato'),
                     ),
                     const SizedBox(width: 8),
                     const Text(
                       'VND',
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontFamily: 'Lato',
-                      ),
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontFamily: 'Lato'),
                     ),
                   ],
                 ),
@@ -166,11 +155,7 @@ class _BalanceCardState extends State<BalanceCard> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 4,
-              spreadRadius: 1,
-            ),
+            BoxShadow(color: Colors.black12, blurRadius: 4, spreadRadius: 1)
           ],
         ),
         child: Column(
@@ -180,17 +165,15 @@ class _BalanceCardState extends State<BalanceCard> {
               child: Icon(icon, color: color),
             ),
             const SizedBox(height: 8),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            ),
+            Text(title,
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
             const SizedBox(height: 4),
             Text(
-              '$amount VND',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              isBalanceVisible
+                  ? NumberFormat('#,###', 'vi_VN').format(int.parse(amount))
+                  : '******',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ],
         ),

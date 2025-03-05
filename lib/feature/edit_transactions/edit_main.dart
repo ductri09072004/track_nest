@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 
-import 'package:testverygood/components/HeaderA.dart';
-import 'package:testverygood/components/input.dart';
+import 'package:testverygood/components/component_app/HeaderA.dart';
+import 'package:testverygood/components/component_app/input.dart';
 import 'package:testverygood/feature/transactrion/components/calendar.dart';
 import 'package:testverygood/feature/main_navbar.dart';
-import 'package:testverygood/components/Edit&Delete_btn.dart';
+import 'package:testverygood/components/component_app/Edit&Delete_btn.dart';
 
 class EditMain extends StatefulWidget {
   const EditMain({

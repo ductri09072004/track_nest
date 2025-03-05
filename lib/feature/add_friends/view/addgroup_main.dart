@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/components/HeaderA.dart';
+import 'package:testverygood/components/component_app/HeaderA.dart';
 import 'package:testverygood/feature/add_friends/components/body_groups.dart';
 
 class AddGroupPage extends StatelessWidget {
@@ -8,6 +8,7 @@ class AddGroupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: Colors.white,
       appBar: HeaderA(title: 'Add group'),
       body: Padding(
         padding: EdgeInsets.zero,

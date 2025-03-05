@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/components/Header_main.dart';
+import 'package:testverygood/components/component_app/Header_main.dart';
 import 'package:testverygood/feature/history/view/body.dart';
 
 class HistoryPage extends StatelessWidget {
