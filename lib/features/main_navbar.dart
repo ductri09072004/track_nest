@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:testverygood/features/add/app.dart';
-import 'package:testverygood/features/history/app.dart';
+import 'package:testverygood/features/transactions/add/app.dart';
+import 'package:testverygood/features/groupsplit/history/app.dart';
 import 'package:testverygood/features/home/app.dart';
-import 'package:testverygood/features/setting/app.dart';
+import 'package:testverygood/features/settings/setting/app.dart';
 import 'package:testverygood/features/statistical/app.dart';
-import 'package:testverygood/features/scanbill/view/scanphoto.dart';
+import 'package:testverygood/features/transactions/scanbill/view/scanphoto.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

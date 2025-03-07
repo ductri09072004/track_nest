@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:testverygood/app/app.dart';
-import 'package:testverygood/features/history/view/history_main.dart';
-import 'package:testverygood/features/home/presentation/home_srceen.dart';
+import 'package:testverygood/features/groupsplit/history/view/history_screen.dart';
+import 'package:testverygood/features/home/view/home_srceen.dart';
 import 'package:testverygood/features/statistical/view/statistical_main.dart';
 
 void main() {

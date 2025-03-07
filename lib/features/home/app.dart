@@ -1,1 +1,1 @@
-export 'presentation/home_srceen.dart';
+export 'view/home_srceen.dart';

@@ -1,5 +1,6 @@
 analyzer:
   errors:
+    avoid_dynamic_calls: ignore
     avoid_positional_boolean_parameters: ignore
     cascade_invocations: ignore
     deprecated_member_use: ignore

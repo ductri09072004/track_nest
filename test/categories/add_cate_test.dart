@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:testverygood/features/add_categories/components/body_addcate.dart';
+import 'package:testverygood/features/settings/add_categories/components/body_addcate.dart';
 import 'package:testverygood/components/button.dart';
 import 'package:testverygood/components/input.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
