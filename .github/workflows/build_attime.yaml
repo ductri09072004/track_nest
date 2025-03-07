@@ -1,19 +1,13 @@
 name: Build At-time
 on:
   schedule:
-    - cron: '0 16 * * *' # 11:00 PM UTC mỗi ngày múi giờ việt nam là 16utc
+    - cron: '0 16 * * *' # 11:00 PM UTC mỗi ngày múi giờ việt nam
   push:
     branches:
       - dev
-    # paths:
-    #   - "lib/**"
-    #   - "test/**"
   pull_request:
     branches:
       - dev
-    # paths:
-    #   - "lib/**"
-    #   - "test/**"
 
 jobs:
   build-onchange:
@@ -38,17 +32,6 @@ jobs:
         with:
           channel: "stable"
           flutter-version: "3.27.0"
-
-      # - name: Cache flutter build
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: |
-      #       ~/.pub-cache
-      #       .packages
-      #       build
-      #     key: ${{ runner.os }}-flutter-${{ hashFiles('lib/**', 'test/**') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-flutter-
 
       - name: Install dependencies
         run: flutter pub get
