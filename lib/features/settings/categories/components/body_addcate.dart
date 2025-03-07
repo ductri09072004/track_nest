@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:testverygood/components/button.dart';
 import 'package:testverygood/components/input.dart';
-import 'package:testverygood/features/transactions/transactrion/components/Ex_In_btn.dart';
+import 'package:testverygood/features/transaction/add_trans/components/Ex_In_btn.dart';
 import 'package:testverygood/data/data_api/add_cate.dart';
 
 class BodyMain extends StatefulWidget {

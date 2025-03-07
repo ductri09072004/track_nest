@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/features/transactions/scanbill/components/btn_choose_AI.dart';
-import 'package:testverygood/features/transactions/scanbill/components/btnchoose.dart';
+import 'package:testverygood/features/transaction/scanbill/components/btn_choose_AI.dart';
+import 'package:testverygood/features/transaction/scanbill/components/btnchoose.dart';
 
 class ImagePickerOptions extends StatefulWidget {
   const ImagePickerOptions({

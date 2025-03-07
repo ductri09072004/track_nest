@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:testverygood/features/groupsplit/addsplit/app.dart'; // Import màn hình chia tiền
-import 'package:testverygood/features/transactions/transactrion/app.dart'; // Import màn hình giao dịch
+import 'package:testverygood/features/groupsplit/add_split/app.dart'; // Import màn hình chia tiền
+import 'package:testverygood/features/transaction/add_trans/app.dart'; // Import màn hình giao dịch
 
 class BtnSuccess extends StatelessWidget {
   const BtnSuccess({

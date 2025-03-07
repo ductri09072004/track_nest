@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/data/data_api/home_data.dart';
-import 'package:testverygood/features/transactions/edit_transactions/view/edit_main.dart';
+import 'package:testverygood/features/transaction/edit_trans/view/edit_main.dart';
 import 'package:testverygood/features/home/domain/models/transaction_model.dart';
 import 'package:testverygood/features/home/domain/services/transaction_service.dart';
 import 'package:testverygood/features/home/view/widgets/icon_content.dart';

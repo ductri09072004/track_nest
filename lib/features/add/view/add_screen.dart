@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:testverygood/features/transactions/scanbill/view/scanphoto.dart';
-import 'package:testverygood/features/groupsplit/addsplit/app.dart';
-import 'package:testverygood/features/transactions/transactrion/app.dart';
+import 'package:testverygood/features/transaction/scanbill/view/scanphoto.dart';
+import 'package:testverygood/features/groupsplit/add_split/app.dart';
+import 'package:testverygood/features/transaction/add_trans/app.dart';
 
 class AddPage extends StatelessWidget {
   const AddPage({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:testverygood/features/settings/add_categories/view/categorylist_main.dart';
-import 'package:testverygood/features/settings/add_friends/app.dart';
+import 'package:testverygood/features/settings/categories/view/categorylist_main.dart';
+import 'package:testverygood/features/settings/groupfriends/app.dart';
 import 'package:testverygood/features/settings/subcription/app.dart';
 
 class BodyMain extends StatelessWidget {

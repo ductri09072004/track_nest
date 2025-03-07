@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:testverygood/features/settings/add_friends/view/addgroup_main.dart';
+import 'package:testverygood/features/settings/groupfriends/view/addgroup_main.dart';
 
 class BodyMain extends StatelessWidget {
   const BodyMain({super.key});
