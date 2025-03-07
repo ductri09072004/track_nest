@@ -85,7 +85,10 @@ class _ExpContentState extends State<ExpContent> {
     final parts = dateString.split('/');
     if (parts.length < 3) return DateTime(2000, 1, 1);
     return DateTime(
-        int.parse(parts[2]), int.parse(parts[1]), int.parse(parts[0]),);
+      int.parse(parts[2]),
+      int.parse(parts[1]),
+      int.parse(parts[0]),
+    );
   }
 
   String formatCurrency(int amount) {
@@ -95,8 +98,14 @@ class _ExpContentState extends State<ExpContent> {
         );
   }
 
-  Widget buildExpenseRow(Widget iconWidget, String title, String price,
-      bool isRed, String date, String trans,) {
+  Widget buildExpenseRow(
+    Widget iconWidget,
+    String title,
+    String price,
+    bool isRed,
+    String date,
+    String trans,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: GestureDetector(

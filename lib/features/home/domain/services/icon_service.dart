@@ -15,8 +15,11 @@ class IconService {
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      final List<dynamic> jsonData = json.decode(response.body) as List<dynamic>;
-      return jsonData.map((item) => IconModel.fromJson(item as Map<String, dynamic>)).toList();
+      final List<dynamic> jsonData =
+          json.decode(response.body) as List<dynamic>;
+      return jsonData
+          .map((item) => IconModel.fromJson(item as Map<String, dynamic>))
+          .toList();
     } else {
       throw Exception('Failed to load icons');
     }
