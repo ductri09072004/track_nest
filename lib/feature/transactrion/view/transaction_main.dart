@@ -139,7 +139,7 @@ class _TransactionMainState extends State<TransactionMain> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const HeaderA(title: 'Transaction'),
-      body: Container(
+      body: ColoredBox(
         color: Colors.white, // Đặt màu nền tại đây
         child: Column(
           children: [
@@ -271,7 +271,7 @@ class _TransactionMainState extends State<TransactionMain> {
                           ? null
                           : () => handleSaveTransactionfinall(context),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF791CAC),
+                        backgroundColor: const Color(0xFF013CBC),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                       child: isLoading
@@ -283,7 +283,7 @@ class _TransactionMainState extends State<TransactionMain> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

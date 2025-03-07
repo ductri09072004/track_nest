@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/feature/scanbill/components/btn_choose_AI.dart';
 import 'package:testverygood/feature/scanbill/components/btnchoose.dart';
+import 'package:testverygood/feature/transactrion/app.dart';
 
 class ImagePickerOptions extends StatefulWidget {
   const ImagePickerOptions({
@@ -25,6 +26,14 @@ class _ImagePickerOptionsState extends State<ImagePickerOptions> {
     widget.onModelSelected(model);
   }
 
+  void navigateToTargetPage(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      // ignore: inference_failure_on_instance_creation
+      MaterialPageRoute(builder: (context) => const TransactionMain()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -37,7 +46,7 @@ class _ImagePickerOptionsState extends State<ImagePickerOptions> {
             topRight: Radius.circular(32),
           ),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.zero,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
@@ -77,6 +86,11 @@ class _ImagePickerOptionsState extends State<ImagePickerOptions> {
                 text: 'Take a picture',
                 iconPath: 'lib/assets/icon/OCR_icon/addcam.svg',
                 onPressed: widget.onPickCam,
+              ),
+              CustomButton(
+                text: 'Add Manually',
+                iconPath: 'lib/assets/icon/add_icon/add_icon.svg',
+                onPressed: () => navigateToTargetPage(context),
               ),
             ],
           ),

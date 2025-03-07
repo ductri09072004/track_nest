@@ -29,6 +29,8 @@ dependencies:
   mockito: ^5.4.5
   build_runner: ^2.4.15
   emoji_picker_flutter: ^4.3.0
+  firebase_core: ^3.12.1
+  cloud_functions: ^5.3.4
 
 dev_dependencies:
   bloc_test: ^9.1.7
@@ -37,11 +39,6 @@ dev_dependencies:
   mocktail: ^1.0.4
   very_good_analysis: ^7.0.0
 
-
-# flutter_icons:
-#   android: true
-#   ios: true
-#   image_path: "lib/assets/png/logo_app.png"
 
 flutter:
   uses-material-design: true

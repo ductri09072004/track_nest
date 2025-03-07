@@ -132,7 +132,7 @@ class InputClassic extends StatelessWidget {
       focusNode: focusNode, // Gán focusNode vào đây
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.grey),
+        hintStyle: const TextStyle(color: Color(0xFFCFCFCF)),
         filled: true,
         fillColor: Colors.transparent,
         contentPadding: hasPadding
@@ -165,6 +165,93 @@ class InputClassic extends StatelessWidget {
                 ),
               )
             : InputBorder.none,
+      ),
+    );
+  }
+}
+
+class InputVerify extends StatelessWidget {
+  const InputVerify({
+    required this.hintText,
+    super.key,
+    this.controller,
+    this.keyboardType = TextInputType.text,
+    this.obscureText = false,
+    this.hasBorder = true,
+    this.hasPadding = true,
+    this.focusNode,
+    this.suffixText,
+    this.onSuffixPressed,
+  });
+
+  final String hintText;
+  final TextEditingController? controller;
+  final TextInputType keyboardType;
+  final bool obscureText;
+  final bool hasBorder;
+  final bool hasPadding;
+  final FocusNode? focusNode;
+  final String? suffixText;
+  final VoidCallback? onSuffixPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      focusNode: focusNode,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: const TextStyle(color: Color(0xFFCFCFCF)),
+        filled: true,
+        fillColor: Colors.transparent,
+        contentPadding: hasPadding
+            ? const EdgeInsets.symmetric(vertical: 12, horizontal: 16)
+            : EdgeInsets.zero,
+        border: hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1.5,
+                ),
+              )
+            : InputBorder.none,
+        enabledBorder: hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1.5,
+                ),
+              )
+            : InputBorder.none,
+        focusedBorder: hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: Colors.blue,
+                  width: 2,
+                ),
+              )
+            : InputBorder.none,
+        suffix: suffixText != null
+            ? GestureDetector(
+                onTap: onSuffixPressed,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(
+                    suffixText!,
+                    style: const TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              )
+            : null,
       ),
     );
   }

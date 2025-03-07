@@ -19,7 +19,7 @@ class ToggleSwitch extends StatelessWidget {
         height: 32,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: value ? const Color(0xFF65558F) : Colors.grey,
+          color: value ? const Color(0xFF013CBC) : Colors.grey,
         ),
         child: Padding(
           padding: const EdgeInsets.all(3),
@@ -47,26 +47,30 @@ class Button extends StatelessWidget {
     required this.onPressed,
     super.key,
   });
+
   final String label;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF791CAC),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24), // Bo góc của nút
+    return SizedBox(
+      width: double.infinity, // Chiếm toàn bộ chiều rộng
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF013CBC),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24), // Bo góc của nút
+          ),
         ),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 20,
-          fontFamily: 'Lato',
-          color: Colors.white,
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontSize: 20,
+            fontFamily: 'Lato',
+            color: Colors.white,
+          ),
         ),
       ),
     );

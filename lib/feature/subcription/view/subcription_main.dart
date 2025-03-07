@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/feature/subcription/components/free_contents.dart';
 import 'package:testverygood/feature/subcription/components/premium_contents.dart';
-import 'package:testverygood/feature/main_navbar.dart';
+import 'package:testverygood/feature/subcription/view/link_email.dart';
 import 'package:testverygood/components/component_app/button.dart';
 import 'package:testverygood/components/component_app/HeaderA.dart';
 
@@ -10,7 +10,7 @@ class UpgradeAccountPage extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       // ignore: inference_failure_on_instance_creation
-      MaterialPageRoute(builder: (context) => const MainPage()),
+      MaterialPageRoute(builder: (context) => LinkEmail()),
     );
   }
 

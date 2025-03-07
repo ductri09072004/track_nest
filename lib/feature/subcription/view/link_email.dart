@@ -1,75 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/feature/subcription/components/free_contents.dart';
-import 'package:testverygood/feature/subcription/components/premium_contents.dart';
-import 'package:testverygood/feature/main_navbar.dart';
+import 'package:testverygood/components/component_app/HeaderA.dart';
+import 'package:testverygood/components/component_app/input.dart';
 import 'package:testverygood/components/component_app/button.dart';
 
 class LinkEmail extends StatelessWidget {
-  void navigateToTargetPage(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      // ignore: inference_failure_on_instance_creation
-      MaterialPageRoute(builder: (context) => const MainPage()),
-    );
-  }
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController otpController = TextEditingController();
+  void verifyEmail(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: const Color(0xFFFFFFFF), // Màu nền của body
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Align(
-                  child: Text(
-                    'Choose your plan',
-                    style: TextStyle(fontSize: 30, fontFamily: 'Lato'),
+      appBar: const HeaderA(
+        title: '',
+      ),
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity, // Chiếm toàn bộ chiều cao màn hình
+        child: Container(
+          color: const Color(0xFFFFFFFF), // Màu nền của body
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Align(
+                    child: Text(
+                      'Verify Email',
+                      style: TextStyle(fontSize: 30, fontFamily: 'Lato'),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                const FreePlanWidget(),
-                const SizedBox(height: 16),
-                const PremiumPlanWidget(),
-                const SizedBox(height: 16),
-                const Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        color: Colors.grey,
-                        thickness: 1,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        'Or',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Lato',
-                          color: Color(0xFFA7A7A7),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        color: Color(0xFFA7A7A7),
-                        thickness: 1,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 26),
-                OutlineButton(
-                  label: 'Restore Purchase',
-                  onPressed: () {
-                    navigateToTargetPage(context);
-                  },
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Link Email',
+                    style: TextStyle(fontSize: 18, fontFamily: 'Lato'),
+                  ),
+                  const SizedBox(height: 8),
+                  InputVerify(
+                    hintText: 'ex: dtc@gmail.com',
+                    controller: emailController,
+                    suffixText: 'Gửi',
+                    onSuffixPressed: () {},
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'OTP',
+                    style: TextStyle(fontSize: 18, fontFamily: 'Lato'),
+                  ),
+                  const SizedBox(height: 8),
+                  InputVerify(
+                    hintText: 'OTP',
+                    controller: otpController,
+                  ),
+                  const SizedBox(height: 26),
+                  Button(
+                    label: 'Purchase',
+                    onPressed: () {
+                      verifyEmail(context);
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

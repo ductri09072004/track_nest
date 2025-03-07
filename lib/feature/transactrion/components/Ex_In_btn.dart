@@ -34,7 +34,7 @@ class _ExInBtnState extends State<ExInBtn> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: selectedIndex == index
-                      ? const Color(0xFF791CAC)
+                      ? const Color(0xFF013CBC)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: selectedIndex == index
