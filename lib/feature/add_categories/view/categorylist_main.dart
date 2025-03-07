@@ -3,10 +3,10 @@ import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/feature/add_categories/components/body_listcate.dart';
 
 class CategoryListPage extends StatelessWidget {
-const CategoryListPage({ super.key });
+  const CategoryListPage({super.key});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return const Scaffold(
       appBar: HeaderA(title: 'Categories'),
       body: Padding(
