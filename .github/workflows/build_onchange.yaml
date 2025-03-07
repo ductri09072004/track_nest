@@ -3,15 +3,15 @@ on:
   push:
     branches:
       - dev
-    paths:
-      - "lib/**"
-      - "test/**"
+    # paths:
+    #   - "lib/**"
+    #   - "test/**"
   pull_request:
     branches:
       - dev
-    paths:
-      - "lib/**"
-      - "test/**"
+    # paths:
+    #   - "lib/**"
+    #   - "test/**"
 
 jobs:
   build-onchange:
