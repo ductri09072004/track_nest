@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:testverygood/feature/add_categories/components/body_addcate.dart';
-import 'package:testverygood/components/component_app/button.dart';
-import 'package:testverygood/components/component_app/input.dart';
+import 'package:testverygood/features/settings/categories/components/body_addcate.dart';
+import 'package:testverygood/components/button.dart';
+import 'package:testverygood/components/input.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 

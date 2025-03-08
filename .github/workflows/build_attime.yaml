@@ -1,0 +1,43 @@
+name: Build At-time
+on:
+  schedule:
+    - cron: '0 16 * * *' # 11:00 PM UTC mỗi ngày múi giờ việt nam
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  build-onchange:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "22"
+
+      - name: Setup flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          flutter-version: "3.27.0"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Run analyze
+        run: flutter analyze

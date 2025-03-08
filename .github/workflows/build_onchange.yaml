@@ -2,16 +2,10 @@ name: Build On-change
 on:
   push:
     branches:
-      - develop
-    paths:
-      - "lib/**"
-      - "test/**"
+      - dev
   pull_request:
     branches:
-      - develop
-    paths:
-      - "lib/**"
-      - "test/**"
+      - dev
 
 jobs:
   build-onchange:
@@ -36,17 +30,6 @@ jobs:
         with:
           channel: "stable"
           flutter-version: "3.27.0"
-
-      - name: Cache flutter build
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.pub-cache
-            .packages
-            build
-          key: ${{ runner.os }}-flutter-${{ hashFiles('lib/**', 'test/**') }}
-          restore-keys: |
-            ${{ runner.os }}-flutter-
 
       - name: Install dependencies
         run: flutter pub get
