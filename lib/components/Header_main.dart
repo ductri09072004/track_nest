@@ -3,37 +3,45 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:testverygood/components/date.dart'; // Import HorizontalList từ đây
 
 class HeaderMain extends StatelessWidget {
-  final String title; // Thêm tham số tiêu đề
+  final String title;
+  final bool showSearchAndCalendar; // Biến để ẩn/hiện search và calendar
+  final bool showHorizontalList; // Biến để ẩn/hiện HorizontalList
 
-  const HeaderMain({super.key, required this.title});
+  const HeaderMain({
+    super.key,
+    required this.title,
+    this.showSearchAndCalendar = true, // Mặc định hiển thị
+    this.showHorizontalList = true, // Mặc định hiển thị
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.only(
+        top: 55,
+        left: 20,
+        right: 20,
+      ),
       decoration: const BoxDecoration(
         color: Color(0xFFFFFFFF),
         border: Border(
           bottom: BorderSide(
-            color: Color(0xFFCFCFCF), // Màu viền dưới
+            color: Color(0xFFCFCFCF),
           ),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min, // Thu gọn chiều cao theo nội dung
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 55,
-              left: 20,
-              right: 20,
-            ),
-            child: Row(
-              children: [
-                Text(
-                  title, // Thay thế "Hello" bằng giá trị truyền vào
-                  style: texttop,
-                ),
-                const Spacer(),
+          Row(
+            children: [
+              Text(
+                title,
+                style: texttop,
+              ),
+              const Spacer(),
+              if (showSearchAndCalendar) ...[
                 GestureDetector(
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -62,10 +70,12 @@ class HeaderMain extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            ],
           ),
-          const SizedBox(height: 32),
-          const HorizontalList(),
+          const SizedBox(height: 28),
+          if (showHorizontalList) ...[
+            const HorizontalList(),
+          ],
         ],
       ),
     );

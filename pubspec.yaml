@@ -26,6 +26,10 @@ dependencies:
   flutter_dotenv: ^5.2.1
   fl_chart: ^0.70.2
   google_mobile_ads: ^5.3.1
+  mockito: ^5.4.5
+  build_runner: ^2.4.15
+  emoji_picker_flutter: ^4.3.0
+  http: ^1.3.0
 
 dev_dependencies:
   bloc_test: 9.1.7
@@ -34,29 +38,23 @@ dev_dependencies:
   mocktail: ^1.0.4
   very_good_analysis: ^7.0.0
 
-
-# flutter_icons:
-#   android: true
-#   ios: true
-#   image_path: "lib/assets/png/logo_app.png"
-
 flutter:
   uses-material-design: true
   generate: true
   assets:
-  - .env
-  - lib/assets/icon/
-  - lib/assets/svg/
-  - lib/assets/icon/active_navbar/
-  - lib/assets/icon/inactive_navbar/
-  - lib/assets/icon/home_icon/
-  - lib/assets/icon/add_icon/
-  - lib/assets/icon/components_icon/
-  - lib/assets/icon/popup_icon/
-  - lib/assets/icon/setting_icon/
-  - lib/assets/icon/transaction_icon/
-  - lib/assets/icon/figma_svg/
-  - lib/assets/icon/OCR_icon/
+    - .env
+    - lib/assets/icon/
+    - lib/assets/svg/
+    - lib/assets/icon/active_navbar/
+    - lib/assets/icon/inactive_navbar/
+    - lib/assets/icon/home_icon/
+    - lib/assets/icon/add_icon/
+    - lib/assets/icon/components_icon/
+    - lib/assets/icon/popup_icon/
+    - lib/assets/icon/setting_icon/
+    - lib/assets/icon/transaction_icon/
+    - lib/assets/icon/figma_svg/
+    - lib/assets/icon/OCR_icon/
 
   fonts:
     - family: Lato
@@ -74,4 +72,3 @@ flutter:
     - family: HappyMonkey
       fonts:
         - asset: lib/assets/fonts/HappyMonkey.ttf
-

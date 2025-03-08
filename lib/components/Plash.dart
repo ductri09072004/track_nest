@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:testverygood/feature/welcome/app.dart';
+import 'package:testverygood/features/welcome/app.dart';
 
 class PlashPages extends StatelessWidget {
   const PlashPages({super.key});
