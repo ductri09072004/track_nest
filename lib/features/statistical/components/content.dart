@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/data/data_api/content_barchart_data.dart';
+import 'package:testverygood/data/data_api/content_barchart_data_api.dart';
 
 class Content extends StatefulWidget {
   const Content({required this.tabType, super.key});

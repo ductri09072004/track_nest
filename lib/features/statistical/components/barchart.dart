@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
-import 'package:testverygood/data/data_api/barchart_data.dart';
+import 'package:testverygood/data/data_api/barchart_data_api.dart';
 
 class Barchart extends StatefulWidget {
   const Barchart({required this.tabType, super.key});
