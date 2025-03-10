@@ -90,7 +90,7 @@ class _ImagePickerOptionsState extends State<ImagePickerOptions> {
               ),
               CustomButton(
                 text: 'Add Manually',
-                iconPath: 'lib/assets/icon/add_icon/add_icon.svg',
+                iconPath: '',
                 onPressed: () => navigateToTargetPage(context),
               ),
             ],

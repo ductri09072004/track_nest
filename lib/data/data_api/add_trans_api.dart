@@ -38,6 +38,7 @@ class TransactionService {
     required String money,
     required String note,
     required String toFrom,
+    required String type,
     File? imageFile,
   }) async {
     try {
@@ -57,7 +58,7 @@ class TransactionService {
         'pic': imageUrl,
         'tofrom': toFrom,
         'trans_id': generateCateId(),
-        'type': 'expense', // Bạn có thể truyền từ ngoài nếu cần
+        'type': type,
         'user_id': uuid,
       };
 

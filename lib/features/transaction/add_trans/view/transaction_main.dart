@@ -1,16 +1,17 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/input.dart';
+import 'package:testverygood/data/data_api/add_trans_api.dart';
+import 'package:testverygood/features/main_navbar.dart';
 import 'package:testverygood/features/transaction/add_trans/components/Ex_In_btn.dart';
 import 'package:testverygood/features/transaction/add_trans/components/calendar.dart';
 import 'package:testverygood/features/transaction/add_trans/components/categories.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:testverygood/features/main_navbar.dart';
-import 'package:testverygood/data/data_api/add_trans_api.dart';
 
 class TransactionMain extends StatefulWidget {
   const TransactionMain({Key? key, this.data = '', this.imageTransaction = ''})
@@ -93,14 +94,14 @@ class _TransactionMainState extends State<TransactionMain> {
     });
 
     bool success = await TransactionService.saveTransaction(
-      uuid: uuid,
-      selectedCategory: selectedCategory,
-      selectedDate: selectedDate,
-      money: numericController.text,
-      note: noteController.text,
-      toFrom: fromController.text,
-      imageFile: _selectedImage,
-    );
+        uuid: uuid,
+        selectedCategory: selectedCategory,
+        selectedDate: selectedDate,
+        money: numericController.text,
+        note: noteController.text,
+        toFrom: fromController.text,
+        imageFile: _selectedImage,
+        type: isExpense ? 'expense' : 'income');
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -153,7 +154,7 @@ class _TransactionMainState extends State<TransactionMain> {
                       children: [
                         Expanded(
                           child: ExInBtn(
-                            labels: const ['Expenses', 'Income'],
+                            labels: const ['Expense', 'Income'],
                             onToggle: (index) {
                               setState(() {
                                 isExpense = index == 0;

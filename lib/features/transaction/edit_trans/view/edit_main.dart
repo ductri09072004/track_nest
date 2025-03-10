@@ -102,7 +102,8 @@ class _EditMainState extends State<EditMain> {
     final url = Uri.parse('http://3.26.221.69:5000/api/transactions/$rootKey');
 
     final Map<String, dynamic> updatedData = {
-      'money': int.tryParse(numericController.text) ?? 0,
+      'money':
+          int.tryParse(numericController.text.replaceAll('.', '').trim()) ?? 0,
       'note': noteController.text,
       'tofrom': fromController.text,
       'date': '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
@@ -184,6 +185,7 @@ class _EditMainState extends State<EditMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const HeaderA(title: 'Transaction'),
       body: Column(
         children: [
