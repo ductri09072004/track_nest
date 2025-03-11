@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:testverygood/data/data_api/home_data_api.dart';
 import 'package:testverygood/features/home/widgets/icon_content.dart';
 import 'package:testverygood/features/transaction/edit_trans/view/edit_main.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 
 class TransContent extends StatefulWidget {
   const TransContent({super.key});
@@ -133,7 +134,7 @@ class _TransContentState extends State<TransContent> {
           decoration: BoxDecoration(
             color: const Color(0xFFDBEAFE),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: const Color(0xFF1F62F2)),
+            border: Border.all(color: AppColor.blue),
           ),
           padding: const EdgeInsets.all(16),
           child: Row(
@@ -167,7 +168,7 @@ class _TransContentState extends State<TransContent> {
   static const TextStyle titledate = TextStyle(
     fontSize: 12,
     fontFamily: 'Lato',
-    color: Color(0xFF808080),
+    color: AppColor.blackLighter,
   );
   static const TextStyle titleprice = TextStyle(
     fontSize: 16,

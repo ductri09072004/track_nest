@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 
 class FriendToggleList extends StatefulWidget {
   // Callback onChanged
@@ -64,7 +65,7 @@ class _FriendToggleListState extends State<FriendToggleList> {
               Text(
                 friend,
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: AppColor.black,
                   fontSize: 16,
                 ),
               ), // Hiển thị tên bạn bè

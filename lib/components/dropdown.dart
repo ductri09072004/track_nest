@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 
 class Dropdown extends StatelessWidget {
   // Hàm callback khi thay đổi giá trị
 
   const Dropdown({
-    super.key,
     required this.selectedValue,
     required this.options,
     required this.hintText,
     required this.onChanged,
+    super.key,
   });
   final String? selectedValue; // Giá trị hiện tại
   final List<String> options; // Danh sách các tùy chọn
@@ -22,7 +23,7 @@ class Dropdown extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16), // Bo góc của Dropdown
         border: Border.all(
-          color: const Color(0xFFA7A7A7), // Màu viền
+          color: AppColor.whiteDarker,
         ),
       ),
       child: DropdownButton<String>(
@@ -30,7 +31,8 @@ class Dropdown extends StatelessWidget {
         hint: Text(
           hintText,
           style: const TextStyle(
-            color: Color(0xFFCFCFCF),
+            color: AppColor.whiteDark,
+            
             fontSize: 14,
             fontFamily: 'Lato_Regular',
           ),

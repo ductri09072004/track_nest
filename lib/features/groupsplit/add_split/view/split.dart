@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/button.dart';
 import 'package:testverygood/components/dropdown.dart';
@@ -229,11 +230,11 @@ class _SplitPageState extends State<SplitPage> {
   }
 
   static const TextStyle txmain =
-      TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Lato');
+      TextStyle(color: AppColor.black, fontSize: 20, fontFamily: 'Lato');
   static const TextStyle txprice =
-      TextStyle(color: Colors.black, fontSize: 16, fontFamily: 'Lato');
+      TextStyle(color: AppColor.black, fontSize: 16, fontFamily: 'Lato');
   static const TextStyle txtd =
-      TextStyle(color: Colors.black, fontSize: 30, fontFamily: 'Lato');
-  static const TextStyle txtpeo =
-      TextStyle(color: Colors.black, fontSize: 16, fontFamily: 'Lato_Regular');
+      TextStyle(color: AppColor.black, fontSize: 30, fontFamily: 'Lato');
+  static const TextStyle txtpeo = TextStyle(
+      color: AppColor.black, fontSize: 16, fontFamily: 'Lato_Regular');
 }

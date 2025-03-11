@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:testverygood/assets/core/appcolor.dart';
 
 class Content extends StatefulWidget {
   const Content({super.key});
@@ -98,7 +99,7 @@ class _ContentState extends State<Content> {
         ),
         Container(
           height: 2,
-          color: const Color(0xFF000000),
+          color: AppColor.black,
           width: double.infinity,
         ),
       ],
@@ -116,11 +117,11 @@ class _ContentState extends State<Content> {
   static const TextStyle titleprice = TextStyle(
     fontSize: 16,
     fontFamily: 'Lato_Regular',
-    color: Color(0xFFF44336),
+    color: AppColor.red,
   );
   static const TextStyle titleprice2 = TextStyle(
     fontSize: 16,
     fontFamily: 'Lato_Regular',
-    color: Color(0xFF5CB338),
+    color: AppColor.green,
   );
 }
