@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/features/groupsplit/history/view/widgets/content.dart';
+import 'package:testverygood/features/groupsplit/history/widgets/content.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 
 class BodyMain extends StatelessWidget {
   const BodyMain({super.key});
@@ -11,7 +12,7 @@ class BodyMain extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
-          color: Color(0xFFFDFDFD),
+          color: AppColor.white,
         ),
         child: const SingleChildScrollView(
           child: Content(),

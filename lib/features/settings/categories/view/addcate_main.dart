@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/HeaderA.dart';
-import 'package:testverygood/features/settings/categories/components/body_addcate.dart';
+import 'package:testverygood/features/settings/categories/widgets/body_addcate.dart';
 
 class AddCateMain extends StatelessWidget {
   const AddCateMain({super.key});

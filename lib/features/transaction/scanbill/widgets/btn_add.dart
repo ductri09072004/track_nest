@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:testverygood/features/groupsplit/add_split/view/split.dart';
 import 'package:testverygood/features/transaction/add_trans/view/transaction_main.dart';
 // import 'package:testverygood/features/transaction/scanbill/app.dart';
-import 'package:testverygood/features/transaction/scanbill/components/btn_choose_AI.dart';
-import 'package:testverygood/features/transaction/scanbill/components/btnchoose.dart';
+import 'package:testverygood/features/transaction/scanbill/widgets/btn_choose_AI.dart';
+import 'package:testverygood/features/transaction/scanbill/widgets/btnchoose.dart';
 
 class ImagePickerOptions extends StatefulWidget {
   const ImagePickerOptions({

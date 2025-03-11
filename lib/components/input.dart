@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 
 class InputField extends StatefulWidget {
   const InputField({
@@ -92,13 +93,13 @@ class _InputFieldState extends State<InputField> {
 
   static const TextStyle txt = TextStyle(
     fontSize: 36,
-    color: Color(0xFF808080),
+    color: AppColor.blackPalest,
     fontFamily: 'Lato',
   );
 
   static const TextStyle txtsmall = TextStyle(
     fontSize: 16,
-    color: Color(0xFF808080),
+    color: AppColor.blackPalest,
     fontFamily: 'Lato',
   );
 }

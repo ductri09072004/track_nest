@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
+import 'package:testverygood/assets/core/apptypography.dart';
 
 class ExInBtnStatis extends StatefulWidget {
-  const ExInBtnStatis(
-      {required this.labels, required this.onToggle, super.key});
+  const ExInBtnStatis({
+    required this.labels,
+    required this.onToggle,
+    super.key,
+  });
   final List<String> labels;
   final ValueChanged<int> onToggle;
 
@@ -35,7 +40,7 @@ class _ExInBtnState extends State<ExInBtnStatis> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: selectedIndex == index
-                      ? const Color(0xFF013CBC)
+                      ? AppColor.blue
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: selectedIndex == index
@@ -54,10 +59,11 @@ class _ExInBtnState extends State<ExInBtnStatis> {
                 ),
                 child: Text(
                   widget.labels[index],
+                  // style: AppTypo().,
                   style: TextStyle(
                     color: selectedIndex == index
-                        ? Colors.white
-                        : const Color(0xFF808080),
+                        ? AppColor.white
+                        : AppColor.blackLighter,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),

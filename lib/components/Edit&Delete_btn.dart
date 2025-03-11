@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 
 class EditDeleteButtons extends StatelessWidget {
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
   const EditDeleteButtons({
-    Key? key,
     required this.onEdit,
     required this.onDelete,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -20,7 +21,7 @@ class EditDeleteButtons extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.transparent, // Nền trong suốt
               side: const BorderSide(
-                color: Color(0xFF791CAC),
+                color: AppColor.blue,
                 width: 2,
               ), // Viền màu tím
               shape: RoundedRectangleBorder(
@@ -32,7 +33,7 @@ class EditDeleteButtons extends StatelessWidget {
             child: const Text(
               'Edit',
               style: TextStyle(
-                color: Color(0xFF791CAC),
+                color: AppColor.blue,
                 fontSize: 20,
                 fontFamily: 'lato',
               ),
@@ -46,7 +47,7 @@ class EditDeleteButtons extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.transparent, // Nền trong suốt
               side: const BorderSide(
-                color: Color(0xFF791CAC),
+                color: AppColor.blue,
                 width: 2,
               ), // Viền màu đỏ cho nút Delete
               shape: RoundedRectangleBorder(
@@ -58,7 +59,7 @@ class EditDeleteButtons extends StatelessWidget {
             child: const Text(
               'Delete',
               style: TextStyle(
-                color: Color(0xFF791CAC),
+                color: AppColor.blue,
                 fontSize: 20,
                 fontFamily: 'lato',
               ),

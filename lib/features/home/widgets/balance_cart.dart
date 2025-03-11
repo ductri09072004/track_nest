@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:testverygood/features/home/domain/models/balance_model.dart';
-import 'package:testverygood/features/home/domain/services/balance_service.dart';
+import 'package:testverygood/data/data_api/balence_api.dart';
 
 class BalanceCard extends StatefulWidget {
   const BalanceCard({super.key});
@@ -11,11 +10,14 @@ class BalanceCard extends StatefulWidget {
 }
 
 class _BalanceCardState extends State<BalanceCard> {
-  BalanceData balanceData = BalanceData(expense: 0, income: 0);
+  String? uuid;
+  int expense = 0;
+  int income = 0;
   bool isLoading = true;
   bool isBalanceVisible = true;
   String errorMessage = '';
-  final BalanceService balanceService = BalanceService();
+
+  final DataService dataService = DataService();
 
   @override
   void initState() {
@@ -25,11 +27,15 @@ class _BalanceCardState extends State<BalanceCard> {
 
   Future<void> _initializeData() async {
     try {
-      final data = await balanceService.getBalanceData();
-      if (mounted) {
-        setState(() {
-          balanceData = data;
-        });
+      uuid = await dataService.loadUUID();
+      if (uuid != null) {
+        final data = await dataService.fetchData(uuid);
+        if (mounted) {
+          setState(() {
+            expense = data['expense']!;
+            income = data['income']!;
+          });
+        }
       }
     } catch (e) {
       if (mounted) {
@@ -70,10 +76,9 @@ class _BalanceCardState extends State<BalanceCard> {
                     const Text(
                       'Total balance',
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontFamily: 'Lato',
-                      ),
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: 'Lato'),
                     ),
                     IconButton(
                       icon: Icon(
@@ -96,22 +101,20 @@ class _BalanceCardState extends State<BalanceCard> {
                     Text(
                       isBalanceVisible
                           ? NumberFormat('#,###', 'vi_VN')
-                              .format(balanceData.income - balanceData.expense)
+                              .format(income - expense)
                           : '******',
                       style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontFamily: 'Lato',
-                      ),
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontFamily: 'Lato'),
                     ),
                     const SizedBox(width: 8),
                     const Text(
                       'VND',
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontFamily: 'Lato',
-                      ),
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontFamily: 'Lato'),
                     ),
                   ],
                 ),
@@ -123,13 +126,13 @@ class _BalanceCardState extends State<BalanceCard> {
                       icon: Icons.arrow_upward,
                       color: Colors.red,
                       title: 'Expenses',
-                      amount: balanceData.expense.toString(),
+                      amount: expense.toStringAsFixed(0),
                     ),
                     _buildBalanceItem(
                       icon: Icons.arrow_downward,
                       color: Colors.green,
                       title: 'Income',
-                      amount: balanceData.income.toString(),
+                      amount: income.toStringAsFixed(0),
                     ),
                   ],
                 ),
@@ -152,7 +155,7 @@ class _BalanceCardState extends State<BalanceCard> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: const [
-            BoxShadow(color: Colors.black12, blurRadius: 4, spreadRadius: 1),
+            BoxShadow(color: Colors.black12, blurRadius: 4, spreadRadius: 1)
           ],
         ),
         child: Column(
@@ -162,10 +165,9 @@ class _BalanceCardState extends State<BalanceCard> {
               child: Icon(icon, color: color),
             ),
             const SizedBox(height: 8),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            ),
+            Text(title,
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
             const SizedBox(height: 4),
             Text(
               isBalanceVisible

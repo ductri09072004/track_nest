@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/HeaderA.dart';
-import 'package:testverygood/features/settings/groupfriends/components/body_groups.dart';
+import 'package:testverygood/features/settings/groupfriends/widgets/body_groups.dart';
 
 class AddGroupPage extends StatelessWidget {
   const AddGroupPage({super.key});

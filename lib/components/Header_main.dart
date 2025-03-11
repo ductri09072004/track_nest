@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:testverygood/components/date.dart'; // Import HorizontalList từ đây
+import 'package:testverygood/assets/core/appcolor.dart';
 
 class HeaderMain extends StatelessWidget {
   final String title;
@@ -23,10 +24,10 @@ class HeaderMain extends StatelessWidget {
         right: 20,
       ),
       decoration: const BoxDecoration(
-        color: Color(0xFFFFFFFF),
+        color: Colors.white,
         border: Border(
           bottom: BorderSide(
-            color: Color(0xFFCFCFCF),
+            color: AppColor.whiteDark,
           ),
         ),
       ),
@@ -82,7 +83,7 @@ class HeaderMain extends StatelessWidget {
   }
 
   static const TextStyle texttop = TextStyle(
-    color: Colors.black,
+    color: AppColor.black,
     fontSize: 18,
     fontFamily: 'Lato',
   );

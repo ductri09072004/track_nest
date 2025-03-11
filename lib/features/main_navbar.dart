@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 // import 'package:testverygood/features/add/app.dart';
 import 'package:testverygood/features/groupsplit/history/app.dart';
 import 'package:testverygood/features/home/app.dart';
@@ -48,7 +49,8 @@ class _MainPageState extends State<MainPage> {
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed, // Đảm bảo màu nền hiển thị đúng
-        backgroundColor: Colors.white, // Màu nền navbar
+        // backgroundColor: Colors.white, // Màu nền navbar
+        backgroundColor: AppColor.white,
         showSelectedLabels: false, // Ẩn label khi icon được chọn
         showUnselectedLabels: false, // Ẩn label khi icon chưa được chọn
         currentIndex: _currentIndex,

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 
-class LoadingPage extends StatelessWidget {
-  final String iconPath; // Biến đường dẫn SVG
+class LoadingPage extends StatelessWidget { // Biến đường dẫn SVG
 
-  const LoadingPage({super.key, required this.iconPath});
+  const LoadingPage({required this.iconPath, super.key});
+  final String iconPath;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColor.white,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -28,7 +29,7 @@ class LoadingPage extends StatelessWidget {
                 minHeight: 6,
                 backgroundColor: Colors.grey[300],
                 valueColor: const AlwaysStoppedAnimation<Color>(
-                  Color(0xFF013CBC),
+                  AppColor.blue,
                 ),
               ),
             ),
