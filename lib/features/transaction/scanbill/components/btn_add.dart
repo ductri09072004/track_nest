@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testverygood/features/groupsplit/add_split/view/split.dart';
 import 'package:testverygood/features/transaction/add_trans/view/transaction_main.dart';
 // import 'package:testverygood/features/transaction/scanbill/app.dart';
 import 'package:testverygood/features/transaction/scanbill/components/btn_choose_AI.dart';
@@ -30,8 +31,9 @@ class _ImagePickerOptionsState extends State<ImagePickerOptions> {
   void navigateToTargetPage(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      // ignore: inference_failure_on_instance_creation
-      MaterialPageRoute(builder: (context) => const TransactionMain()),
+      // ignore: inference_failure_on_instance_creation SplitPage
+      // MaterialPageRoute(builder: (context) => const TransactionMain()),
+      MaterialPageRoute(builder: (context) => const SplitPage()),
     );
   }
 

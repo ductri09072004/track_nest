@@ -6,18 +6,14 @@ class BodyMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: MediaQuery.of(context).size.height / 5,
-      left: 0,
-      right: 0,
+    return Expanded(
       child: Container(
         height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.only(top: 12, bottom: 110),
+        padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
           color: Color(0xFFFDFDFD),
         ),
         child: const SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: 140),
           child: Content(),
         ),
       ),
