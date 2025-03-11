@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/data/data_api/home_data_api.dart';
-import 'package:testverygood/features/home/domain/models/transaction_model.dart';
-import 'package:testverygood/features/home/domain/services/transaction_service.dart';
-import 'package:testverygood/features/home/view/widgets/icon_content.dart';
+import 'package:testverygood/features/home/widgets/icon_content.dart';
 import 'package:testverygood/features/transaction/edit_trans/view/edit_main.dart';
 
-class ExpContent extends StatefulWidget {
-  const ExpContent({super.key});
+class TransContent extends StatefulWidget {
+  const TransContent({super.key});
 
   @override
-  _ExpContentState createState() => _ExpContentState();
+  _TransContentState createState() => _TransContentState();
 }
 
-class _ExpContentState extends State<ExpContent> {
+class _TransContentState extends State<TransContent> {
   String? uuid;
-  late Future<List<TransactionModel>> futureTransactions;
-  final TransactionService transactionService = TransactionService();
+  late Future<List<Map<String, dynamic>>> futureData;
 
   @override
   void initState() {
@@ -27,15 +24,25 @@ class _ExpContentState extends State<ExpContent> {
     final storedUUID = await loadUUID();
     setState(() {
       uuid = storedUUID;
-      futureTransactions = transactionService.fetchTransactions(uuid);
+      futureData = fetchData(uuid);
     });
   }
 
-  void navigateToDetailPage(BuildContext context, String transId, Widget icon) {
+  String formatCurrency(int amount) {
+    return amount.toString().replaceAllMapped(
+          RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
+          (Match match) => '${match[1]}.',
+        );
+  }
+
+  void navigateToDetailPage(BuildContext context, String title, Widget icon) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EditMain(transid: transId, icon: icon),
+        builder: (context) => EditMain(
+          transid: title,
+          icon: icon,
+        ),
       ),
     );
   }
@@ -48,8 +55,8 @@ class _ExpContentState extends State<ExpContent> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      child: FutureBuilder<List<TransactionModel>>(
-        future: futureTransactions,
+      child: FutureBuilder<List<Map<String, dynamic>>>(
+        future: futureData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -60,19 +67,43 @@ class _ExpContentState extends State<ExpContent> {
           }
 
           final transactions = snapshot.data!;
-          transactions
-              .sort((a, b) => _parseDate(b.date).compareTo(_parseDate(a.date)));
+          transactions.sort((a, b) {
+            DateTime dateA = _parseDate(a['date'] as String);
+            DateTime dateB = _parseDate(b['date'] as String);
+            return dateB.compareTo(dateA);
+          });
+
+          var groupedByMonthYear = <String, List<Map<String, dynamic>>>{};
+          for (final transaction in transactions) {
+            final dateParts = (transaction['date'] as String).split('/');
+            if (dateParts.length < 3) continue;
+
+            final monthYear = '${dateParts[0]}/${dateParts[1]}/${dateParts[2]}';
+
+            if (!groupedByMonthYear.containsKey(monthYear)) {
+              groupedByMonthYear[monthYear] = [];
+            }
+            groupedByMonthYear[monthYear]!.add(transaction);
+          }
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: transactions.map((transaction) {
-              return buildExpenseRow(
-                IconDisplayScreen(cateId: transaction.cateId),
-                transaction.cateId,
-                '${transaction.type == 'expense' ? '-' : '+'}${formatCurrency(transaction.amount)} VND',
-                transaction.type == 'expense',
-                transaction.date,
-                transaction.transId,
+            children: groupedByMonthYear.entries.map((entry) {
+              final monthYear = entry.key;
+              final transactionsForMonthYear = entry.value;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: transactionsForMonthYear.map((transaction) {
+                  return buildExpenseRow(
+                    IconDisplayScreen(cateId: transaction['cate_id'] as String),
+                    transaction['cate_id'] as String? ?? 'null',
+                    '${transaction['type'] == 'expense' ? '-' : '+'}${formatCurrency(int.parse(transaction['money'].toString()))} VND',
+                    transaction['type'] == 'expense',
+                    monthYear,
+                    transaction['trans_id'] as String? ?? 'null',
+                  );
+                }).toList(),
               );
             }).toList(),
           );
@@ -82,30 +113,16 @@ class _ExpContentState extends State<ExpContent> {
   }
 
   DateTime _parseDate(String dateString) {
-    final parts = dateString.split('/');
+    List<String> parts = dateString.split('/');
     if (parts.length < 3) return DateTime(2000, 1, 1);
-    return DateTime(
-      int.parse(parts[2]),
-      int.parse(parts[1]),
-      int.parse(parts[0]),
-    );
+    int day = int.parse(parts[0]);
+    int month = int.parse(parts[1]);
+    int year = int.parse(parts[2]);
+    return DateTime(year, month, day);
   }
 
-  String formatCurrency(int amount) {
-    return amount.toString().replaceAllMapped(
-          RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
-          (Match match) => '${match[1]}.',
-        );
-  }
-
-  Widget buildExpenseRow(
-    Widget iconWidget,
-    String title,
-    String price,
-    bool isRed,
-    String date,
-    String trans,
-  ) {
+  Widget buildExpenseRow(Widget iconWidget, String title, String price,
+      bool isRed, String date, String trans) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: GestureDetector(
@@ -132,7 +149,10 @@ class _ExpContentState extends State<ExpContent> {
                 ],
               ),
               const Spacer(),
-              Text(price, style: isRed ? titleprice : titleprice2),
+              Text(
+                price,
+                style: isRed ? titleprice : titleprice2,
+              ),
             ],
           ),
         ),

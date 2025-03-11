@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/features/groupsplit/history/view/widgets/content.dart';
+import 'package:testverygood/features/groupsplit/history/widgets/content.dart';
 
 class BodyMain extends StatelessWidget {
   const BodyMain({super.key});

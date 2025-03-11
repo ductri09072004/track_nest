@@ -9,9 +9,9 @@ import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/input.dart';
 import 'package:testverygood/data/data_api/add_trans_api.dart';
 import 'package:testverygood/features/main_navbar.dart';
-import 'package:testverygood/features/transaction/add_trans/components/Ex_In_btn.dart';
-import 'package:testverygood/features/transaction/add_trans/components/calendar.dart';
-import 'package:testverygood/features/transaction/add_trans/components/categories.dart';
+import 'package:testverygood/components/Ex_In_btn_Satis.dart';
+import 'package:testverygood/features/transaction/add_trans/widgets/calendar.dart';
+import 'package:testverygood/features/transaction/add_trans/widgets/categories.dart';
 
 class TransactionMain extends StatefulWidget {
   const TransactionMain({Key? key, this.data = '', this.imageTransaction = ''})
@@ -153,7 +153,7 @@ class _TransactionMainState extends State<TransactionMain> {
                     Row(
                       children: [
                         Expanded(
-                          child: ExInBtn(
+                          child: ExInBtnStatis(
                             labels: const ['Expense', 'Income'],
                             onToggle: (index) {
                               setState(() {

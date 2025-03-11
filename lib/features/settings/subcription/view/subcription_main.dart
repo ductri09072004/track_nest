@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/button.dart';
-import 'package:testverygood/features/settings/subcription/components/free_contents.dart';
-import 'package:testverygood/features/settings/subcription/components/premium_contents.dart';
+import 'package:testverygood/features/settings/subcription/widgets/free_contents.dart';
+import 'package:testverygood/features/settings/subcription/widgets/premium_contents.dart';
 import 'package:testverygood/features/settings/subcription/view/link_email.dart';
 
 class UpgradeAccountPage extends StatelessWidget {

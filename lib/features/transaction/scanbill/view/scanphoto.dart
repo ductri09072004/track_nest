@@ -4,8 +4,8 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:image_picker/image_picker.dart';
 // import 'package:testverygood/components/component_app/HeaderA.dart';
 import 'package:testverygood/features/transaction/scanbill/components/Nest_AI.dart';
-import 'package:testverygood/features/transaction/scanbill/components/btn_add.dart';
-import 'package:testverygood/features/transaction/scanbill/components/btn_success.dart';
+import 'package:testverygood/features/transaction/scanbill/widgets/btn_add.dart';
+import 'package:testverygood/features/transaction/scanbill/widgets/btn_success.dart';
 import 'package:testverygood/features/transaction/scanbill/components/Gpt_AI.dart';
 
 class ImagePickerScreen extends StatefulWidget {

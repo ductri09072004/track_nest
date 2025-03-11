@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/HeaderA.dart';
-import 'package:testverygood/features/settings/groupfriends/components/body_friends.dart';
+import 'package:testverygood/features/settings/groupfriends/widgets/body_friends.dart';
 
 class FriendListPage extends StatelessWidget {
   const FriendListPage({super.key});
