@@ -5,17 +5,17 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
+import 'package:testverygood/components/Ex_In_btn_Satis.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/input.dart';
 import 'package:testverygood/data/data_api/add_trans_api.dart';
 import 'package:testverygood/features/main_navbar.dart';
-import 'package:testverygood/components/Ex_In_btn_Satis.dart';
 import 'package:testverygood/features/transaction/add_trans/widgets/calendar.dart';
 import 'package:testverygood/features/transaction/add_trans/widgets/categories.dart';
 
 class TransactionMain extends StatefulWidget {
-  const TransactionMain({Key? key, this.data = '', this.imageTransaction = ''})
-      : super(key: key);
+  const TransactionMain({super.key, this.data = '', this.imageTransaction = ''});
 
   final String data;
   final String imageTransaction; // Nhận thêm imageTransaction
@@ -257,7 +257,7 @@ class _TransactionMainState extends State<TransactionMain> {
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -272,7 +272,7 @@ class _TransactionMainState extends State<TransactionMain> {
                           ? null
                           : () => handleSaveTransactionfinall(context),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF013CBC),
+                        backgroundColor: AppColor.blue,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                       child: isLoading
@@ -292,7 +292,7 @@ class _TransactionMainState extends State<TransactionMain> {
   }
 
   static const TextStyle txmain =
-      TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Lato');
+      TextStyle(color: AppColor.black, fontSize: 20, fontFamily: 'Lato');
   static const TextStyle txtd =
-      TextStyle(color: Colors.black, fontSize: 30, fontFamily: 'Lato');
+      TextStyle(color: AppColor.black, fontSize: 30, fontFamily: 'Lato');
 }
