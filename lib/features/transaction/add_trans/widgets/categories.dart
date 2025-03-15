@@ -83,6 +83,7 @@ class _CategoriesTextState extends State<CategoriesText> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: const Key('categories_text'),
       child: errorMessage.isNotEmpty
           ? Center(
               child:
