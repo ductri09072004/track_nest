@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:testverygood/components/button.dart';
 import 'package:testverygood/components/input.dart';
-import 'package:testverygood/features/transaction/add_trans/widgets/Ex_In_btn.dart';
+import 'package:testverygood/components/Ex_In_btn_Statis.dart';
 import 'package:testverygood/data/data_api/add_cate_api.dart';
 
 class BodyMain extends StatefulWidget {
@@ -72,7 +72,7 @@ class _BodyMainState extends State<BodyMain> {
           children: [
             const Text('Type', style: txmain),
             const SizedBox(height: 10),
-            ExInBtn(
+            ExInBtnStatis(
               labels: const ['Expenses', 'Income'],
               onToggle: (index) {
                 setState(() {

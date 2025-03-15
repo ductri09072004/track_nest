@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:testverygood/assets/core/appcolor.dart';
-import 'package:testverygood/components/Ex_In_btn_Satis.dart';
+import 'package:testverygood/components/Ex_In_btn_Statis.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/input.dart';
 import 'package:testverygood/data/data_api/add_trans_api.dart';
