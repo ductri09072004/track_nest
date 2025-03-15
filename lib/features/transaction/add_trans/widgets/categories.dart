@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/data/data_api/categori_trans_data_api.dart';
+import 'package:testverygood/data/data_api/category_trans_data_api.dart';
 
 class CategoriesText extends StatefulWidget {
   const CategoriesText({

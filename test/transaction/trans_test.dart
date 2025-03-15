@@ -144,7 +144,7 @@ void main() {
     final Finder categoryWidget = find.byKey(const Key('categories_text'));
     expect(categoryWidget, findsOneWidget); // Kiểm tra widget tồn tại
     await tester.tap(categoryWidget);
-    await tester.pumpAndSettle();
+    // await tester.pumpAndSettle();
     await tester.pump();
 
     // Nhấn nút Save
