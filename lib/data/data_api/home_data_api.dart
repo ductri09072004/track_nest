@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 const storage = FlutterSecureStorage();
 
 Future<String?> loadUUID() async {
-  return await storage.read(key: 'unique_id');
+  return storage.read(key: 'unique_id');
 }
 
 Future<List<Map<String, dynamic>>> fetchData(String? uuid) async {

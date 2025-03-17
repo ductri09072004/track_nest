@@ -6,7 +6,7 @@ class BalanceService {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   Future<String?> loadUUID() async {
-    return await storage.read(key: 'unique_id');
+    return storage.read(key: 'unique_id');
   }
 
   Future<Map<String, int>> fetchData(String? uuid) async {
@@ -28,8 +28,8 @@ class BalanceService {
         int totalExpense = 0;
         int totalIncome = 0;
 
-        for (var transaction in userTransactions) {
-          int amount = int.tryParse(transaction['money'].toString()) ?? 0;
+        for (final transaction in userTransactions) {
+          final int amount = int.tryParse(transaction['money'].toString()) ?? 0;
           if (transaction['type'] == 'expense') {
             totalExpense += amount;
           } else if (transaction['type'] == 'income') {

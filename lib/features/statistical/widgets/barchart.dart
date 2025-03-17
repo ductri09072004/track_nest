@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:testverygood/data/data_api/barchart_data_api.dart';
 
@@ -28,7 +28,7 @@ class _BarchartState extends State<Barchart> {
     try {
       uuid = await dataService.loadUUID();
       if (uuid != null) {
-        final data = await dataService.fetchData(uuid!, widget.tabType);
+        final data = await dataService.fetchData(uuid, widget.tabType);
         if (mounted) {
           setState(() {
             transactions = data;
@@ -62,7 +62,7 @@ class _BarchartState extends State<Barchart> {
               : transactions.isEmpty
                   ? const Center(child: Text('There are no transactions'))
                   : _buildChartWithLegend(),
-    ));
+    ),);
   }
 
   Widget _buildChartWithLegend() {

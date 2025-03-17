@@ -78,7 +78,7 @@ class _BalanceCardState extends State<BalanceCard> {
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
-                          fontFamily: 'Lato'),
+                          fontFamily: 'Lato',),
                     ),
                     IconButton(
                       icon: Icon(
@@ -114,7 +114,7 @@ class _BalanceCardState extends State<BalanceCard> {
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 28,
-                          fontFamily: 'Lato'),
+                          fontFamily: 'Lato',),
                     ),
                   ],
                 ),

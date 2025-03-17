@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
 
 class Content extends StatefulWidget {
   // Nhận categoryType từ TabBar
 
-  const Content({super.key, required this.categoryType});
+  const Content({required this.categoryType, super.key});
   final String categoryType;
 
   @override
@@ -26,7 +26,7 @@ class _ContentState extends State<Content> {
   }
 
   Future<void> _loadUUID() async {
-    var storedUUID = await storage.read(key: 'unique_id');
+    final storedUUID = await storage.read(key: 'unique_id');
     if (storedUUID != null) {
       setState(() {
         uuid = storedUUID;
@@ -108,11 +108,11 @@ class _ContentState extends State<Content> {
             );
           }
 
-          var categories = snapshot.data!;
+          final categories = snapshot.data!;
           return ListView(
             children: categories.entries.map((entry) {
               final category = entry.value;
-              var id = entry.key; // Lấy ID trực tiếp từ key của Map
+              final id = entry.key; // Lấy ID trực tiếp từ key của Map
 
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),

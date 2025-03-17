@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-
 import 'package:http/http.dart' as http;
-
+import 'package:testverygood/components/Edit&Delete_btn.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/input.dart';
-import 'package:testverygood/features/transaction/add_trans/widgets/calendar.dart';
 import 'package:testverygood/features/main_navbar.dart';
-import 'package:testverygood/components/Edit&Delete_btn.dart';
+import 'package:testverygood/features/transaction/add_trans/widgets/calendar.dart';
 
 class EditMain extends StatefulWidget {
   const EditMain({
@@ -65,8 +63,8 @@ class _EditMainState extends State<EditMain> {
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as Map<String, dynamic>;
 
-      for (var entry in data.entries) {
-        var transaction = entry.value as Map<String, dynamic>;
+      for (final entry in data.entries) {
+        final transaction = entry.value as Map<String, dynamic>;
         if (transaction['trans_id'] == widget.transid) {
           setState(() {
             rootKey = entry.key; // Lưu key gốc
@@ -83,7 +81,8 @@ class _EditMainState extends State<EditMain> {
 
       if (rootKey == null) {
         throw Exception(
-            'Không tìm thấy giao dịch với trans_id: ${widget.transid}');
+          'Không tìm thấy giao dịch với trans_id: ${widget.transid}',
+        );
       }
     } else {
       throw Exception('Không thể tải dữ liệu');

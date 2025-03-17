@@ -20,7 +20,7 @@ class BodyMain extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  top: 12, bottom: 20, right: 20, left: 20),
+                  top: 12, bottom: 20, right: 20, left: 20,),
               child: Column(
                 children: [
                   InkWell(

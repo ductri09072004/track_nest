@@ -13,7 +13,7 @@ class NestAI {
       final regex =
           RegExp(r'(?<!\d)(\d{1,3}(?:,\d{3})*(?:\.\d+)?)(?=\s*(VND|đ)?)');
 
-      var filteredLines = recognizedText.text
+      final filteredLines = recognizedText.text
           .split('\n')
           .where(regex.hasMatch)
           .map((line) {
@@ -37,14 +37,14 @@ class NestAI {
 
       if (filteredLines.isEmpty) return 'No valid currency found';
 
-      var amounts = filteredLines
+      final amounts = filteredLines
           .map((line) => double.tryParse(line) ?? 0)
           .where((num) => num >= 1000) // Chỉ lấy giá trị >= 1000 VND
           .toList();
 
       if (amounts.isEmpty) return 'No valid amount found';
 
-      var maxAmount = amounts.reduce((a, b) => a > b ? a : b);
+      final maxAmount = amounts.reduce((a, b) => a > b ? a : b);
 
       return maxAmount.toStringAsFixed(0);
     } catch (e) {

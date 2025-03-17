@@ -278,7 +278,7 @@ class _TransactionMainState extends State<TransactionMain> {
                           ? const CircularProgressIndicator(color: Colors.white)
                           : const Text('Save',
                               style:
-                                  TextStyle(fontSize: 18, color: Colors.white)),
+                                  TextStyle(fontSize: 18, color: Colors.white),),
                     ),
                   ),
                 ],

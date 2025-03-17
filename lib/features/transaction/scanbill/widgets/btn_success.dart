@@ -5,11 +5,11 @@ import 'package:testverygood/features/transaction/add_trans/app.dart'; // Import
 
 class BtnSuccess extends StatelessWidget {
   const BtnSuccess({
-    Key? key,
+    super.key,
     required this.extractedText,
     required this.imageTransaction,
     required this.onRescan,
-  }) : super(key: key);
+  });
 
   final String extractedText; // Số tiền trích xuất từ bill
   final String imageTransaction;
@@ -17,7 +17,7 @@ class BtnSuccess extends StatelessWidget {
 
   String formatCurrency(String value) {
     try {
-      var number = int.parse(value);
+      final number = int.parse(value);
       return NumberFormat.currency(locale: 'vi_VN', symbol: 'VND')
           .format(number);
     } catch (e) {

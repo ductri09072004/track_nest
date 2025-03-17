@@ -51,10 +51,10 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
 
     try {
       final recognizedText = await textRecognizer.processImage(inputImage);
-      var rawText = recognizedText.text;
+      final rawText = recognizedText.text;
 
       // Gửi văn bản OCR đến GPT để lấy tổng tiền
-      var gptResponse = await GptService().getTotalAmount(rawText);
+      final gptResponse = await GptService().getTotalAmount(rawText);
 
       setState(
         () => _extractedText = gptResponse!,
@@ -67,7 +67,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   }
 
   Future<void> _nestAI(File imageFile) async {
-    var result = await NestAI().processImage(imageFile);
+    final result = await NestAI().processImage(imageFile);
     setState(() {
       _extractedText = result;
     });

@@ -3,11 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.iconPath,
     required this.onPressed,
-  }) : super(key: key);
+  });
   final String text;
   final String iconPath;
   final VoidCallback onPressed;

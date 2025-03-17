@@ -61,7 +61,7 @@ class _ContentState extends State<Content> {
           : errorMessage.isNotEmpty
               ? Center(
                   child: Text(errorMessage,
-                      style: const TextStyle(color: Colors.red)))
+                      style: const TextStyle(color: Colors.red),),)
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: data

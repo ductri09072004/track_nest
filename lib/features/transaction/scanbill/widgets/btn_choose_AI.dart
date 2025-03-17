@@ -5,10 +5,10 @@ class BtnChooseAi extends StatefulWidget {
   // Hàm callback
 
   const BtnChooseAi({
-    Key? key,
+    super.key,
     required this.iconPath,
     required this.onModelSelected, // Nhận callback từ ngoài
-  }) : super(key: key);
+  });
   final String iconPath;
   // ignore: inference_failure_on_function_return_type
   final Function(String) onModelSelected;

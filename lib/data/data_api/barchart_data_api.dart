@@ -6,7 +6,7 @@ class BarchartService {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   Future<String?> loadUUID() async {
-    return await storage.read(key: 'unique_id');
+    return storage.read(key: 'unique_id');
   }
 
   Future<List<Map<String, dynamic>>> fetchData(

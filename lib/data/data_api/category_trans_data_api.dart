@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 
 class CategoryService {
   final storage = const FlutterSecureStorage();
 
   Future<String?> loadUUID() async {
-    return await storage.read(key: 'unique_id');
+    return storage.read(key: 'unique_id');
   }
 
   Future<List<Map<String, dynamic>>> fetchCustomerData({

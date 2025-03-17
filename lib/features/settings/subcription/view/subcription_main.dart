@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/button.dart';
+import 'package:testverygood/features/settings/subcription/view/link_email.dart';
 import 'package:testverygood/features/settings/subcription/widgets/free_contents.dart';
 import 'package:testverygood/features/settings/subcription/widgets/premium_contents.dart';
-import 'package:testverygood/features/settings/subcription/view/link_email.dart';
 
 class UpgradeAccountPage extends StatelessWidget {
+  const UpgradeAccountPage({super.key});
+
   void navigateToTargetPage(BuildContext context) {
     Navigator.pushReplacement(
       context,

@@ -6,11 +6,13 @@ import 'package:intl/intl.dart';
 const storage = FlutterSecureStorage();
 
 Future<String?> loadUUID() async {
-  return await storage.read(key: 'unique_id');
+  return storage.read(key: 'unique_id');
 }
 
 Future<List<Map<String, dynamic>>> fetchData(
-    String uuid, String tabType,) async {
+  String uuid,
+  String tabType,
+) async {
   try {
     final response =
         await http.get(Uri.parse('http://3.26.221.69:5000/api/transactions'));
@@ -36,19 +38,19 @@ Future<List<Map<String, dynamic>>> fetchData(
 }
 
 List<ExpenseData> processTransactions(List<Map<String, dynamic>> transactions) {
-  var categoryData = <String, double>{};
+  final categoryData = <String, double>{};
   double totalMoney = 0;
 
   for (final transaction in transactions) {
-    var category = transaction['cate_id'].toString();
-    var money = (transaction['money'] as num).toDouble();
+    final category = transaction['cate_id'].toString();
+    final money = (transaction['money'] as num).toDouble();
 
     totalMoney += money;
     categoryData[category] = (categoryData[category] ?? 0) + money;
   }
 
   return categoryData.entries.map((entry) {
-    double percentage = (entry.value / totalMoney) * 100;
+    final double percentage = (entry.value / totalMoney) * 100;
     return ExpenseData(
       percent: '${percentage.toStringAsFixed(1)}%',
       title: entry.key, // Thay thế bằng tên danh mục nếu có

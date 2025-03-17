@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 import 'package:testverygood/data/data_api/home_data_api.dart';
 import 'package:testverygood/features/home/widgets/icon_content.dart';
 import 'package:testverygood/features/transaction/edit_trans/view/edit_main.dart';
-import 'package:testverygood/assets/core/appcolor.dart';
 
 class TransContent extends StatefulWidget {
   const TransContent({super.key});
@@ -69,12 +69,12 @@ class _TransContentState extends State<TransContent> {
 
           final transactions = snapshot.data!;
           transactions.sort((a, b) {
-            DateTime dateA = _parseDate(a['date'] as String);
-            DateTime dateB = _parseDate(b['date'] as String);
+            final DateTime dateA = _parseDate(a['date'] as String);
+            final DateTime dateB = _parseDate(b['date'] as String);
             return dateB.compareTo(dateA);
           });
 
-          var groupedByMonthYear = <String, List<Map<String, dynamic>>>{};
+          final groupedByMonthYear = <String, List<Map<String, dynamic>>>{};
           for (final transaction in transactions) {
             final dateParts = (transaction['date'] as String).split('/');
             if (dateParts.length < 3) continue;
@@ -114,16 +114,16 @@ class _TransContentState extends State<TransContent> {
   }
 
   DateTime _parseDate(String dateString) {
-    List<String> parts = dateString.split('/');
+    final List<String> parts = dateString.split('/');
     if (parts.length < 3) return DateTime(2000, 1, 1);
-    int day = int.parse(parts[0]);
-    int month = int.parse(parts[1]);
-    int year = int.parse(parts[2]);
+    final int day = int.parse(parts[0]);
+    final int month = int.parse(parts[1]);
+    final int year = int.parse(parts[2]);
     return DateTime(year, month, day);
   }
 
   Widget buildExpenseRow(Widget iconWidget, String title, String price,
-      bool isRed, String date, String trans) {
+      bool isRed, String date, String trans,) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: GestureDetector(
