@@ -3,14 +3,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-final storage = FlutterSecureStorage();
+const storage = FlutterSecureStorage();
 
 Future<String?> loadUUID() async {
   return await storage.read(key: 'unique_id');
 }
 
 Future<List<Map<String, dynamic>>> fetchData(
-    String uuid, String tabType) async {
+    String uuid, String tabType,) async {
   try {
     final response =
         await http.get(Uri.parse('http://3.26.221.69:5000/api/transactions'));
@@ -37,7 +37,7 @@ Future<List<Map<String, dynamic>>> fetchData(
 
 List<ExpenseData> processTransactions(List<Map<String, dynamic>> transactions) {
   var categoryData = <String, double>{};
-  double totalMoney = 0.0;
+  double totalMoney = 0;
 
   for (final transaction in transactions) {
     var category = transaction['cate_id'].toString();

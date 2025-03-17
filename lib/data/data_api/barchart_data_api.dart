@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-class DataService {
+class BarchartService {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   Future<String?> loadUUID() async {
@@ -10,7 +10,7 @@ class DataService {
   }
 
   Future<List<Map<String, dynamic>>> fetchData(
-      String? uuid, String tabType) async {
+      String? uuid, String tabType,) async {
     if (uuid == null) return [];
 
     try {
@@ -26,7 +26,7 @@ class DataService {
         return allTransactions
             .where((transaction) =>
                 transaction['user_id'] == uuid &&
-                transaction['type'] == tabType)
+                transaction['type'] == tabType,)
             .toList();
       } else {
         throw Exception('Không thể tải dữ liệu');

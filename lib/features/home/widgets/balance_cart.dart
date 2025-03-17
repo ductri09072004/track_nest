@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:testverygood/data/data_api/balence_api.dart';
+import 'package:testverygood/data/data_api/balance_api.dart';
 
 class BalanceCard extends StatefulWidget {
   const BalanceCard({super.key});
@@ -17,7 +17,7 @@ class _BalanceCardState extends State<BalanceCard> {
   bool isBalanceVisible = true;
   String errorMessage = '';
 
-  final DataService dataService = DataService();
+  final BalanceService dataService = BalanceService();
 
   @override
   void initState() {
@@ -106,7 +106,7 @@ class _BalanceCardState extends State<BalanceCard> {
                       style: const TextStyle(
                           color: Colors.white,
                           fontSize: 28,
-                          fontFamily: 'Lato'),
+                          fontFamily: 'Lato',),
                     ),
                     const SizedBox(width: 8),
                     const Text(
@@ -155,7 +155,7 @@ class _BalanceCardState extends State<BalanceCard> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: const [
-            BoxShadow(color: Colors.black12, blurRadius: 4, spreadRadius: 1)
+            BoxShadow(color: Colors.black12, blurRadius: 4, spreadRadius: 1),
           ],
         ),
         child: Column(
@@ -167,7 +167,7 @@ class _BalanceCardState extends State<BalanceCard> {
             const SizedBox(height: 8),
             Text(title,
                 style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),),
             const SizedBox(height: 4),
             Text(
               isBalanceVisible

@@ -93,7 +93,7 @@ class _TransactionMainState extends State<TransactionMain> {
       isLoading = true;
     });
 
-    bool success = await TransactionService.saveTransaction(
+    final bool success = await TransactionService.saveTransaction(
         uuid: uuid,
         selectedCategory: selectedCategory,
         selectedDate: selectedDate,
@@ -101,7 +101,7 @@ class _TransactionMainState extends State<TransactionMain> {
         note: noteController.text,
         toFrom: fromController.text,
         imageFile: _selectedImage,
-        type: isExpense ? 'expense' : 'income');
+        type: isExpense ? 'expense' : 'income',);
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -122,12 +122,11 @@ class _TransactionMainState extends State<TransactionMain> {
   void navigateToTargetPage(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      // ignore: inference_failure_on_instance_creation
       MaterialPageRoute(builder: (context) => const MainPage()),
     );
   }
 
-  Future<void> handleSaveTransactionfinall(BuildContext context) async {
+  Future<void> handleSaveTransactionfinal(BuildContext context) async {
     await Future.wait([
       _loadInterstitialAd(), // Chạy quảng cáo
       handleSaveTransaction(context), // Chạy lưu giao dịch

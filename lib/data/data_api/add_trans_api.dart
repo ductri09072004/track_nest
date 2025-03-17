@@ -4,9 +4,10 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 
 class TransactionService {
+
   static Future<String?> uploadImageToCloudinary(File imageFile) async {
-    final url =
-        Uri.parse('https://api.cloudinary.com/v1_1/dcdaz0dzb/image/upload');
+    final url = Uri.parse('https://api.cloudinary.com/v1_1/dcdaz0dzb/image/upload');
+
     final request = http.MultipartRequest('POST', url)
       ..fields['upload_preset'] = 'blueduck'
       ..files.add(await http.MultipartFile.fromPath('file', imageFile.path));
@@ -27,7 +28,7 @@ class TransactionService {
     final random = Random();
     return String.fromCharCodes(
       Iterable.generate(
-          10, (_) => chars.codeUnitAt(random.nextInt(chars.length))),
+          10, (_) => chars.codeUnitAt(random.nextInt(chars.length)),),
     );
   }
 

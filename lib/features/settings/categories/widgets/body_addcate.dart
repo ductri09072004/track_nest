@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:testverygood/components/Ex_In_btn_Statis.dart';
 import 'package:testverygood/components/button.dart';
 import 'package:testverygood/components/input.dart';
-import 'package:testverygood/components/Ex_In_btn_Statis.dart';
 import 'package:testverygood/data/data_api/add_cate_api.dart';
 
 class BodyMain extends StatefulWidget {
@@ -42,13 +42,13 @@ class _BodyMainState extends State<BodyMain> {
   Future<void> _loadUUID() async {
     final storedUUID = await storage.read(key: 'unique_id');
     setState(() {
-      uuid = storedUUID;
+      uuid = storedUUID ?? 'Không tim thấy UUID';
     });
   }
 
-  void _handleSaveTransaction() {
+  void _handleSaveCategory() {
     if (uuid != null) {
-      TransactionService.saveTransaction(
+      CategoryService.saveCategory(
         context: context,
         uuid: uuid!,
         icon: iconController.text,
@@ -98,7 +98,7 @@ class _BodyMainState extends State<BodyMain> {
                 Expanded(
                   child: Button(
                     label: 'Save',
-                    onPressed: _handleSaveTransaction,
+                    onPressed: _handleSaveCategory,
                   ),
                 ),
               ],

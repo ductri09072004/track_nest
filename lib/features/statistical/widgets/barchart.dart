@@ -12,7 +12,7 @@ class Barchart extends StatefulWidget {
 }
 
 class _BarchartState extends State<Barchart> {
-  final DataService dataService = DataService();
+  final BarchartService dataService = BarchartService();
   List<Map<String, dynamic>> transactions = [];
   String errorMessage = '';
   String? uuid;
