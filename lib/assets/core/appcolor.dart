@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-  AppColor(int i);
+  AppColor();
 
   // Blue Shades
   static const Color blueLighter = Color(0xFF1F62F2);

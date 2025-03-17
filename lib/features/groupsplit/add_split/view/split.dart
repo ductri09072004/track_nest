@@ -236,5 +236,5 @@ class _SplitPageState extends State<SplitPage> {
   static const TextStyle txtd =
       TextStyle(color: AppColor.black, fontSize: 30, fontFamily: 'Lato');
   static const TextStyle txtpeo = TextStyle(
-      color: AppColor.black, fontSize: 16, fontFamily: 'Lato_Regular');
+      color: AppColor.black, fontSize: 16, fontFamily: 'Lato_Regular',);
 }

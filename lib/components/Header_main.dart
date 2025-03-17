@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:testverygood/components/date.dart'; // Import HorizontalList từ đây
 import 'package:testverygood/assets/core/appcolor.dart';
+import 'package:testverygood/components/date.dart'; // Import HorizontalList từ đây
 
-class HeaderMain extends StatelessWidget {
-  final String title;
-  final bool showSearchAndCalendar; // Biến để ẩn/hiện search và calendar
-  final bool showHorizontalList; // Biến để ẩn/hiện HorizontalList
+class HeaderMain extends StatelessWidget { // Biến để ẩn/hiện HorizontalList
 
   const HeaderMain({
-    super.key,
-    required this.title,
+    required this.title, super.key,
     this.showSearchAndCalendar = true, // Mặc định hiển thị
     this.showHorizontalList = true, // Mặc định hiển thị
   });
+  final String title;
+  final bool showSearchAndCalendar; // Biến để ẩn/hiện search và calendar
+  final bool showHorizontalList;
 
   @override
   Widget build(BuildContext context) {

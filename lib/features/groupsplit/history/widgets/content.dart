@@ -110,10 +110,10 @@ class _ContentState extends State<Content> {
     fontSize: 18,
     fontFamily: 'Lato',
   );
-  static const TextStyle titleicon = TextStyle(
-    fontSize: 16,
-    fontFamily: 'Lato_Regular',
-  );
+  // static const TextStyle titleicon = TextStyle(
+  //   fontSize: 16,
+  //   fontFamily: 'Lato_Regular',
+  // );
   static const TextStyle titleprice = TextStyle(
     fontSize: 16,
     fontFamily: 'Lato_Regular',

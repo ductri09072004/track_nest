@@ -6,9 +6,9 @@ import 'package:testverygood/assets/core/appcolor.dart';
 
 class InputField extends StatefulWidget {
   const InputField({
-    super.key,
     required this.hintText,
     required this.controller,
+    super.key,
     this.isNumeric = false,
     this.keyboardType = TextInputType.text,
     this.maxLength = 20,

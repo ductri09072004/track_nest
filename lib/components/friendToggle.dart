@@ -5,10 +5,10 @@ class FriendToggleList extends StatefulWidget {
   // Callback onChanged
 
   const FriendToggleList({
-    super.key,
     required this.options,
     required this.initialToggleStates,
-    required this.onChanged, // Thêm tham số onChanged
+    required this.onChanged,
+    super.key,
     this.selectedOption,
   });
   final List<String> options;

@@ -4,8 +4,7 @@ import 'package:testverygood/assets/core/appcolor.dart';
 
 class HeaderA extends StatelessWidget implements PreferredSizeWidget {
   const HeaderA({
-    super.key,
-    required this.title,
+    required this.title, super.key,
     this.onBack,
   });
   final String title;

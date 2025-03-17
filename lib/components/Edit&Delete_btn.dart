@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:testverygood/assets/core/appcolor.dart';
 
 class EditDeleteButtons extends StatelessWidget {
-  final VoidCallback onEdit;
-  final VoidCallback onDelete;
 
   const EditDeleteButtons({
     required this.onEdit,
     required this.onDelete,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {

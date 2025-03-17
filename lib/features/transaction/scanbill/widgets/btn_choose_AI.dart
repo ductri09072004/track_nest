@@ -4,10 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class BtnChooseAi extends StatefulWidget {
   // Hàm callback
 
-  const BtnChooseAi({
-    super.key,
-    required this.iconPath,
-    required this.onModelSelected, // Nhận callback từ ngoài
+  const BtnChooseAi({required this.iconPath, required this.onModelSelected, super.key, // Nhận callback từ ngoài,
   });
   final String iconPath;
   // ignore: inference_failure_on_function_return_type

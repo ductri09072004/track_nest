@@ -269,7 +269,7 @@ class _TransactionMainState extends State<TransactionMain> {
                     child: ElevatedButton(
                       onPressed: isLoading
                           ? null
-                          : () => handleSaveTransactionfinall(context),
+                          : () => handleSaveTransactionfinal(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.blue,
                         padding: const EdgeInsets.symmetric(vertical: 12),

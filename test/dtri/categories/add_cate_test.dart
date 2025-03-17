@@ -13,16 +13,12 @@ class MockSecureStorage extends Mock implements FlutterSecureStorage {}
 class MockHttpClient extends Mock implements http.Client {}
 
 void main() {
-  late MockSecureStorage mockStorage;
-  late MockHttpClient mockHttpClient;
 
   setUp(() {
-    mockStorage = MockSecureStorage();
-    mockHttpClient = MockHttpClient();
   });
 
   testWidgets('Hiển thị đúng các thành phần UI', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: BodyMain()));
+    await tester.pumpWidget(const MaterialApp(home: BodyMain()));
 
     expect(find.text('Type'), findsOneWidget);
     expect(find.text('Icon'), findsOneWidget);
@@ -32,7 +28,7 @@ void main() {
   });
 
   testWidgets('Chuyển đổi giữa Expense và Income', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: BodyMain()));
+    await tester.pumpWidget(const MaterialApp(home: BodyMain()));
 
     final expenseButton = find.text('Expenses');
     final incomeButton = find.text('Income');
@@ -43,7 +39,7 @@ void main() {
   });
 
   testWidgets('Nhập icon và category name', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: BodyMain()));
+    await tester.pumpWidget(const MaterialApp(home: BodyMain()));
 
     await tester.enterText(find.byType(InputClassic).first, '🔥');
     await tester.enterText(find.byType(InputClassic).last, 'Food');
@@ -55,7 +51,7 @@ void main() {
 
   testWidgets('Hiển thị thông báo khi UUID bị thiếu',
       (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: BodyMain()));
+    await tester.pumpWidget(const MaterialApp(home: BodyMain()));
 
     await tester.tap(find.byType(Button));
     await tester.pump();

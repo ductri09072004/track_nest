@@ -96,7 +96,7 @@ class OutlineButton extends StatelessWidget {
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(
-              vertical: 12), // Điều chỉnh padding dọc
+              vertical: 12,), // Điều chỉnh padding dọc
           side:
               const BorderSide(color: AppColor.blue, width: 2), // Viền màu
           shape: RoundedRectangleBorder(

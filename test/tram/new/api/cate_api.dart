@@ -1,0 +1,44 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+class CategoryService {
+  static Future<bool> saveCategory({
+    required String? uuid,
+    required String? icon,
+    required String? name,
+    required bool isExpense,
+    http.Client? client,
+  }) async {
+    if (uuid == null ||
+        uuid.isEmpty ||
+        icon == null ||
+        icon.isEmpty ||
+        name == null ||
+        name.isEmpty) {
+      return false; // Trả về false nếu thiếu dữ liệu
+      }
+      // if (uuid == null || uuid.isEmpty) {
+      //   throw Exception('fádfádfád'); // Trả về false nếu client null
+      // }
+    try {
+      final url = Uri.parse('http://3.26.221.69:5000/api/categories');
+      final categoryData = {
+        'icon': icon,
+        'name': name,
+        'type': isExpense ? 'expense' : 'income',
+        'user_id': uuid,
+      };
+
+      client ??= http.Client(); // Nếu không truyền client, dùng mặc định
+      final response = await client.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(categoryData),
+      );
+
+      return response.statusCode == 200 || response.statusCode == 201;
+    } catch (e) {
+      return false; // Lỗi kết nối hoặc server
+    }
+  }
+}

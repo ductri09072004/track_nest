@@ -5,10 +5,7 @@ import 'package:testverygood/features/transaction/add_trans/app.dart'; // Import
 
 class BtnSuccess extends StatelessWidget {
   const BtnSuccess({
-    super.key,
-    required this.extractedText,
-    required this.imageTransaction,
-    required this.onRescan,
+    required this.extractedText, required this.imageTransaction, required this.onRescan, super.key,
   });
 
   final String extractedText; // Số tiền trích xuất từ bill
