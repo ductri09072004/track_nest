@@ -11,9 +11,13 @@ void main() {
   setUp(() {
     mockClient = MockClient();
   });
+  const testUuid = 'tramtest';
+  const testIcon = '🍽️';
+  const testName = 'Eating';
+  const testIsExpense = true;
 
   group('saveCategory()', () {
-    test('Lưu danh mục thành công (status 200)', () async {
+    test('Lưu danh mục thành công', () async {
       when(
         mockClient.post(
           any,
@@ -21,27 +25,24 @@ void main() {
           body: anyNamed('body'),
         ),
       ).thenAnswer((_) async => http.Response('{}', 200));
-
       final result = await CategoryService.saveCategory(
-        uuid: 'test-uuid',
-        icon: 'test-icon',
-        name: 'test-name',
-        isExpense: true,
+        uuid: testUuid,
+        icon: testIcon,
+        name: testName,
+        isExpense: testIsExpense,
         client: mockClient,
       );
-
-
       expect(result, true);
     });
 
     test('Lỗi khi uuid null', () async {
       Exception? thrownException;
-      try{
+      try {
         final result = await CategoryService.saveCategory(
           uuid: null,
-          icon: '🍽️',
-          name: 'Eating',
-          isExpense: true,
+          icon: testIcon,
+          name: testName,
+          isExpense: testIsExpense,
           client: mockClient,
         );
       } catch (e) {
@@ -56,9 +57,9 @@ void main() {
       try {
         final result = await CategoryService.saveCategory(
           uuid: '',
-          icon: '🍽️',
-          name: 'Eating',
-          isExpense: true,
+          icon: testIcon,
+          name: testName,
+          isExpense: testIsExpense,
           client: mockClient,
         );
       } catch (e) {
@@ -72,10 +73,10 @@ void main() {
       Exception? thrownException;
       try {
         final result = await CategoryService.saveCategory(
-          uuid: 'tramtest1',
+          uuid: testUuid,
           icon: null,
-          name: 'Eating',
-          isExpense: true,
+          name: testName,
+          isExpense: testIsExpense,
           client: mockClient,
         );
       } catch (e) {
@@ -89,10 +90,10 @@ void main() {
       Exception? thrownException;
       try {
         final result = await CategoryService.saveCategory(
-          uuid: 'tramtest1',
+          uuid: testUuid,
           icon: '',
-          name: 'Eating',
-          isExpense: true,
+          name: testName,
+          isExpense: testIsExpense,
           client: mockClient,
         );
       } catch (e) {
@@ -106,10 +107,10 @@ void main() {
       Exception? thrownException;
       try {
         final result = await CategoryService.saveCategory(
-          uuid: 'tramtest1',
-          icon: '🍽️',
+          uuid: testUuid,
+          icon: testIcon,
           name: null,
-          isExpense: true,
+          isExpense: testIsExpense,
           client: mockClient,
         );
       } catch (e) {
@@ -123,10 +124,10 @@ void main() {
       Exception? thrownException;
       try {
         final result = await CategoryService.saveCategory(
-          uuid: 'tramtest1',
-          icon: '🍽️',
-          name: null,
-          isExpense: true,
+          uuid: testUuid,
+          icon: testIcon,
+          name: '',
+          isExpense: testIsExpense,
           client: mockClient,
         );
       } catch (e) {
@@ -148,10 +149,10 @@ void main() {
       );
 
       final result = await CategoryService.saveCategory(
-        uuid: 'testtram3',
-        icon: '🍽️',
-        name: 'Eating',
-        isExpense: true,
+        uuid: testUuid,
+        icon: testIcon,
+        name: testName,
+        isExpense: testIsExpense,
         client: mockClient,
       );
       expect(result, false);
@@ -167,10 +168,10 @@ void main() {
       ).thenThrow(Exception('Server không phản hồi'));
 
       final result = await CategoryService.saveCategory(
-        uuid: 'test-uuid',
-        icon: 'test-icon',
-        name: 'test-name',
-        isExpense: true,
+        uuid: testUuid,
+        icon: testIcon,
+        name: testName,
+        isExpense: testIsExpense,
         client: mockClient,
       );
 

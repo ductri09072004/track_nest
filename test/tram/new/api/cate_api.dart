@@ -9,24 +9,15 @@ class CategoryService {
     required bool isExpense,
     http.Client? client,
   }) async {
-    // if (uuid == null ||
-    //     uuid.isEmpty ||
-    //     icon == null ||
-    //     icon.isEmpty ||
-    //     name == null ||
-    //     name.isEmpty) {
-    //   return false; // Trả về false nếu thiếu dữ liệu
-    //   }
-    if (uuid == null || uuid.isEmpty) {
-      throw Exception('UUID không được rỗng'); // Trả về false nếu client null
-    }
-    if (icon == null || icon.isEmpty) {
-      throw Exception('Icon không được rỗng'); // Trả về false nếu icon null
-    }
-    if (name == null || name.isEmpty) {
-      throw Exception('Name không được rỗng'); // Trả về false nếu icon null
-    }
+    client ??= http.Client();
     try {
+      if (uuid == null || uuid.isEmpty) {
+        throw Exception('UUID không được rỗng');}
+      if (icon == null || icon.isEmpty) {
+        throw Exception('Icon không được rỗng');}
+      if (name == null || name.isEmpty) {
+        throw Exception('Name không được rỗng');}
+        
       final url = Uri.parse('http://3.26.221.69:5000/api/categories');
       final categoryData = {
         'icon': icon,
@@ -35,7 +26,6 @@ class CategoryService {
         'user_id': uuid,
       };
 
-      client ??= http.Client(); // Nếu không truyền client, dùng mặc định
       final response = await client.post(
         url,
         headers: {'Content-Type': 'application/json'},

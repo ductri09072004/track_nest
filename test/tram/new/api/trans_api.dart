@@ -57,6 +57,9 @@ class TransactionService {
       if (selectedDate.isAfter(DateTime.now())) {
         throw Exception('Ngày giao dịch không được ở tương lai');
       }
+      if (money.contains(RegExp('[a-zA-Z]'))) {
+        throw Exception('Số tiền không được chứa chữ');
+      }
 
       final url = Uri.parse('http://3.26.221.69:5000/api/transactions');
       String? imageUrl;
@@ -85,13 +88,19 @@ class TransactionService {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
+        print('Giao dịch đã lưu: ${response.body}');
         return true;
       } else {
+        print(
+            'Lỗi khi lưu giao dịch: ${response.statusCode} - ${response.body}');
         return false;
       }
+      // return response.statusCode == 200 || response.statusCode == 201;
     } catch (e) {
-      throw Exception('Lỗi: $e'); // Bây giờ sẽ throw Exception
+      // print('Lỗi: $e');
+      // return false;
+      throw Exception('$e'); // Bây giờ sẽ throw Exception
+      // throw Exception('Lỗi lưu giao dịch');
     }
   }
-
 }
