@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
@@ -88,52 +87,50 @@ class _TransactionMainState extends State<TransactionMain> {
     );
   }
 
-  Future<void> handleSaveTransaction(BuildContext context) async {
+  Future<bool> handleSaveTransaction(BuildContext context) async {
     setState(() {
       isLoading = true;
     });
 
-    bool success = await TransactionService.saveTransaction(
-        uuid: uuid,
-        selectedCategory: selectedCategory,
-        selectedDate: selectedDate,
-        money: numericController.text,
-        note: noteController.text,
-        toFrom: fromController.text,
-        imageFile: _selectedImage,
-        type: isExpense ? 'expense' : 'income');
+    final result = await TransactionService.saveTransaction(
+      uuid: uuid,
+      selectedCategory: selectedCategory,
+      selectedDate: selectedDate,
+      money: numericController.text,
+      note: noteController.text,
+      toFrom: fromController.text,
+      imageFile: _selectedImage,
+      type: isExpense ? 'expense' : 'income',
+    );
 
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Saved transaction successfully!')),
-      );
-      navigateToTargetPage(context);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to save transaction')),
-      );
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(result['message'].toString())),
+    );
 
     setState(() {
       isLoading = false;
     });
+
+    return result['success'] ==
+        true; // Trả về true nếu thành công, false nếu thất bại
   }
 
   void navigateToTargetPage(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      // ignore: inference_failure_on_instance_creation
       MaterialPageRoute(builder: (context) => const MainPage()),
     );
   }
 
   Future<void> handleSaveTransactionfinall(BuildContext context) async {
-    await Future.wait([
-      _loadInterstitialAd(), // Chạy quảng cáo
-      handleSaveTransaction(context), // Chạy lưu giao dịch
-    ]);
+    final saveResult =
+        await handleSaveTransaction(context); // Lưu giao dịch trước
 
-    navigateToTargetPage(context); // Chuyển trang sau khi cả hai hoàn tất
+    if (saveResult == true) {
+      // Chỉ tiếp tục nếu lưu giao dịch thành công
+      await _loadInterstitialAd(); // Chạy quảng cáo
+      navigateToTargetPage(context); // Chuyển trang
+    }
   }
 
   @override

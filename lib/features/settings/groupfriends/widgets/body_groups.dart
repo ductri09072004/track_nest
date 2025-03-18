@@ -67,13 +67,6 @@ class _BodyMainState extends State<BodyMain> {
         .where((name) => name.isNotEmpty)
         .toList();
 
-    if (groupName.isEmpty || members.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vui lòng nhập đầy đủ thông tin!')),
-      );
-      return;
-    }
-
     for (String member in members) {
       await TransactionService.saveTransaction(
         context: context,

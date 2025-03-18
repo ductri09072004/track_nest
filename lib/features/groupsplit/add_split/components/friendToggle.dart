@@ -11,7 +11,6 @@ class FriendToggleList extends StatefulWidget {
     required this.onChanged,
     this.selectedOption,
     required this.splitAmounts,
-    required bool isSave,
   });
 
   final List<double> splitAmounts;

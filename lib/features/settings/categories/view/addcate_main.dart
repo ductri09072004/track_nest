@@ -8,6 +8,7 @@ class AddCateMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: Color(0xFFFFFFFF),
       appBar: HeaderA(title: 'Categories'),
       body: Padding(
         padding: EdgeInsets.all(20),

@@ -31,9 +31,9 @@ class TransactionService {
     );
   }
 
-  static Future<bool> saveTransaction({
+  static Future<Map<String, dynamic>> saveTransaction({
     required String? uuid,
-    required String selectedCategory,
+    required String? selectedCategory,
     required DateTime selectedDate,
     required String money,
     required String note,
@@ -47,6 +47,12 @@ class TransactionService {
 
       if (imageFile != null) {
         imageUrl = await uploadImageToCloudinary(imageFile);
+        if (imageUrl == null) {
+          return {
+            'success': false,
+            'message': 'Không thể tải ảnh lên Cloudinary'
+          };
+        }
       }
 
       final transactionData = {
@@ -68,17 +74,15 @@ class TransactionService {
         body: jsonEncode(transactionData),
       );
 
+      final responseData = jsonDecode(response.body);
+
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print('Giao dịch đã lưu: ${response.body}');
-        return true;
+        return {'success': true, 'message': responseData['message']};
       } else {
-        print(
-            'Lỗi khi lưu giao dịch: ${response.statusCode} - ${response.body}');
-        return false;
+        return {'success': false, 'message': responseData['message']};
       }
     } catch (e) {
-      print('Lỗi: $e');
-      return false;
+      return {'success': false, 'message': 'Có lỗi xảy ra, vui lòng thử lại'};
     }
   }
 }

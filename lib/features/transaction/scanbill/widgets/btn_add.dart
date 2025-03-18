@@ -31,7 +31,7 @@ class _ImagePickerOptionsState extends State<ImagePickerOptions> {
   void navigateToTargetPage(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const SplitPage()),
+      MaterialPageRoute(builder: (context) => const TransactionMain()),
     );
   }
 
