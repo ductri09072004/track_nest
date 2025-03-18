@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:testverygood/assets/core/appcolor.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/button.dart';
-import 'package:testverygood/components/dropdown.dart';
-import 'package:testverygood/components/friendToggle.dart';
+import 'package:testverygood/components/button_choose_group.dart';
 import 'package:testverygood/components/input.dart';
+import 'package:testverygood/data/data_api/add_split_api.dart';
+import 'package:testverygood/data/data_api/list_friend_split._api.dart';
+import 'package:testverygood/features/groupsplit/add_split/components/DropDownFriends.dart';
+import 'package:testverygood/features/groupsplit/add_split/components/choose_group.dart';
+import 'package:testverygood/features/groupsplit/add_split/components/friendToggle.dart';
+import 'package:testverygood/features/transaction/add_trans/widgets/calendar.dart';
+import 'package:testverygood/features/transaction/add_trans/widgets/categories.dart';
 
 class SplitPage extends StatefulWidget {
   const SplitPage({super.key, this.data = ''});
   final String data;
+
+  static var txmain;
 
   @override
   _SplitPageState createState() => _SplitPageState();
@@ -17,33 +24,37 @@ class SplitPage extends StatefulWidget {
 
 class _SplitPageState extends State<SplitPage> {
   String? selectedOption;
-  final List<String> options = [
-    'Trí',
-    'Quỳnh',
-    'Đạt',
-    'Như',
-    'Nguyên',
-    'chị Nguyên',
-  ];
+  bool isLoading = true;
+  String? selectedGroupName;
 
+  List<String> options = [];
   String? selectedOption2;
-  final List<String> options2 = ['Equally', 'As amounts'];
   final TextEditingController numericController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
-  bool isSwitched = false;
+  final TextEditingController fromController = TextEditingController();
 
+  List<double> splitAmounts = [];
+
+  bool isSwitched = false;
   late List<bool> toggleStates;
+  String selectedCategory = '';
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    toggleStates = List.generate(
-      options.length,
-      (_) => false,
-    ); // Khởi tạo trạng thái toggle
     if (widget.data.isNotEmpty) {
       numericController.text = widget.data;
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showGroupSelectionPopup();
+    });
+  }
+
+  void _updateSelectedDate(DateTime newDate) {
+    setState(() {
+      selectedDate = newDate;
+    });
   }
 
   @override
@@ -53,188 +64,210 @@ class _SplitPageState extends State<SplitPage> {
     super.dispose();
   }
 
-  List<Map<String, dynamic>> getSplitDetails() {
-    final eachPersonPays = getEachPersonPays();
-    final splitDetails = <Map<String, dynamic>>[];
+  void _calculateSplitAmount() {
+    if (numericController.text.isNotEmpty) {
+      final double totalAmount = double.tryParse(numericController.text) ?? 0;
+      final int selectedCount = toggleStates.where((state) => state).length;
 
-    for (var i = 0; i < options.length; i++) {
-      if (toggleStates[i]) {
-        splitDetails.add({
-          'name': options[i],
-          'amount': eachPersonPays.round(),
-        });
-      }
+      setState(() {
+        splitAmounts = selectedCount > 0
+            ? List.generate(
+                options.length,
+                (index) =>
+                    toggleStates[index] ? totalAmount / selectedCount : 0)
+            : List.filled(options.length, 0);
+      });
     }
-    return splitDetails;
   }
 
-  // Hàm tính toán số tiền mỗi người phải trả
-  double getEachPersonPays() {
-    // Loại bỏ dấu phân cách nghìn trước khi chuyển đổi
-    final rawValue = numericController.text.replaceAll('.', '');
-    final totalAmount = double.tryParse(rawValue) ?? 0.0;
+  void showGroupSelectionPopup() {
+    showDialog(
+      context: context,
+      builder: (context) => PopupGroupSelection(
+        onSelectGroup: (selectedGroup) {
+          setState(() {
+            selectedGroupName = selectedGroup;
+            fetchMembers();
+          });
+        },
+      ),
+    );
+  }
 
-    // Đếm số người được chọn
-    final selectedCount = toggleStates.where((state) => state).length;
+  Future<void> fetchMembers() async {
+    setState(() {
+      isLoading = true;
+    });
 
-    if (selectedCount > 0 && totalAmount > 0) {
-      return totalAmount / selectedCount;
-    } else {
-      return 0; // Nếu không có người nào được chọn hoặc số tiền <= 0, trả về 0
+    try {
+      String? uuid = await loadUUID();
+      if (uuid != null && selectedGroupName != null) {
+        final List<Map<String, dynamic>> members =
+            await fetchData(uuid, selectedGroupName!);
+        setState(() {
+          options =
+              members.map((member) => member['name_mem'].toString()).toList();
+          toggleStates = List.generate(options.length, (_) => false);
+          isLoading = false;
+
+          // Đặt giá trị mặc định là "Me" nếu tồn tại
+          if (options.contains('Me')) {
+            selectedOption = 'Me';
+          } else if (options.isNotEmpty) {
+            selectedOption =
+                options.first; // Chọn phần tử đầu tiên nếu không có "Me"
+          }
+        });
+      }
+    } catch (e) {
+      print('Lỗi tải danh sách thành viên: $e');
+      setState(() {
+        isLoading = false;
+      });
     }
+  }
+
+  /// Gọi API lưu giao dịch khi nhấn nút Save
+  Future<void> _saveTransaction() async {
+    String? uuid = await loadUUID(); // Lấy UUID người dùng
+    if (uuid == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Không tìm thấy UUID!')),
+      );
+      return;
+    }
+
+    await TransactionService.saveTransaction(
+      context: context,
+      uuid: uuid,
+      icon: selectedCategory,
+      date: selectedDate,
+      money: numericController.text,
+      note: noteController.text,
+      payid: 'k1Swt8AeF3',
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const HeaderA(title: 'Split'),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          const Text('Paid by', style: txmain),
-          const SizedBox(height: 10),
-          Dropdown(
-            selectedValue: selectedOption,
-            options: options,
-            hintText: 'Choose who will pay',
-            onChanged: (String? newValue) {
-              setState(() {
-                selectedOption = newValue;
-
-                // Cập nhật trạng thái toggle để loại bỏ người đã chọn
-                final selectedIndex = options.indexOf(newValue ?? '');
-                toggleStates[selectedIndex] = true; // Đánh dấu người đã chọn
-              });
-            },
-          ),
-          const SizedBox(height: 16),
-          const Text('Amount', style: txmain),
-          const SizedBox(height: 4),
-          Row(
-            children: [
-              Expanded(
-                child: InputField(
-                  hintText: '0',
-                  controller: numericController,
-                  isNumeric: true,
-                  maxLength: 9,
-                  onChanged: (value) {
-                    setState(() {
-                      // Cập nhật số tiền khi người dùng thay đổi
-                    });
-                  },
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                Row(
+                  children: [
+                    const Text('Paid by', style: txmain),
+                    const Spacer(),
+                    GroupSelectionButton(
+                      onPressed: showGroupSelectionPopup,
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(width: 8),
-              const Text('VND', style: txtd),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              const Text('Split with', style: txmain),
-              const Spacer(),
-              Container(
-                width: 143,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Dropdown(
-                  selectedValue: selectedOption2,
-                  options: options2,
-                  hintText: 'Equally',
+                const SizedBox(height: 16),
+                CustomDropdown(
+                  selectedValue: selectedOption,
+                  options: options,
+                  hintText: 'Choose who will pay',
                   onChanged: (String? newValue) {
                     setState(() {
-                      selectedOption2 = newValue;
+                      selectedOption = newValue;
+                      final selectedIndex = options.indexOf(newValue ?? '');
+                      toggleStates[selectedIndex] = true;
                     });
                   },
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          FriendToggleList(
-            options: options,
-            initialToggleStates: toggleStates,
-            selectedOption: selectedOption, // Truyền người đã chọn vào đây
-            onChanged: (index, value) {
-              setState(() {
-                toggleStates[index] = value;
-              });
-            },
-          ),
-          const SizedBox(height: 16),
-          const Text('Categories', style: txmain),
-          const SizedBox(height: 16),
-          const Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Time', style: txmain),
-                  SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Icon(Icons.calendar_today), // Thay thế SVG bằng Icon
-                      SizedBox(width: 8),
-                      Text('1/1/2025', style: txtpeo),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(width: 40),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Note', style: txmain),
-                  Text('yoo', style: txtpeo),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          // Hiển thị số tiền mỗi người phải trả
-          Row(
-            children: [
-              const Text('Each person pays:', style: txmain),
-              const Spacer(),
-              Text(
-                getEachPersonPays() > 0
-                    // ignore: lines_longer_than_80_chars
-                    ? '${NumberFormat('#,###', 'en_US').format(getEachPersonPays().round())} VND'
-                    : '0 VND', // Trường hợp số tiền là 0, hiển thị 0 đ
-                style: txprice,
-              ),
-            ],
-          ),
-          const SizedBox(height: 40),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: Button(
-                  label: 'Save',
-                  onPressed: () async {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Đã lưu!'),
-                        duration: Duration(seconds: 2), // Thời gian hiển thị
+                const SizedBox(height: 16),
+                const Text('Amount', style: txmain),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Expanded(
+                      child: InputField(
+                        hintText: '0',
+                        controller: numericController,
+                        isNumeric: true,
+                        maxLength: 9,
+                        onChanged: (value) {
+                          setState(() {});
+                        },
                       ),
-                    );
+                    ),
+                    const SizedBox(width: 8),
+                    const Text('VND', style: txtd),
+                  ],
+                ),
+                FriendToggleList(
+                  options: options,
+                  initialToggleStates: toggleStates,
+                  selectedOption: selectedOption,
+                  onChanged: (index, value) {
+                    setState(() {
+                      setState(() {
+                        toggleStates[index] = value;
+                        _calculateSplitAmount();
+                      });
+                    });
+                  },
+                  splitAmounts: splitAmounts,
+                ),
+                const SizedBox(height: 16),
+                const Text('Categories', style: txmain),
+                const SizedBox(height: 8),
+                CategoriesText(
+                  isExpense: true,
+                  onCategorySelected: (String category) {
+                    setState(() {
+                      selectedCategory = category;
+                    });
                   },
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Time', style: txmain),
+                          const SizedBox(height: 12),
+                          TimePickerComponent(
+                            onDateSelected: _updateSelectedDate,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 20),
+                          const Text('From', style: txmain),
+                          InputClassic(
+                            hintText: 'Write name',
+                            hasBorder: false,
+                            hasPadding: false,
+                            controller: fromController,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 32),
+                Button(
+                  label: 'Save',
+                  onPressed: _saveTransaction, // Gọi hàm lưu giao dịch
+                ),
+              ],
+            ),
     );
   }
 
   static const TextStyle txmain =
       TextStyle(color: AppColor.black, fontSize: 20, fontFamily: 'Lato');
-  static const TextStyle txprice =
-      TextStyle(color: AppColor.black, fontSize: 16, fontFamily: 'Lato');
   static const TextStyle txtd =
       TextStyle(color: AppColor.black, fontSize: 30, fontFamily: 'Lato');
-  static const TextStyle txtpeo = TextStyle(
-      color: AppColor.black, fontSize: 16, fontFamily: 'Lato_Regular');
 }

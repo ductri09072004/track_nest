@@ -62,7 +62,7 @@ class Button extends StatelessWidget {
           backgroundColor: AppColor.blue,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24), // Bo góc của nút
+            borderRadius: BorderRadius.circular(16), // Bo góc của nút
           ),
         ),
         child: Text(
@@ -97,8 +97,7 @@ class OutlineButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(
               vertical: 12), // Điều chỉnh padding dọc
-          side:
-              const BorderSide(color: AppColor.blue, width: 2), // Viền màu
+          side: const BorderSide(color: AppColor.blue, width: 2), // Viền màu
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16), // Bo góc của nút
           ),

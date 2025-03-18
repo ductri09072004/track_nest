@@ -79,10 +79,12 @@ class _BodyMainState extends State<BodyMain> {
                             height: 2,
                             color: Colors.black,
                           ),
-                          ...members.map((member) => Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: Text(member, style: txtmem),
-                              )),
+                          ...members.map(
+                            (member) => Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Text(member, style: txtmem),
+                            ),
+                          ),
                           const SizedBox(height: 20),
                         ],
                       );

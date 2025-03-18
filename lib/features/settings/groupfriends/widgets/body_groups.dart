@@ -26,7 +26,10 @@ class _BodyMainState extends State<BodyMain> {
   @override
   void initState() {
     super.initState();
-    _loadUUID(); // Lấy UUID khi widget khởi tạo
+    _loadUUID();
+    if (_controllers.isNotEmpty) {
+      _controllers[0].text = 'Me';
+    }
   }
 
   @override
