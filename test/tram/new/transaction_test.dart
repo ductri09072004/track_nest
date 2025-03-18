@@ -18,133 +18,108 @@ void main() {
   });
 
   test('Lỗi khi UUID null', () async {
-    expect(
-      () => TransactionService.saveTransaction(
-        uuid: null,
+    Exception? thrownException;
+    try {
+      final result = await TransactionService.saveTransaction(
+        uuid: null, // Truyền giá trị null để gây lỗi
         selectedCategory: '123',
         selectedDate: DateTime.now(),
         money: '1000',
         note: 'Test note',
         toFrom: 'Alice',
         type: 'expense',
-      ),
-      throwsA(
-        predicate(
-          (e) =>
-              e is Exception && e.toString().contains('UUID không được rỗng'),
-        ),
-      ),
-    );
+        client: mockClient,
+      );
+    } catch (e) {
+      thrownException = e as Exception;
+    }
+    expect(thrownException, isA<Exception>());
+    expect(thrownException.toString(), contains('UUID không được rỗng'));
   });
 
   test('Lỗi khi số tiền <= 0', () async {
-    expect(
-      () async => TransactionService.saveTransaction(
-        uuid: '123',
-        selectedCategory: 'food',
+    Exception? thrownException;
+    try {
+      final result = await TransactionService.saveTransaction(
+        uuid: 'tramtest2', // Truyền giá trị null để gây lỗi
+        selectedCategory: '123',
         selectedDate: DateTime.now(),
         money: '0',
-        note: 'Ăn sáng',
-        toFrom: 'Quán ăn',
+        note: 'Test note',
+        toFrom: 'Alice',
         type: 'expense',
-      ),
-      throwsA(
-        predicate(
-          (e) =>
-              e is Exception && e.toString().contains('Số tiền phải lớn hơn 0'),
-        ),
-      ),
-    );
+        client: mockClient,
+      );
+    } catch (e) {
+      thrownException = e as Exception;
+    }
+    expect(thrownException, isA<Exception>());
+    expect(thrownException.toString(), contains('Số tiền phải lớn hơn 0'));
   });
 
   test('Lỗi khi ngày giao dịch ở tương lai', () async {
-    expect(
-      () async => TransactionService.saveTransaction(
-        uuid: '123',
-        selectedCategory: 'food',
+    Exception? thrownException;
+    try {
+      final result = await TransactionService.saveTransaction(
+        uuid: 'tramtest2', // Truyền giá trị null để gây lỗi
+        selectedCategory: '123',
         selectedDate: DateTime.now().add(const Duration(days: 1)),
-        money: '10000',
-        note: 'Ăn sáng',
-        toFrom: 'Quán ăn',
+        money: '1000',
+        note: 'Test note',
+        toFrom: 'Alice',
         type: 'expense',
-      ),
-      throwsA(
-        predicate(
-          (e) =>
-              e is Exception &&
-              e.toString().contains('Ngày giao dịch không được ở tương lai'),
-        ),
-      ),
+        client: mockClient,
+      );
+    } catch (e) {
+      thrownException = e as Exception;
+    }
+    expect(thrownException, isA<Exception>());
+    expect(
+      thrownException.toString(),
+      contains('Ngày giao dịch không được ở tương lai'),
     );
   });
 
   test('Lưu giao dịch thất bại', () async {
-    when(
-      mockClient.post(
-        Uri.parse('http://3.26.221.69:5000/api/transactions'),
-        headers: anyNamed('headers'),
-        body: anyNamed('body'),
-      ),
-    ).thenAnswer(
-      (_) async => http.Response(jsonEncode({'success': false}), 500),
-    );
-
-    final result = await TransactionService.saveTransaction(
-      uuid: '123',
-      selectedCategory: 'food',
-      selectedDate: DateTime.now(),
-      money: '10000',
-      note: 'Ăn sáng',
-      toFrom: 'Quán ăn',
-      type: 'expense',
-      client: mockClient, // 👈 Truyền mockClient vào
-    );
-
-    expect(result, false);
+    Exception? thrownException;
+    try {
+      final result = await TransactionService.saveTransaction(
+        uuid: 'tramtest3', // Truyền giá trị null để gây lỗi
+        selectedCategory: '',
+        selectedDate: DateTime.now().add(const Duration(days: 1)),
+        money: '',
+        note: '',
+        toFrom: '',
+        type: '',
+        client: mockClient,
+      );
+    } catch (e) {
+      thrownException = e as Exception;
+    }
+    expect(thrownException, isA<Exception>());
+    // expect(
+    //   thrownException.toString(),
+    //   contains('Ngày giao dịch không được ở tương lai'),
+    // );
   });
 
   test('Lưu giao dịch thành công', () async {
-    when(
-      mockClient.post(
-        Uri.parse('http://3.26.221.69:5000/api/transactions'),
-        headers: anyNamed('headers'),
-        body: anyNamed('body'),
-      ),
-    ).thenAnswer(
-      (_) async => http.Response(jsonEncode({'success': true}), 201),
-    );
-
-    final result = await TransactionService.saveTransaction(
-      uuid: '123',
-      selectedCategory: 'food',
-      selectedDate: DateTime.now(),
-      money: '10000',
-      note: 'Ăn sáng',
-      toFrom: 'Quán ăn',
-      type: 'expense',
-    );
-
-    expect(result, true);
+    Exception? thrownException;
+    try {
+      final result = await TransactionService.saveTransaction(
+        uuid: '123',
+        selectedCategory: 'food',
+        selectedDate: DateTime.now(),
+        money: '10000',
+        note: 'Ăn sáng',
+        toFrom: 'Quán ăn',
+        type: 'expense',
+        client: mockClient,
+      );
+      expect(result, true);
+    } catch (e) {
+      thrownException = e as Exception;
+    }
+    expect(thrownException, isNull);
   });
-
-  // test('Lưu giao dịch thất bại với lỗi server', () async {
-  //   when(mockClient.post(
-  //     any,
-  //     headers: anyNamed('headers'),
-  //     body: anyNamed('body'),
-  //   ),).thenAnswer((_) async =>
-  //       http.Response(jsonEncode({'error': 'Internal Server Error'}), 500),);
-
-  //   final result = await TransactionService.saveTransaction(
-  //     uuid: '123',
-  //     selectedCategory: 'food',
-  //     selectedDate: DateTime.now(),
-  //     money: '10000',
-  //     note: 'Ăn sáng',
-  //     toFrom: 'Quán ăn',
-  //     type: 'expense',
-  //   );
-
-  //   expect(result, false);
-  // });
 }

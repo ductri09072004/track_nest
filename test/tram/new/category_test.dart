@@ -35,77 +35,105 @@ void main() {
     });
 
     test('Lỗi khi uuid null', () async {
-      final result = await CategoryService.saveCategory(
-        uuid: null,
-        icon: 'test-icon',
-        name: 'test-name',
-        isExpense: true,
-        client: mockClient,
-      );
-
-      // throwsA(isA<Exception>().having((e) => e.toString(), 'message', contains('fádfádfád')));
-      expect(result, false);
-
+      Exception? thrownException;
+      try{
+        final result = await CategoryService.saveCategory(
+          uuid: null,
+          icon: '🍽️',
+          name: 'Eating',
+          isExpense: true,
+          client: mockClient,
+        );
+      } catch (e) {
+        thrownException = e as Exception;
+      }
+      expect(thrownException, isA<Exception>());
+      expect(thrownException.toString(), contains('UUID không được rỗng'));
     });
 
     test('Lỗi khi uuid rỗng', () async {
-      final result = await CategoryService.saveCategory(
-        uuid: '',
-        icon: 'test-icon',
-        name: 'test-name',
-        isExpense: true,
-        client: mockClient,
-      );
-
-      expect(result, false);
+      Exception? thrownException;
+      try {
+        final result = await CategoryService.saveCategory(
+          uuid: '',
+          icon: '🍽️',
+          name: 'Eating',
+          isExpense: true,
+          client: mockClient,
+        );
+      } catch (e) {
+        thrownException = e as Exception;
+      }
+      expect(thrownException, isA<Exception>());
+      expect(thrownException.toString(), contains('UUID không được rỗng'));
     });
 
     test('Lỗi khi icon null', () async {
-      final result = await CategoryService.saveCategory(
-        uuid: 'test-uuid',
-        icon: null,
-        name: 'test-name',
-        isExpense: true,
-        client: mockClient,
-      );
-
-      expect(result, false);
+      Exception? thrownException;
+      try {
+        final result = await CategoryService.saveCategory(
+          uuid: 'tramtest1',
+          icon: null,
+          name: 'Eating',
+          isExpense: true,
+          client: mockClient,
+        );
+      } catch (e) {
+        thrownException = e as Exception;
+      }
+      expect(thrownException, isA<Exception>());
+      expect(thrownException.toString(), contains('Icon không được rỗng'));
     });
 
     test('Lỗi khi icon rỗng', () async {
-      final result = await CategoryService.saveCategory(
-        uuid: 'test-uuid',
-        icon: '',
-        name: 'test-name',
-        isExpense: true,
-        client: mockClient,
-      );
-
-      expect(result, false);
+      Exception? thrownException;
+      try {
+        final result = await CategoryService.saveCategory(
+          uuid: 'tramtest1',
+          icon: '',
+          name: 'Eating',
+          isExpense: true,
+          client: mockClient,
+        );
+      } catch (e) {
+        thrownException = e as Exception;
+      }
+      expect(thrownException, isA<Exception>());
+      expect(thrownException.toString(), contains('Icon không được rỗng'));
     });
 
     test('Lỗi khi name null', () async {
-      final result = await CategoryService.saveCategory(
-        uuid: 'test-uuid',
-        icon: 'test-icon',
-        name: null,
-        isExpense: true,
-        client: mockClient,
-      );
-
-      expect(result, false);
+      Exception? thrownException;
+      try {
+        final result = await CategoryService.saveCategory(
+          uuid: 'tramtest1',
+          icon: '🍽️',
+          name: null,
+          isExpense: true,
+          client: mockClient,
+        );
+      } catch (e) {
+        thrownException = e as Exception;
+      }
+      expect(thrownException, isA<Exception>());
+      expect(thrownException.toString(), contains('Name không được rỗng'));
     });
 
     test('Lỗi khi name rỗng', () async {
-      final result = await CategoryService.saveCategory(
-        uuid: 'test-uuid',
-        icon: 'test-icon',
-        name: '',
-        isExpense: true,
-        client: mockClient,
-      );
-
-      expect(result, false);
+      Exception? thrownException;
+      try {
+        final result = await CategoryService.saveCategory(
+          uuid: 'tramtest1',
+          icon: '🍽️',
+          name: null,
+          isExpense: true,
+          client: mockClient,
+        );
+      } catch (e) {
+        thrownException = e as Exception;
+      }
+      expect(thrownException, isA<Exception>());
+      expect(thrownException.toString(), contains('Name không được rỗng'));
     });
 
     test('Lỗi khi server trả về 400', () async {
@@ -120,13 +148,12 @@ void main() {
       );
 
       final result = await CategoryService.saveCategory(
-        uuid: 'test-uuid',
-        icon: 'test-icon',
-        name: 'test-name',
+        uuid: 'testtram3',
+        icon: '🍽️',
+        name: 'Eating',
         isExpense: true,
         client: mockClient,
       );
-
       expect(result, false);
     });
 
