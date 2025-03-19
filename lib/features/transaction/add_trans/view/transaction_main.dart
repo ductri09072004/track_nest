@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/input.dart';
 import 'package:testverygood/data/data_api/add_trans_api.dart';
@@ -13,10 +14,18 @@ import 'package:testverygood/features/transaction/add_trans/widgets/calendar.dar
 import 'package:testverygood/features/transaction/add_trans/widgets/categories.dart';
 
 class TransactionMain extends StatefulWidget {
-  const TransactionMain({Key? key, this.data = '', this.imageTransaction = ''})
+  const TransactionMain(
+      {Key? key,
+      this.money = '',
+      this.date = '',
+      this.cate = '',
+      this.imageTransaction = ''})
       : super(key: key);
 
-  final String data;
+  final String money;
+  final String date;
+  final String cate;
+
   final String imageTransaction; // Nhận thêm imageTransaction
 
   @override
@@ -47,11 +56,21 @@ class _TransactionMainState extends State<TransactionMain> {
     super.initState();
     _loadUUID(); // Lấy UUID khi widget khởi tạo
 
-    if (widget.data.isNotEmpty) {
-      numericController.text = widget.data;
+    if (widget.money.isNotEmpty) {
+      numericController.text = widget.money;
     }
     if (widget.imageTransaction.isNotEmpty) {
       _selectedImage = File(widget.imageTransaction);
+    }
+    if (widget.date.isNotEmpty) {
+      try {
+        selectedDate = DateFormat('dd/MM/yyyy').parse(widget.date);
+      } catch (e) {
+        selectedDate = DateTime.now();
+      }
+    }
+    if (widget.cate.isNotEmpty) {
+      selectedCategory = widget.cate;
     }
   }
 
@@ -186,6 +205,7 @@ class _TransactionMainState extends State<TransactionMain> {
                     const SizedBox(height: 10),
                     CategoriesText(
                       isExpense: isExpense,
+                      initialCategory: widget.cate,
                       onCategorySelected: (String category) {
                         setState(() {
                           selectedCategory = category;
@@ -203,6 +223,7 @@ class _TransactionMainState extends State<TransactionMain> {
                               const SizedBox(height: 12),
                               TimePickerComponent(
                                 onDateSelected: _updateSelectedDate,
+                                initialDate: selectedDate,
                               ),
                             ],
                           ),

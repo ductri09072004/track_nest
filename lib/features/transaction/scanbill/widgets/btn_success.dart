@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:testverygood/features/groupsplit/add_split/app.dart'; // Import màn hình chia tiền
-import 'package:testverygood/features/transaction/add_trans/app.dart'; // Import màn hình giao dịch
+import 'package:testverygood/features/transaction/add_trans/app.dart';
+import 'package:testverygood/features/transaction/scanbill/widgets/ExtractedInfo.dart';
+import 'package:testverygood/features/transaction/scanbill/widgets/button_add.dart'; // Import màn hình giao dịch
 
 class BtnSuccess extends StatelessWidget {
   const BtnSuccess({
     Key? key,
     required this.extractedText,
+    required this.extracteDate,
     required this.imageTransaction,
     required this.onRescan,
+    required this.extractedCate,
   }) : super(key: key);
 
-  final String extractedText; // Số tiền trích xuất từ bill
+  final String extractedText;
   final String imageTransaction;
   final VoidCallback onRescan;
+  final String extracteDate;
+  final String extractedCate;
 
   String formatCurrency(String value) {
     try {
@@ -35,10 +41,10 @@ class BtnSuccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return IntrinsicHeight(
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         color: Colors.white,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -56,85 +62,58 @@ class BtnSuccess extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 12),
-              if (extractedText.isNotEmpty)
-                Text(
-                  formatCurrency(extractedText),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'Lato',
-                    color: Colors.black,
-                  ),
-                )
-              else
-                const Text(
-                  'Choose which transaction you want to add',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'Lato',
-                    color: Colors.black,
-                  ),
-                ),
-              const SizedBox(height: 12),
-              _buildButton(
-                text: 'Add to personal transaction',
-                onPressed: () => _navigateToScreen(
-                  context,
-                  TransactionMain(
-                    data: extractedText,
-                    imageTransaction: imageTransaction,
-                  ),
-                ),
+              const SizedBox(height: 24),
+              ExtractedInfo(
+                label: 'Choose which transaction you want to add',
+                value: formatCurrency(extractedText),
+                prefixText: 'Total money bill:',
               ),
-              const SizedBox(height: 10),
-              _buildButton(
-                text: 'Add to group transaction (split bill)',
-                onPressed: () => _navigateToScreen(
-                  context,
-                  SplitPage(data: extractedText),
-                ),
+              ExtractedInfo(
+                label: 'Choose which transaction you want to add',
+                value: formatCurrency(extracteDate),
+                prefixText: 'Date bill:',
               ),
-              const SizedBox(height: 10),
-              _buildButton(text: 'Scan the text again', onPressed: onRescan),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildButton({required String text, required VoidCallback onPressed}) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: SizedBox(
-        width: double.infinity,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(22),
-            boxShadow: [
-              BoxShadow(
-                color: const Color.fromARGB(255, 55, 54, 114).withOpacity(0.5),
-                spreadRadius: 1,
-                blurRadius: 5,
-                offset: const Offset(0, 2),
+              ExtractedInfo(
+                label: 'Choose which transaction you want to add',
+                value: extractedCate,
+                prefixText: 'Categories bill:',
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: ButtonAdd(
+                      text: 'Add to split bill',
+                      onPressed: () => _navigateToScreen(
+                        context,
+                        SplitPage(data: extractedText),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ButtonAdd(
+                      text: 'Add to transaction',
+                      onPressed: () => _navigateToScreen(
+                        context,
+                        TransactionMain(
+                          money: extractedText,
+                          date: extracteDate,
+                          cate: extractedCate,
+                          imageTransaction: imageTransaction,
+                        ),
+                      ),
+                      borderColor: const Color(0xFF013CBC),
+                    ),
+                  ),
+                  Expanded(
+                    child: ButtonAdd(
+                      text: 'Scan bill again',
+                      onPressed: onRescan,
+                    ),
+                  ),
+                ],
               ),
             ],
-          ),
-          child: TextButton(
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              backgroundColor: Colors.white,
-            ),
-            onPressed: onPressed,
-            child: Text(
-              text,
-              style: const TextStyle(
-                fontSize: 18,
-                fontFamily: 'Lato',
-                color: Colors.black,
-              ),
-            ),
           ),
         ),
       ),

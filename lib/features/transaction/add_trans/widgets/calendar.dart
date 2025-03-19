@@ -2,15 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TimePickerComponent extends StatefulWidget {
-  const TimePickerComponent({required this.onDateSelected, super.key});
+  const TimePickerComponent({
+    required this.onDateSelected,
+    required this.initialDate, // Nhận giá trị ngày ban đầu
+    super.key,
+  });
+
   final Function(DateTime) onDateSelected;
+  final DateTime initialDate; // Thêm biến initialDate
 
   @override
   _TimePickerComponentState createState() => _TimePickerComponentState();
 }
 
 class _TimePickerComponentState extends State<TimePickerComponent> {
-  DateTime selectedDate = DateTime.now();
+  late DateTime selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedDate = widget.initialDate; // Gán giá trị ngày ban đầu
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final picked = await showDatePicker(

@@ -9,35 +9,27 @@ class DataService {
     return await storage.read(key: 'unique_id');
   }
 
-  Future<Map<String, int>> fetchData(String? uuid) async {
-    if (uuid == null) return {'expense': 0, 'income': 0};
+  Future<Map<String, int>> fetchBalance(String? uuid) async {
+    if (uuid == null) return {'expense': 0, 'income': 0, 'balance': 0};
 
     try {
-      final response =
-          await http.get(Uri.parse('http://3.26.221.69:5000/api/transactions'));
+      final response = await http.get(Uri.parse(
+          'http://3.26.221.69:5000/api/transactions/balence?userId=$uuid'));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
-        final transactions = data.entries
-            .map((entry) => entry.value as Map<String, dynamic>)
-            .toList();
 
-        final userTransactions =
-            transactions.where((t) => t['user_id'] == uuid).toList();
-
-        int totalExpense = 0;
-        int totalIncome = 0;
-
-        for (var transaction in userTransactions) {
-          int amount = int.tryParse(transaction['money'].toString()) ?? 0;
-          if (transaction['type'] == 'expense') {
-            totalExpense += amount;
-          } else if (transaction['type'] == 'income') {
-            totalIncome += amount;
-          }
-        }
-
-        return {'expense': totalExpense, 'income': totalIncome};
+        return {
+          'expense': (data['expense'] is int)
+              ? data['expense'] as int
+              : int.tryParse(data['expense'].toString()) ?? 0,
+          'income': (data['income'] is int)
+              ? data['income'] as int
+              : int.tryParse(data['income'].toString()) ?? 0,
+          'balance': (data['balance'] is int)
+              ? data['balance'] as int
+              : int.tryParse(data['balance'].toString()) ?? 0,
+        };
       } else {
         throw Exception('Không thể tải dữ liệu');
       }

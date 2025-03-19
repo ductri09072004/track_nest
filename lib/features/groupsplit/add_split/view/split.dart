@@ -235,6 +235,7 @@ class _SplitPageState extends State<SplitPage> {
                           const SizedBox(height: 12),
                           TimePickerComponent(
                             onDateSelected: _updateSelectedDate,
+                            initialDate: selectedDate,
                           ),
                         ],
                       ),

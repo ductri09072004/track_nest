@@ -2,26 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BtnChooseAi extends StatefulWidget {
-  // Hàm callback
-
   const BtnChooseAi({
     Key? key,
     required this.iconPath,
-    required this.onModelSelected, // Nhận callback từ ngoài
+    required this.onModelSelected, // Hàm callback nhận từ ngoài
+    required this.selectedModel,
   }) : super(key: key);
+
   final String iconPath;
-  // ignore: inference_failure_on_function_return_type
-  final Function(String) onModelSelected;
+  final String selectedModel;
+  final Function(String) onModelSelected; // Callback khi chọn model
 
   @override
   _BtnChooseAiState createState() => _BtnChooseAiState();
 }
 
 class _BtnChooseAiState extends State<BtnChooseAi> {
-  String _selectedText = 'Nest_AI';
+  late String _selectedText;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedText =
+        widget.selectedModel.isNotEmpty ? widget.selectedModel : 'Nest_AI';
+  }
 
   void _showPopup(BuildContext context) {
-    // ignore: inference_failure_on_function_invocation
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -56,19 +62,11 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                _buildOptionButton(
-                  context,
-                  'GPT-4',
-                  'Premium +',
-                  'lib/assets/icon/OCR_icon/gpt_ai.svg',
-                ),
+                _buildOptionButton(context, 'GPT-4', 'Premium +',
+                    'lib/assets/icon/OCR_icon/gpt_ai.svg'),
                 const SizedBox(height: 20),
-                _buildOptionButton(
-                  context,
-                  'Nest_AI',
-                  'Free',
-                  'lib/assets/icon/OCR_icon/nest_ai.svg',
-                ),
+                _buildOptionButton(context, 'Nest_AI', 'Free',
+                    'lib/assets/icon/OCR_icon/nest_ai.svg'),
                 const SizedBox(height: 20),
               ],
             ),
@@ -79,11 +77,7 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
   }
 
   Widget _buildOptionButton(
-    BuildContext context,
-    String text,
-    String free,
-    String iconPath,
-  ) {
+      BuildContext context, String text, String free, String iconPath) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -110,7 +104,7 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
             setState(() {
               _selectedText = text;
             });
-            widget.onModelSelected(text); // Gọi callback để gửi giá trị
+            widget.onModelSelected(text); // Gửi giá trị về callback
             Navigator.pop(context);
           },
           child: Row(
@@ -167,7 +161,11 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SvgPicture.asset(widget.iconPath),
+                  SvgPicture.asset(
+                    widget.iconPath,
+                    width: 32,
+                    height: 32,
+                  ),
                   const SizedBox(width: 12),
                   Text(
                     _selectedText,
@@ -178,7 +176,6 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  SvgPicture.asset(widget.iconPath),
                 ],
               ),
             ),
