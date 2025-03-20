@@ -4,8 +4,8 @@ import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/button.dart';
 import 'package:testverygood/components/button_choose_group.dart';
 import 'package:testverygood/components/input.dart';
-import 'package:testverygood/data/data_api/add_split_api.dart';
-import 'package:testverygood/data/data_api/list_friend_split._api.dart';
+import 'package:testverygood/data/data_api/Split/add_split_api.dart';
+import 'package:testverygood/data/data_api/Split/list_friend_split._api.dart';
 import 'package:testverygood/features/groupsplit/add_split/components/DropDownFriends.dart';
 import 'package:testverygood/features/groupsplit/add_split/components/choose_group.dart';
 import 'package:testverygood/features/groupsplit/add_split/components/friendToggle.dart';
@@ -13,19 +13,22 @@ import 'package:testverygood/features/transaction/add_trans/widgets/calendar.dar
 import 'package:testverygood/features/transaction/add_trans/widgets/categories.dart';
 
 class SplitPage extends StatefulWidget {
-  const SplitPage({super.key, this.data = ''});
+  const SplitPage({super.key, this.data = '', this.payid});
   final String data;
+  final String? payid;
 
+  // ignore: inference_failure_on_uninitialized_variable
   static var txmain;
 
   @override
-  _SplitPageState createState() => _SplitPageState();
+  SplitPageState createState() => SplitPageState();
 }
 
-class _SplitPageState extends State<SplitPage> {
+class SplitPageState extends State<SplitPage> {
   String? selectedOption;
   bool isLoading = true;
   String? selectedGroupName;
+  String? currentPayid;
 
   List<String> options = [];
   String? selectedOption2;
@@ -49,11 +52,18 @@ class _SplitPageState extends State<SplitPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       showGroupSelectionPopup();
     });
+    currentPayid = widget.payid;
   }
 
   void _updateSelectedDate(DateTime newDate) {
     setState(() {
       selectedDate = newDate;
+    });
+  }
+
+  void updatePayid(String? newPayid) {
+    setState(() {
+      currentPayid = newPayid;
     });
   }
 
@@ -66,8 +76,19 @@ class _SplitPageState extends State<SplitPage> {
 
   void _calculateSplitAmount() {
     if (numericController.text.isNotEmpty) {
-      final double totalAmount = double.tryParse(numericController.text) ?? 0;
-      final int selectedCount = toggleStates.where((state) => state).length;
+      // Loại bỏ dấu '.' trước khi chuyển đổi sang double
+      String cleanText = numericController.text.replaceAll('.', '');
+
+      final double totalAmount = double.tryParse(cleanText) ?? 0;
+      int selectedCount = toggleStates.where((state) => state).length;
+
+      if (selectedOption != null) {
+        int payerIndex = options.indexOf(selectedOption.toString());
+        if (payerIndex != -1 && !toggleStates[payerIndex]) {
+          toggleStates[payerIndex] = true;
+          selectedCount++;
+        }
+      }
 
       setState(() {
         splitAmounts = selectedCount > 0
@@ -110,12 +131,10 @@ class _SplitPageState extends State<SplitPage> {
           toggleStates = List.generate(options.length, (_) => false);
           isLoading = false;
 
-          // Đặt giá trị mặc định là "Me" nếu tồn tại
           if (options.contains('Me')) {
             selectedOption = 'Me';
           } else if (options.isNotEmpty) {
-            selectedOption =
-                options.first; // Chọn phần tử đầu tiên nếu không có "Me"
+            selectedOption = options.first;
           }
         });
       }
@@ -127,14 +146,17 @@ class _SplitPageState extends State<SplitPage> {
     }
   }
 
-  /// Gọi API lưu giao dịch khi nhấn nút Save
-  Future<void> _saveTransaction() async {
-    String? uuid = await loadUUID(); // Lấy UUID người dùng
+  Future<void> saveTransaction() async {
+    String? uuid = await loadUUID();
     if (uuid == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Không tìm thấy UUID!')),
       );
       return;
+    }
+
+    if (friendToggleKey.currentState != null) {
+      await friendToggleKey.currentState?.saveAllTransactions(context);
     }
 
     await TransactionService.saveTransaction(
@@ -144,7 +166,7 @@ class _SplitPageState extends State<SplitPage> {
       date: selectedDate,
       money: numericController.text,
       note: noteController.text,
-      payid: 'k1Swt8AeF3',
+      payid: currentPayid.toString(),
     );
   }
 
@@ -201,6 +223,7 @@ class _SplitPageState extends State<SplitPage> {
                   ],
                 ),
                 FriendToggleList(
+                  key: friendToggleKey,
                   options: options,
                   initialToggleStates: toggleStates,
                   selectedOption: selectedOption,
@@ -210,6 +233,11 @@ class _SplitPageState extends State<SplitPage> {
                         toggleStates[index] = value;
                         _calculateSplitAmount();
                       });
+                    });
+                  },
+                  onPayidGenerated: (payid) {
+                    setState(() {
+                      currentPayid = payid;
                     });
                   },
                   splitAmounts: splitAmounts,
@@ -260,7 +288,7 @@ class _SplitPageState extends State<SplitPage> {
                 const SizedBox(height: 32),
                 Button(
                   label: 'Save',
-                  onPressed: _saveTransaction, // Gọi hàm lưu giao dịch
+                  onPressed: saveTransaction, // Gọi hàm lưu giao dịch
                 ),
               ],
             ),

@@ -28,7 +28,7 @@ class InputField extends StatefulWidget {
 }
 
 class _InputFieldState extends State<InputField> {
-  int rawValue = 0; // Lưu giá trị thực không có dấu chấm
+  int rawValue = 0;
 
   String _removeThousandsSeparator(String value) {
     return value.replaceAll('.', '');

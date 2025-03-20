@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:testverygood/data/data_api/friend_list_api.dart';
+import 'package:testverygood/data/data_api/Split/friend_list_api.dart';
 import 'package:testverygood/features/settings/groupfriends/view/addgroup_main.dart';
 
 class BodyMain extends StatefulWidget {

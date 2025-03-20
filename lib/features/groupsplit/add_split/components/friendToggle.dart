@@ -1,7 +1,7 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:testverygood/assets/core/appcolor.dart';
-import 'package:testverygood/data/data_api/add_mempay_api.dart';
+import 'package:testverygood/data/data_api/Split/add_mempay_api.dart';
 
 class FriendToggleList extends StatefulWidget {
   const FriendToggleList({
@@ -11,6 +11,7 @@ class FriendToggleList extends StatefulWidget {
     required this.onChanged,
     this.selectedOption,
     required this.splitAmounts,
+    required this.onPayidGenerated,
   });
 
   final List<double> splitAmounts;
@@ -18,26 +19,28 @@ class FriendToggleList extends StatefulWidget {
   final List<bool> initialToggleStates;
   final String? selectedOption;
   final Function(int, bool) onChanged;
+  final Function(String) onPayidGenerated;
 
   @override
-  _FriendToggleListState createState() => _FriendToggleListState();
+  FriendToggleListState createState() => FriendToggleListState();
 }
 
-class _FriendToggleListState extends State<FriendToggleList> {
+final GlobalKey<FriendToggleListState> friendToggleKey =
+    GlobalKey<FriendToggleListState>();
+
+class FriendToggleListState extends State<FriendToggleList> {
   late List<bool> toggleStates;
 
   @override
   void initState() {
     super.initState();
     toggleStates = List.from(widget.initialToggleStates);
-  }
-
-  static String generateGtransId() {
-    const chars =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    final random = Random();
-    return List.generate(10, (index) => chars[random.nextInt(chars.length)])
-        .join();
+    if (widget.selectedOption != null) {
+      int payerIndex = widget.options.indexOf(widget.selectedOption!);
+      if (payerIndex != -1) {
+        toggleStates[payerIndex] = true; // Luôn đặt thành true
+      }
+    }
   }
 
   void _handleToggleChange(BuildContext context, int index, bool newValue) {
@@ -47,50 +50,23 @@ class _FriendToggleListState extends State<FriendToggleList> {
     widget.onChanged(index, newValue);
   }
 
-  // 🛠 Hàm lưu tất cả giao dịch khi nhấn nút
-  Future<void> _saveAllTransactions(BuildContext context) async {
-    try {
-      String payid = generateGtransId(); // Tạo payid duy nhất cho lần lưu này
-      List<Future<void>> apiCalls = [];
+  Future<void> saveAllTransactions(BuildContext context) async {
+    await TransactionService.saveAllTransactions(
+      context: context,
+      splitAmounts: widget.splitAmounts.map((e) => e.toInt()).toList(),
+      options: widget.options,
+      toggleStates: toggleStates,
+      onPayidGenerated: (String payid) {
+        setState(() {});
+        widget.onPayidGenerated(payid);
+      },
+      selectedOption: widget.selectedOption ?? '',
+    );
+  }
 
-      for (int i = 0; i < widget.options.length; i++) {
-        if (toggleStates[i]) {
-          int money = widget.splitAmounts[i].toInt();
-          String name = widget.options[i];
-
-          // Kiểm tra dữ liệu trước khi gửi
-          if (money <= 0 || name.isEmpty || payid.isEmpty) {
-            throw Exception(
-              'Thiếu dữ liệu: money=$money, name=$name, payid=$payid',
-            );
-          }
-
-          // Gửi API và lưu vào danh sách
-          apiCalls.add(
-            TransactionService.saveTransaction(
-              context: context,
-              money: money,
-              name: name,
-              payid: payid,
-              status: 'false',
-            ),
-          );
-        }
-      }
-
-      // Chờ tất cả các API hoàn tất
-      await Future.wait(apiCalls);
-
-      // Hiển thị thông báo thành công nếu không có lỗi
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Lưu dữ liệu thành công!')),
-      );
-    } catch (e) {
-      // Hiển thị thông báo lỗi nếu có
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Lỗi khi lưu dữ liệu: $e')),
-      );
-    }
+  String formatCurrency(int amount) {
+    final formatter = NumberFormat('#,###', 'vi_VN');
+    return '${formatter.format(amount)} VND';
   }
 
   @override
@@ -101,23 +77,23 @@ class _FriendToggleListState extends State<FriendToggleList> {
           final index = entry.key;
           final friend = entry.value;
 
-          if (widget.selectedOption == friend) {
-            return const SizedBox.shrink();
-          }
-
+          bool isPayer = widget.selectedOption == friend;
           return Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: Row(
               children: [
-                Switch(
-                  value: toggleStates[index],
-                  onChanged: (newValue) =>
-                      _handleToggleChange(context, index, newValue),
-                  activeColor: Colors.white,
-                  activeTrackColor: Color(0xFF013CBC),
-                  inactiveThumbColor: Colors.grey,
-                  inactiveTrackColor: Colors.black12,
-                ),
+                if (!isPayer) // Chỉ cho phép bật/tắt với người khác
+                  Switch(
+                    value: toggleStates[index],
+                    onChanged: (newValue) =>
+                        _handleToggleChange(context, index, newValue),
+                    activeColor: Colors.white,
+                    activeTrackColor: Color(0xFF013CBC),
+                    inactiveThumbColor: Colors.grey,
+                    inactiveTrackColor: Colors.black12,
+                  ),
+                if (isPayer) // Hiển thị người trả chính mà không có công tắc bật/tắt
+                  const Icon(Icons.check_circle, color: Colors.green),
                 const SizedBox(width: 16),
                 Text(
                   friend,
@@ -129,7 +105,7 @@ class _FriendToggleListState extends State<FriendToggleList> {
                 const Spacer(),
                 Text(
                   widget.splitAmounts.length > index
-                      ? '${widget.splitAmounts[index].toStringAsFixed(0)}.000 VND'
+                      ? formatCurrency(widget.splitAmounts[index].toInt())
                       : '0 VND',
                   style: const TextStyle(
                     color: AppColor.black,
@@ -140,19 +116,6 @@ class _FriendToggleListState extends State<FriendToggleList> {
             ),
           );
         }).toList(),
-        ElevatedButton(
-          onPressed: () => _saveAllTransactions(context),
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: const Text(
-            'Save',
-            style: TextStyle(fontSize: 16, color: Colors.black),
-          ),
-        ),
       ],
     );
   }

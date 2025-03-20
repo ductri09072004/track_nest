@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:testverygood/bootstrap.dart';
 import 'package:testverygood/components/button.dart';
 import 'package:testverygood/components/input.dart';
-import 'package:testverygood/data/data_api/add_friends_api.dart';
+import 'package:testverygood/data/data_api/Split/add_friends_api.dart';
 
 class BodyMain extends StatefulWidget {
   const BodyMain({super.key});

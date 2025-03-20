@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/button.dart';
-import 'package:testverygood/data/data_api/friend_list_api.dart';
+import 'package:testverygood/data/data_api/Split/friend_list_api.dart';
 import 'package:testverygood/features/settings/groupfriends/app.dart';
 
 class PopupGroupSelection extends StatefulWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/Header_main.dart';
 import 'package:testverygood/components/load_page.dart';
+import 'package:testverygood/features/groupsplit/add_split/view/split.dart';
 import 'package:testverygood/features/groupsplit/history/view/body.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -60,6 +61,20 @@ class _HistoryPageState extends State<HistoryPage> {
             ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SplitPage(),
+            ),
+          );
+        },
+        backgroundColor: Color(0xFF013CBC), // Đổi màu theo ý bạn
+        child: const Icon(Icons.add, color: Colors.white), // Icon dấu cộng
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.endFloat, // Góc phải dưới
     );
   }
 }
