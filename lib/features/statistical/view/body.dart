@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/Ex_In_btn_Satis.dart';
-import 'package:testverygood/features/statistical/components/barchart.dart';
-import 'package:testverygood/features/statistical/components/content.dart';
+import 'package:testverygood/features/statistical/widgets/barchart.dart';
+import 'package:testverygood/features/statistical/widgets/content.dart';
 
 class BodyMain extends StatefulWidget {
   const BodyMain({super.key});

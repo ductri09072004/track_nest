@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
+import 'package:testverygood/components/button.dart';
 import 'package:testverygood/features/main_navbar.dart';
-import 'package:testverygood/features/welcome/view/widgets/page1.dart';
-import 'package:testverygood/features/welcome/view/widgets/page2.dart';
+import 'package:testverygood/features/welcome/widgets/page1.dart';
+import 'package:testverygood/features/welcome/widgets/page2.dart';
 
 class WelcomeSlider extends StatefulWidget {
   const WelcomeSlider({super.key});
@@ -35,14 +37,14 @@ class _WelcomeSliderState extends State<WelcomeSlider> {
             effect: const WormEffect(
               dotHeight: 10,
               dotWidth: 10,
-              activeDotColor: Color(0xFF791CAC),
+              activeDotColor: AppColor.blue,
             ),
           ),
         ],
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(20),
-        child: ElevatedButton(
+        child: Button(
           onPressed: () {
             Navigator.pushReplacement(
               context,
@@ -51,17 +53,7 @@ class _WelcomeSliderState extends State<WelcomeSlider> {
               ),
             );
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF791CAC),
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-          ),
-          child: const Text(
-            'Get Started',
-            style: txtbtn,
-          ),
+          label: 'Get Started',
         ),
       ),
     );

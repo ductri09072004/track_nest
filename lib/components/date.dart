@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 
 class HorizontalList extends StatefulWidget {
   const HorizontalList({super.key});
@@ -77,7 +78,7 @@ class _HorizontalListState extends State<HorizontalList> {
                   Text(
                     item,
                     style: TextStyle(
-                      color: isSelected ? Colors.black : Colors.grey,
+                      color: isSelected ? AppColor.black : AppColor.blackLighter,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
@@ -88,7 +89,7 @@ class _HorizontalListState extends State<HorizontalList> {
                       width: 111, // Độ dài của thanh dưới chữ
                       height: 4, // Độ dày của thanh
                       decoration: BoxDecoration(
-                        color: const Color(0xFF013CBC),
+                        color: AppColor.blue,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),

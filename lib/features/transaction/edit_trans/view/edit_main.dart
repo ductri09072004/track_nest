@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/input.dart';
-import 'package:testverygood/features/transaction/add_trans/components/calendar.dart';
+import 'package:testverygood/features/transaction/add_trans/widgets/calendar.dart';
 import 'package:testverygood/features/main_navbar.dart';
 import 'package:testverygood/components/Edit&Delete_btn.dart';
 
@@ -102,7 +102,8 @@ class _EditMainState extends State<EditMain> {
     final url = Uri.parse('http://3.26.221.69:5000/api/transactions/$rootKey');
 
     final Map<String, dynamic> updatedData = {
-      'money': int.tryParse(numericController.text) ?? 0,
+      'money':
+          int.tryParse(numericController.text.replaceAll('.', '').trim()) ?? 0,
       'note': noteController.text,
       'tofrom': fromController.text,
       'date': '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
@@ -184,6 +185,7 @@ class _EditMainState extends State<EditMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const HeaderA(title: 'Transaction'),
       body: Column(
         children: [
@@ -256,6 +258,7 @@ class _EditMainState extends State<EditMain> {
                             const SizedBox(height: 12),
                             TimePickerComponent(
                               onDateSelected: _updateSelectedDate,
+                              initialDate: selectedDate,
                             ),
                           ],
                         ),

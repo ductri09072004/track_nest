@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 
 class HeaderA extends StatelessWidget implements PreferredSizeWidget {
   const HeaderA({
@@ -17,7 +18,7 @@ class HeaderA extends StatelessWidget implements PreferredSizeWidget {
       child: Stack(
         children: [
           AppBar(
-            backgroundColor: const Color(0xFFFFFFFF),
+            backgroundColor: Colors.white,
             elevation: 0, // Xóa bóng của AppBar
             leading: IconButton(
               icon: SvgPicture.asset(
@@ -29,7 +30,7 @@ class HeaderA extends StatelessWidget implements PreferredSizeWidget {
             title: Text(
               title,
               style: const TextStyle(
-                color: Colors.black,
+                color: AppColor.black,
                 fontSize: 20,
                 fontFamily: 'Lato',
               ),

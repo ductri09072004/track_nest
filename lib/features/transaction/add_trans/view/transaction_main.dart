@@ -2,21 +2,30 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/input.dart';
-import 'package:testverygood/features/transaction/add_trans/components/Ex_In_btn.dart';
-import 'package:testverygood/features/transaction/add_trans/components/calendar.dart';
-import 'package:testverygood/features/transaction/add_trans/components/categories.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:testverygood/features/main_navbar.dart';
 import 'package:testverygood/data/data_api/add_trans_api.dart';
+import 'package:testverygood/features/main_navbar.dart';
+import 'package:testverygood/components/Ex_In_btn_Satis.dart';
+import 'package:testverygood/features/transaction/add_trans/widgets/calendar.dart';
+import 'package:testverygood/features/transaction/add_trans/widgets/categories.dart';
 
 class TransactionMain extends StatefulWidget {
-  const TransactionMain({Key? key, this.data = '', this.imageTransaction = ''})
+  const TransactionMain(
+      {Key? key,
+      this.money = '',
+      this.date = '',
+      this.cate = '',
+      this.imageTransaction = ''})
       : super(key: key);
 
-  final String data;
+  final String money;
+  final String date;
+  final String cate;
+
   final String imageTransaction; // Nhận thêm imageTransaction
 
   @override
@@ -42,16 +51,30 @@ class _TransactionMainState extends State<TransactionMain> {
     });
   }
 
+  Future<String?> loadTypeId() async {
+    return storage.read(key: 'type_id');
+  }
+
   @override
   void initState() {
     super.initState();
     _loadUUID(); // Lấy UUID khi widget khởi tạo
 
-    if (widget.data.isNotEmpty) {
-      numericController.text = widget.data;
+    if (widget.money.isNotEmpty) {
+      numericController.text = widget.money;
     }
     if (widget.imageTransaction.isNotEmpty) {
       _selectedImage = File(widget.imageTransaction);
+    }
+    if (widget.date.isNotEmpty) {
+      try {
+        selectedDate = DateFormat('dd/MM/yyyy').parse(widget.date);
+      } catch (e) {
+        selectedDate = DateTime.now();
+      }
+    }
+    if (widget.cate.isNotEmpty) {
+      selectedCategory = widget.cate;
     }
   }
 
@@ -75,7 +98,7 @@ class _TransactionMainState extends State<TransactionMain> {
 
   Future<void> _loadInterstitialAd() async {
     await InterstitialAd.load(
-      adUnitId: 'ca-app-pub-3940256099942544/5224354917',
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
@@ -87,12 +110,12 @@ class _TransactionMainState extends State<TransactionMain> {
     );
   }
 
-  Future<void> handleSaveTransaction(BuildContext context) async {
+  Future<bool> handleSaveTransaction(BuildContext context) async {
     setState(() {
       isLoading = true;
     });
 
-    bool success = await TransactionService.saveTransaction(
+    final result = await TransactionService.saveTransaction(
       uuid: uuid,
       selectedCategory: selectedCategory,
       selectedDate: selectedDate,
@@ -100,46 +123,47 @@ class _TransactionMainState extends State<TransactionMain> {
       note: noteController.text,
       toFrom: fromController.text,
       imageFile: _selectedImage,
+      type: isExpense ? 'expense' : 'income',
     );
 
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Saved transaction successfully!')),
-      );
-      navigateToTargetPage(context);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to save transaction')),
-      );
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(result['message'].toString())),
+    );
 
     setState(() {
       isLoading = false;
     });
+
+    return result['success'] ==
+        true; // Trả về true nếu thành công, false nếu thất bại
   }
 
   void navigateToTargetPage(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      // ignore: inference_failure_on_instance_creation
       MaterialPageRoute(builder: (context) => const MainPage()),
     );
   }
 
   Future<void> handleSaveTransactionfinall(BuildContext context) async {
-    await Future.wait([
-      _loadInterstitialAd(), // Chạy quảng cáo
-      handleSaveTransaction(context), // Chạy lưu giao dịch
-    ]);
+    final saveResult =
+        await handleSaveTransaction(context); // Lưu giao dịch trước
 
-    navigateToTargetPage(context); // Chuyển trang sau khi cả hai hoàn tất
+    if (saveResult == true) {
+      final String? typeId = await storage.read(key: 'type_id');
+
+      if (typeId == 'free') {
+        await _loadInterstitialAd();
+      }
+      navigateToTargetPage(context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const HeaderA(title: 'Transaction'),
-      body: Container(
+      body: ColoredBox(
         color: Colors.white, // Đặt màu nền tại đây
         child: Column(
           children: [
@@ -152,8 +176,8 @@ class _TransactionMainState extends State<TransactionMain> {
                     Row(
                       children: [
                         Expanded(
-                          child: ExInBtn(
-                            labels: const ['Expenses', 'Income'],
+                          child: ExInBtnStatis(
+                            labels: const ['Expense', 'Income'],
                             onToggle: (index) {
                               setState(() {
                                 isExpense = index == 0;
@@ -188,6 +212,7 @@ class _TransactionMainState extends State<TransactionMain> {
                     const SizedBox(height: 10),
                     CategoriesText(
                       isExpense: isExpense,
+                      initialCategory: widget.cate,
                       onCategorySelected: (String category) {
                         setState(() {
                           selectedCategory = category;
@@ -205,6 +230,7 @@ class _TransactionMainState extends State<TransactionMain> {
                               const SizedBox(height: 12),
                               TimePickerComponent(
                                 onDateSelected: _updateSelectedDate,
+                                initialDate: selectedDate,
                               ),
                             ],
                           ),
@@ -271,7 +297,7 @@ class _TransactionMainState extends State<TransactionMain> {
                           ? null
                           : () => handleSaveTransactionfinall(context),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF791CAC),
+                        backgroundColor: const Color(0xFF013CBC),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                       child: isLoading
@@ -283,7 +309,7 @@ class _TransactionMainState extends State<TransactionMain> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

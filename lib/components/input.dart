@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:testverygood/assets/core/appcolor.dart';
 
 class InputField extends StatefulWidget {
   const InputField({
@@ -27,7 +28,7 @@ class InputField extends StatefulWidget {
 }
 
 class _InputFieldState extends State<InputField> {
-  int rawValue = 0; // Lưu giá trị thực không có dấu chấm
+  int rawValue = 0;
 
   String _removeThousandsSeparator(String value) {
     return value.replaceAll('.', '');
@@ -92,13 +93,13 @@ class _InputFieldState extends State<InputField> {
 
   static const TextStyle txt = TextStyle(
     fontSize: 36,
-    color: Color(0xFF808080),
+    color: AppColor.blackPalest,
     fontFamily: 'Lato',
   );
 
   static const TextStyle txtsmall = TextStyle(
     fontSize: 16,
-    color: Color(0xFF808080),
+    color: AppColor.blackPalest,
     fontFamily: 'Lato',
   );
 }
@@ -132,7 +133,7 @@ class InputClassic extends StatelessWidget {
       focusNode: focusNode, // Gán focusNode vào đây
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.grey),
+        hintStyle: const TextStyle(color: Color(0xFFCFCFCF)),
         filled: true,
         fillColor: Colors.transparent,
         contentPadding: hasPadding
@@ -170,6 +171,93 @@ class InputClassic extends StatelessWidget {
   }
 }
 
+class InputVerify extends StatelessWidget {
+  const InputVerify({
+    required this.hintText,
+    super.key,
+    this.controller,
+    this.keyboardType = TextInputType.text,
+    this.obscureText = false,
+    this.hasBorder = true,
+    this.hasPadding = true,
+    this.focusNode,
+    this.suffixText,
+    this.onSuffixPressed,
+  });
+
+  final String hintText;
+  final TextEditingController? controller;
+  final TextInputType keyboardType;
+  final bool obscureText;
+  final bool hasBorder;
+  final bool hasPadding;
+  final FocusNode? focusNode;
+  final String? suffixText;
+  final VoidCallback? onSuffixPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      focusNode: focusNode,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: const TextStyle(color: Color(0xFFCFCFCF)),
+        filled: true,
+        fillColor: Colors.transparent,
+        contentPadding: hasPadding
+            ? const EdgeInsets.symmetric(vertical: 12, horizontal: 16)
+            : EdgeInsets.zero,
+        border: hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1.5,
+                ),
+              )
+            : InputBorder.none,
+        enabledBorder: hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1.5,
+                ),
+              )
+            : InputBorder.none,
+        focusedBorder: hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: Colors.blue,
+                  width: 2,
+                ),
+              )
+            : InputBorder.none,
+        suffix: suffixText != null
+            ? GestureDetector(
+                onTap: onSuffixPressed,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(
+                    suffixText!,
+                    style: const TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              )
+            : null,
+      ),
+    );
+  }
+}
+
 class InputWithClearIcon extends StatefulWidget {
   const InputWithClearIcon({
     required this.hintText,
@@ -177,11 +265,14 @@ class InputWithClearIcon extends StatefulWidget {
     super.key,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
+    this.onChanged,
   });
+
   final String hintText;
   final TextEditingController controller;
   final TextInputType keyboardType;
   final bool obscureText;
+  final ValueChanged<String>? onChanged;
 
   @override
   _InputWithClearIconState createState() => _InputWithClearIconState();
@@ -191,19 +282,20 @@ class _InputWithClearIconState extends State<InputWithClearIcon> {
   @override
   void initState() {
     super.initState();
-    widget.controller
-        .addListener(_updateState); // Lắng nghe sự thay đổi của controller
+    widget.controller.addListener(_updateState);
   }
 
   @override
   void dispose() {
-    widget.controller
-        .removeListener(_updateState); // Gỡ lắng nghe khi component bị hủy
+    widget.controller.removeListener(_updateState);
     super.dispose();
   }
 
   void _updateState() {
-    setState(() {}); // Cập nhật lại giao diện khi nội dung thay đổi
+    setState(() {});
+    if (widget.onChanged != null) {
+      widget.onChanged!(widget.controller.text);
+    }
   }
 
   @override
@@ -216,30 +308,33 @@ class _InputWithClearIconState extends State<InputWithClearIcon> {
         hintText: widget.hintText,
         hintStyle: const TextStyle(color: Colors.grey),
         filled: true,
-        fillColor: Colors.transparent, // Nền trong suốt
+        fillColor: Colors.transparent,
         border: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Color(0xFFCFCFCF), // Màu viền bottom
+            color: Color(0xFFCFCFCF),
             width: 1.5,
           ),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.blue, // Màu viền khi focus
+            color: Colors.blue,
             width: 2,
           ),
         ),
         suffixIcon: widget.controller.text.isNotEmpty
             ? IconButton(
                 icon: SvgPicture.asset(
-                  'lib/assets/icon/components_icon/cancel.svg', // Đường dẫn icon SVG
+                  'lib/assets/icon/components_icon/cancel.svg',
                 ),
                 onPressed: () {
-                  widget.controller.clear(); // Xóa text khi nhấn icon
-                  setState(() {}); // Cập nhật lại giao diện sau khi xóa
+                  widget.controller.clear();
+                  setState(() {});
+                  if (widget.onChanged != null) {
+                    widget.onChanged!('');
+                  }
                 },
               )
-            : null, // Chỉ hiển thị icon khi có nội dung
+            : null,
       ),
     );
   }

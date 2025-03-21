@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/features/home/view/widgets/balance_cart.dart';
-import 'package:testverygood/features/home/view/widgets/trans_content.dart';
+import 'package:testverygood/features/home/widgets/balance_cart.dart';
+import 'package:testverygood/features/home/widgets/trans_content.dart';
 
 class BodyMain extends StatelessWidget {
   const BodyMain({super.key});
@@ -32,7 +32,7 @@ class BodyMain extends StatelessWidget {
                   ),
                 ),
               ),
-              ExpContent(),
+              TransContent(),
             ],
           ),
         ),

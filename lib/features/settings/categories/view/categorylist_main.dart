@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/HeaderA.dart';
-import 'package:testverygood/features/settings/categories/components/body_listcate.dart';
+import 'package:testverygood/features/settings/categories/widgets/body_listcate.dart';
 
 class CategoryListPage extends StatelessWidget {
   const CategoryListPage({super.key});

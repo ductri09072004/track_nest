@@ -54,7 +54,7 @@ class _StatisticalPageState extends State<StatisticalPage> {
               duration: const Duration(milliseconds: 500),
               child: const Positioned.fill(
                 child: LoadingPage(
-                  iconPath: 'lib/assets/icon/active_navbar/satatisA_icon.svg',
+                  iconPath: 'lib/assets/icon/active_navbar/statisA_icon.svg',
                 ),
               ),
             ),
