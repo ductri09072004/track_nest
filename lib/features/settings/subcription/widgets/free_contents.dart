@@ -11,13 +11,13 @@ class FreePlanWidget extends StatelessWidget {
       children: [
         const Text(
           'Free',
-          style: TextStyle(fontSize: 20, fontFamily: 'Lato'),
+          style:
+              TextStyle(fontSize: 20, fontFamily: 'Lato', color: Colors.grey),
         ),
         const SizedBox(height: 10),
         _buildFeatureRow('Use default AI to scan'),
         _buildFeatureRow('No restore data'),
         _buildFeatureRow('Have advertisements'),
-        _buildFeatureRow('Max 5 friends/group and 5 groups'),
         const SizedBox(height: 10),
         Container(
           padding: const EdgeInsets.symmetric(

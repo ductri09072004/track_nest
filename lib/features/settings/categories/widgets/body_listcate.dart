@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:testverygood/bootstrap.dart';
 import 'package:testverygood/components/Ex_In_btn_Satis.dart';
 import 'package:testverygood/features/settings/categories/widgets/content.dart';
 import 'package:testverygood/features/settings/categories/view/addcate_main.dart';
+import 'package:testverygood/features/settings/subcription/view/subcription_main.dart';
 
 class BodyMain extends StatefulWidget {
   const BodyMain({super.key});
 
   @override
   State<BodyMain> createState() => _BodyMainState();
+}
+
+Future<String?> loadTypeId() async {
+  return storage.read(key: 'type_id');
+}
+
+void navigateToTargetPage(BuildContext context) async {
+  String? typeId = await storage.read(key: 'type_id');
+
+  if (typeId == 'free') {
+    await Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => UpgradeAccountPage()),
+    );
+  } else if (typeId == 'premium') {
+    await Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const AddCateMain()),
+    );
+  }
 }
 
 class _BodyMainState extends State<BodyMain> {
@@ -57,18 +79,41 @@ class _BodyMainState extends State<BodyMain> {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AddCateMain(),
+              child: Stack(
+                clipBehavior:
+                    Clip.none, // Để hiển thị chữ PRO nằm ngoài icon nếu cần
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      navigateToTargetPage(context);
+                    },
+                    child: SvgPicture.asset(
+                      'lib/assets/icon/active_navbar/addA_icon.svg',
+                      width: 60, // Tuỳ chỉnh kích thước icon nếu cần
+                      height: 60,
                     ),
-                  );
-                },
-                child: SvgPicture.asset(
-                  'lib/assets/icon/active_navbar/addA_icon.svg',
-                ),
+                  ),
+                  Positioned(
+                    top: -5, // Điều chỉnh vị trí chữ PRO
+                    right: -15,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Colors.green, // Màu nền nổi bật
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        'Pro',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

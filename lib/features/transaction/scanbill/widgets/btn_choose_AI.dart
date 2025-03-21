@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:testverygood/bootstrap.dart';
+import 'package:testverygood/features/settings/subcription/view/subcription_main.dart';
 
 class BtnChooseAi extends StatefulWidget {
   const BtnChooseAi({
@@ -17,6 +19,10 @@ class BtnChooseAi extends StatefulWidget {
   _BtnChooseAiState createState() => _BtnChooseAiState();
 }
 
+Future<String?> loadTypeId() async {
+  return storage.read(key: 'type_id');
+}
+
 class _BtnChooseAiState extends State<BtnChooseAi> {
   late String _selectedText;
 
@@ -25,6 +31,13 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
     super.initState();
     _selectedText =
         widget.selectedModel.isNotEmpty ? widget.selectedModel : 'Nest_AI';
+  }
+
+  void navigateToTargetPage(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => UpgradeAccountPage()),
+    );
   }
 
   void _showPopup(BuildContext context) {
@@ -62,7 +75,7 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                _buildOptionButton(context, 'GPT-4', 'Premium +',
+                _buildOptionButton(context, 'GPT-4', 'Premium',
                     'lib/assets/icon/OCR_icon/gpt_ai.svg'),
                 const SizedBox(height: 20),
                 _buildOptionButton(context, 'Nest_AI', 'Free',
@@ -77,61 +90,76 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
   }
 
   Widget _buildOptionButton(
-      BuildContext context, String text, String free, String iconPath) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        gradient: const LinearGradient(
-          colors: [Colors.purple, Colors.red],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      padding: const EdgeInsets.all(3),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: TextButton(
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            backgroundColor: Colors.black,
+      BuildContext context, String text, String planType, String iconPath) {
+    return FutureBuilder<String?>(
+      future: loadTypeId(),
+      builder: (context, snapshot) {
+        String? typeId = snapshot.data;
+        bool isPremium = typeId == 'premium';
+
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            gradient: const LinearGradient(
+              colors: [Colors.purple, Colors.red],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
-          onPressed: () {
-            setState(() {
-              _selectedText = text;
-            });
-            widget.onModelSelected(text); // Gửi giá trị về callback
-            Navigator.pop(context);
-          },
-          child: Row(
-            children: [
-              SvgPicture.asset(iconPath, width: 24, height: 24),
-              const SizedBox(width: 12),
-              Text(
-                text,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontFamily: 'Lato',
-                ),
+          padding: const EdgeInsets.all(3),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: TextButton(
+              style: TextButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                backgroundColor: Colors.black,
               ),
-              const Spacer(),
-              Text(
-                free,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Color(0xFF39FF14),
-                  fontFamily: 'Lato',
-                ),
+              onPressed: () {
+                if (text == 'GPT-4' && !isPremium) {
+                  navigateToTargetPage(context); // Chuyển hướng nếu Free
+                } else {
+                  setState(() {
+                    _selectedText = text;
+                  });
+                  widget.onModelSelected(text);
+                  Navigator.pop(context);
+                }
+              },
+              child: Row(
+                children: [
+                  SvgPicture.asset(iconPath, width: 24, height: 24),
+                  const SizedBox(width: 12),
+                  Text(
+                    text,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontFamily: 'Lato',
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    planType,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: planType == 'Premium'
+                          ? const Color(0xFF39FF14)
+                          : const Color(0xFF808080),
+                      fontFamily: 'Lato',
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/button.dart';
+import 'package:testverygood/features/settings/subcription/view/link_email.dart';
 import 'package:testverygood/features/settings/subcription/widgets/free_contents.dart';
 import 'package:testverygood/features/settings/subcription/widgets/premium_contents.dart';
-import 'package:testverygood/features/settings/subcription/view/link_email.dart';
 
 class UpgradeAccountPage extends StatelessWidget {
   void navigateToTargetPage(BuildContext context) {
@@ -18,7 +18,7 @@ class UpgradeAccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const HeaderA(
-        title: '',
+        title: 'Choose your plan',
       ),
       body: Container(
         color: const Color(0xFFFFFFFF), // Màu nền của body
@@ -28,12 +28,6 @@ class UpgradeAccountPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Align(
-                  child: Text(
-                    'Choose your plan',
-                    style: TextStyle(fontSize: 30, fontFamily: 'Lato'),
-                  ),
-                ),
                 const SizedBox(height: 16),
                 const FreePlanWidget(),
                 const SizedBox(height: 16),

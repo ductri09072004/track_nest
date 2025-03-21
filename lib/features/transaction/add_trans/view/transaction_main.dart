@@ -51,6 +51,10 @@ class _TransactionMainState extends State<TransactionMain> {
     });
   }
 
+  Future<String?> loadTypeId() async {
+    return storage.read(key: 'type_id');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -94,7 +98,7 @@ class _TransactionMainState extends State<TransactionMain> {
 
   Future<void> _loadInterstitialAd() async {
     await InterstitialAd.load(
-      adUnitId: 'ca-app-pub-3940256099942544/5224354917',
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
@@ -146,9 +150,12 @@ class _TransactionMainState extends State<TransactionMain> {
         await handleSaveTransaction(context); // Lưu giao dịch trước
 
     if (saveResult == true) {
-      // Chỉ tiếp tục nếu lưu giao dịch thành công
-      await _loadInterstitialAd(); // Chạy quảng cáo
-      navigateToTargetPage(context); // Chuyển trang
+      final String? typeId = await storage.read(key: 'type_id');
+
+      if (typeId == 'free') {
+        await _loadInterstitialAd();
+      }
+      navigateToTargetPage(context);
     }
   }
 

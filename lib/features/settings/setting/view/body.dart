@@ -39,9 +39,7 @@ class BodyMain extends StatelessWidget {
                           SvgPicture.asset(
                             'lib/assets/icon/setting_icon/people.svg',
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ), // Khoảng cách giữa icon và text
+                          const SizedBox(width: 10),
                           const Text('Group Friend', style: txtpeo),
                           const Spacer(),
                           SvgPicture.asset(
@@ -68,9 +66,7 @@ class BodyMain extends StatelessWidget {
                           SvgPicture.asset(
                             'lib/assets/icon/setting_icon/categories.svg',
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ), // Khoảng cách giữa icon và text
+                          const SizedBox(width: 10),
                           const Text('Categories', style: txtpeo),
                           const Spacer(),
                           SvgPicture.asset(
@@ -97,10 +93,8 @@ class BodyMain extends StatelessWidget {
                           SvgPicture.asset(
                             'lib/assets/icon/setting_icon/premium_icon.svg',
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ), // Khoảng cách giữa icon và text
-                          const Text('Subcription', style: txtpeo),
+                          const SizedBox(width: 10),
+                          const Text('Subscription', style: txtpeo),
                           const Spacer(),
                           SvgPicture.asset(
                             'lib/assets/icon/setting_icon/next.svg',
@@ -116,8 +110,7 @@ class BodyMain extends StatelessWidget {
             const Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding:
-                    EdgeInsets.only(bottom: 20), // Khoảng cách từ text đến đáy
+                padding: EdgeInsets.only(bottom: 20),
                 child: Text(
                   'v1.0.0',
                   style: TextStyle(fontSize: 14, color: Colors.grey),
