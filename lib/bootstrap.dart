@@ -114,15 +114,23 @@ Future<String?> fetchAndSaveTypeId() async {
     }
 
     final data = await fetchData(uuid);
-    for (var item in data) {
-      final typeId = item['type_id'].toString();
-      log('📌 type_id: $typeId');
+    if (data != null) {
+      final transaction = data['transaction'] as Map<String, dynamic>;
+      final typeId = transaction['type_id']?.toString();
 
-      // Lưu typeId vào storage
-      await storage.write(key: 'type_id', value: typeId);
-      log('💾 type_id đã được lưu vào storage: $typeId');
+      if (typeId != null) {
+        log('📌 type_id: $typeId');
 
-      return typeId; // Trả về typeId đầu tiên tìm thấy
+        // Lưu typeId vào storage
+        await storage.write(key: 'type_id', value: typeId);
+        log('💾 type_id đã được lưu vào storage: $typeId');
+
+        return typeId;
+      } else {
+        log('⚠️ Không tìm thấy type_id trong dữ liệu giao dịch.');
+      }
+    } else {
+      log('⚠️ Không tìm thấy dữ liệu giao dịch cho UUID: $uuid.');
     }
   } catch (e) {
     log('❌ Lỗi khi tải dữ liệu: $e');
