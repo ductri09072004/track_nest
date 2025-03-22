@@ -75,33 +75,6 @@ class BodyMain extends StatelessWidget {
                   const SizedBox(height: 10),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UpgradeAccountPage(),
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            'lib/assets/icon/setting_icon/premium_icon.svg',
-                          ),
-                          const SizedBox(width: 10),
-                          const Text('Subscription', style: txtpeo),
-                          const Spacer(),
-                          SvgPicture.asset(
-                            'lib/assets/icon/setting_icon/next.svg',
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  InkWell(
-                    onTap: () {
                       navigateToTargetPage(context, const CategoryListPage());
                     },
                     child: Padding(
@@ -151,7 +124,39 @@ class BodyMain extends StatelessWidget {
                   const SizedBox(height: 10),
                   InkWell(
                     onTap: () {
-                      navigateToTargetPage(context, const RestoreAcc());
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UpgradeAccountPage(),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            'lib/assets/icon/setting_icon/premium_icon.svg',
+                          ),
+                          const SizedBox(width: 10),
+                          const Text('Subscription', style: txtpeo),
+                          const Spacer(),
+                          SvgPicture.asset(
+                            'lib/assets/icon/setting_icon/next.svg',
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RestoreAcc(),
+                        ),
+                      );
                     },
                     child: const Padding(
                       padding: EdgeInsets.all(10),
@@ -165,8 +170,6 @@ class BodyMain extends StatelessWidget {
                           SizedBox(width: 10),
                           Text('Restore Account', style: txtpeo),
                           Spacer(),
-                          Text('For premium', style: txtpro),
-                          SizedBox(width: 10),
                           Icon(Icons.arrow_forward_ios,
                               size: 20, color: Colors.black),
                         ],

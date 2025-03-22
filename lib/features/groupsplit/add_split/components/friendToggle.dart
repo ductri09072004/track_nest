@@ -92,7 +92,7 @@ class FriendToggleListState extends State<FriendToggleList> {
                     inactiveThumbColor: Colors.grey,
                     inactiveTrackColor: Colors.black12,
                   ),
-                if (isPayer) // Hiển thị người trả chính mà không có công tắc bật/tắt
+                if (isPayer) 
                   const Icon(Icons.check_circle, color: Colors.green),
                 const SizedBox(width: 16),
                 Text(
