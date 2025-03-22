@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:testverygood/components/date.dart'; // Import HorizontalList từ đây
 import 'package:testverygood/assets/core/appcolor.dart';
+import 'package:testverygood/components/selectMonth.dart';
+import 'package:testverygood/components/search.dart';
 
 class HeaderMain extends StatelessWidget {
   final String title;
@@ -21,6 +23,7 @@ class HeaderMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectedMonth = ValueNotifier<DateTime>(DateTime.now());
     return Container(
       padding: const EdgeInsets.only(
         top: 55,
@@ -48,28 +51,16 @@ class HeaderMain extends StatelessWidget {
               const Spacer(),
               if (showSearchAndCalendar) ...[
                 GestureDetector(
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('chọn ngày!'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  },
+                  onTap: () => showMonthPickerDialog(
+                      context, selectedMonth,), // Gọi từ selectMonth.dart
                   child: SvgPicture.asset(
                     'lib/assets/icon/home_icon/calendar_icon.svg',
                   ),
                 ),
                 const SizedBox(width: 24),
                 GestureDetector(
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('tìm kiếm'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  },
+                  onTap: () =>
+                      showSearchDialog(context), // Gọi từ filterSearch.dart
                   child: SvgPicture.asset(
                     'lib/assets/icon/home_icon/search_icon.svg',
                   ),

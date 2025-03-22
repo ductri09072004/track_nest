@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:testverygood/data/data_api/balence_api.dart';
+import 'package:testverygood/data/data_api/balance_api.dart';
 
 class BalanceCard extends StatefulWidget {
   const BalanceCard({super.key});
