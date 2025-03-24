@@ -11,12 +11,10 @@ class NestAI {
     try {
       final recognizedText = await textRecognizer.processImage(inputImage);
       final textContent = recognizedText.text;
-
       final moneyRegex = RegExp(
         r'(?<!\d)(\d{1,3}([,\. ]\d{3})*(\.\d+)?)(?=\s*(VND|VNĐ|đ)?)',
         caseSensitive: false,
       );
-
       final dateRegex = RegExp(
         r'(\b\d{1,2}[\/\-\.\s]\d{1,2}[\/\-\.\s]\d{2,4}\b)|'
         r'(\b\d{4}[\/\-\.\s]\d{1,2}[\/\-\.\s]\d{1,2}\b)|'
