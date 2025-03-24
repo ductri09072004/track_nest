@@ -1,5 +1,5 @@
-import 'dart:io';
 import 'dart:convert';
+import 'dart:io';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:testverygood/features/transaction/scanbill/components/Language_Nest.dart';
 
@@ -90,7 +90,7 @@ class NestAI {
         'totalAmount': null,
         'date': null,
         'categories': null,
-        'error': 'An error occurred: $e'
+        'error': 'An error occurred: $e',
       });
     } finally {
       await textRecognizer.close();

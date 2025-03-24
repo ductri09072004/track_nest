@@ -5,13 +5,8 @@ import 'package:testverygood/data/data_api/Split/add_mempay_api.dart';
 
 class FriendToggleList extends StatefulWidget {
   const FriendToggleList({
-    super.key,
-    required this.options,
-    required this.initialToggleStates,
-    required this.onChanged,
+    required this.options, required this.initialToggleStates, required this.onChanged, required this.splitAmounts, required this.onPayidGenerated, super.key,
     this.selectedOption,
-    required this.splitAmounts,
-    required this.onPayidGenerated,
   });
 
   final List<double> splitAmounts;
@@ -88,11 +83,11 @@ class FriendToggleListState extends State<FriendToggleList> {
                     onChanged: (newValue) =>
                         _handleToggleChange(context, index, newValue),
                     activeColor: Colors.white,
-                    activeTrackColor: Color(0xFF013CBC),
+                    activeTrackColor: const Color(0xFF013CBC),
                     inactiveThumbColor: Colors.grey,
                     inactiveTrackColor: Colors.black12,
                   ),
-                if (isPayer) 
+                if (isPayer)
                   const Icon(Icons.check_circle, color: Colors.green),
                 const SizedBox(width: 16),
                 Text(

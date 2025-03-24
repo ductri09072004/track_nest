@@ -1,1 +1,1 @@
-export 'view/split.dart';
+export 'view/split_screen.dart';

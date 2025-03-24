@@ -90,7 +90,7 @@ class _RestoreAccState extends State<RestoreAcc> {
                         foregroundColor: Colors.redAccent, // Màu đỏ cho hủy
                       ),
                       child: const Text('Cancel',
-                          style: TextStyle(fontFamily: 'Lato', fontSize: 16)),
+                          style: TextStyle(fontFamily: 'Lato', fontSize: 16),),
                     ),
                     ElevatedButton(
                       onPressed: () async {
@@ -105,19 +105,19 @@ class _RestoreAccState extends State<RestoreAcc> {
                         Navigator.pop(context); // Đóng popup
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF013CBC),
+                        backgroundColor: const Color(0xFF013CBC),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
+                            horizontal: 20, vertical: 10,),
                       ),
                       child: const Text(
                         'Confirm',
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Lato',
-                            fontSize: 16),
+                            fontSize: 16,),
                       ),
                     ),
                   ],
@@ -170,7 +170,7 @@ class _RestoreAccState extends State<RestoreAcc> {
                 children: accountData.map((acc) {
                   return Container(
                     margin: const EdgeInsets.symmetric(
-                        vertical: 8), // Khoảng cách giữa các card
+                        vertical: 8,), // Khoảng cách giữa các card
                     decoration: BoxDecoration(
                       color: Colors.white, // Nền trắng
                       borderRadius: BorderRadius.circular(12), // Bo góc
@@ -185,7 +185,7 @@ class _RestoreAccState extends State<RestoreAcc> {
                     ),
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
+                          vertical: 12, horizontal: 16,),
                       title: Text(
                         'UUID: ${acc["user_id"]}',
                         style: const TextStyle(
@@ -196,23 +196,23 @@ class _RestoreAccState extends State<RestoreAcc> {
                       ),
                       trailing: ElevatedButton(
                         onPressed: () =>
-                            _showConfirmDialog(acc["user_id"].toString()),
+                            _showConfirmDialog(acc['user_id'].toString()),
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
-                              Color(0xFF013CBC), // Màu xanh hiện đại
+                              const Color(0xFF013CBC), // Màu xanh hiện đại
                           shape: RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.circular(12), // Bo tròn nút
                           ),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
+                              horizontal: 16, vertical: 8,),
                         ),
                         child: const Text(
                           'Link',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 14,
-                              fontFamily: 'Lato'),
+                              fontFamily: 'Lato',),
                         ),
                       ),
                     ),
@@ -223,7 +223,7 @@ class _RestoreAccState extends State<RestoreAcc> {
               const Text(
                 'Could not find any accounts',
                 style: TextStyle(color: Colors.red),
-              )
+              ),
           ],
         ),
       ),

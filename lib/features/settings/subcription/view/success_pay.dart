@@ -4,6 +4,8 @@ import 'package:testverygood/components/button.dart';
 import 'package:testverygood/features/main_navbar.dart';
 
 class SuccessScreen extends StatelessWidget {
+  const SuccessScreen({super.key});
+
   void _confirmPayment(BuildContext context) {
     Navigator.push(
       context,
@@ -38,7 +40,7 @@ class SuccessScreen extends StatelessWidget {
               style: TextStyle(
                   fontSize: 14,
                   fontFamily: 'Lato-Regular',
-                  color: Color(0xFF808080)),
+                  color: Color(0xFF808080),),
               textAlign: TextAlign.center,
             ),
             const Spacer(),

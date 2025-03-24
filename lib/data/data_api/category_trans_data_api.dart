@@ -19,7 +19,7 @@ class CategoryService {
 
     try {
       final Uri url = Uri.parse(
-          'http://3.26.221.69:5000/api/categories/filter?user_id=$uuid&type=${isExpense ? 'expense' : 'income'}');
+          'http://3.26.221.69:5000/api/categories/filter?user_id=$uuid&type=${isExpense ? 'expense' : 'income'}',);
 
       final response = await http.get(url);
 

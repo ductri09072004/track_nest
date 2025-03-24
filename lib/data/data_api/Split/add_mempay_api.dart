@@ -35,7 +35,7 @@ class TransactionService {
 
           if (money <= 0 || name.isEmpty || payid.isEmpty) {
             throw Exception(
-                'Thiếu dữ liệu: money=$money, name=$name, payid=$payid');
+                'Thiếu dữ liệu: money=$money, name=$name, payid=$payid',);
           }
 
           apiCalls.add(_saveTransaction(context, money, name, payid, isPayer));

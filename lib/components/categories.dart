@@ -5,9 +5,8 @@ import 'package:http/http.dart' as http;
 
 class CategoriesText extends StatefulWidget {
   const CategoriesText({
-    super.key,
-    // required this.isExpense,
     required this.onCategorySelected,
+    super.key,
   });
 
   // final bool isExpense;
@@ -30,14 +29,6 @@ class _CategoriesTextState extends State<CategoriesText> {
     super.initState();
     _loadUUID();
   }
-
-  // @override
-  // void didUpdateWidget(covariant CategoriesText oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  //   if (oldWidget.isExpense != widget.isExpense) {
-  //     fetchCustomerData();
-  //   }
-  // }
 
   Future<void> _loadUUID() async {
     var storedUUID = await storage.read(key: 'unique_id');
@@ -69,9 +60,6 @@ class _CategoriesTextState extends State<CategoriesText> {
         final filteredCategories = data.entries
             .where(
               (entry) => entry.value['user_id'] == uuid,
-              // &&
-              // entry.value['type'] ==
-              // (widget.isExpense ? 'expense' : 'income'),
             )
             .map((entry) => entry.value as Map<String, dynamic>)
             .toList();

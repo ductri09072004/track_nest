@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CustomDropdown extends StatelessWidget {
+
+  const CustomDropdown({
+    required this.selectedValue, required this.options, required this.hintText, required this.onChanged, super.key,
+  });
   final String? selectedValue;
   final List<String> options;
   final String hintText;
   final ValueChanged<String?> onChanged;
-
-  const CustomDropdown({
-    Key? key,
-    required this.selectedValue,
-    required this.options,
-    required this.hintText,
-    required this.onChanged,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

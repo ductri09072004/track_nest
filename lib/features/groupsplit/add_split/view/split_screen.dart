@@ -95,7 +95,7 @@ class SplitPageState extends State<SplitPage> {
             ? List.generate(
                 options.length,
                 (index) =>
-                    toggleStates[index] ? totalAmount / selectedCount : 0)
+                    toggleStates[index] ? totalAmount / selectedCount : 0,)
             : List.filled(options.length, 0);
       });
     }

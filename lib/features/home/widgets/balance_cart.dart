@@ -17,7 +17,7 @@ class _BalanceCardState extends State<BalanceCard> {
   bool isBalanceVisible = true;
   String errorMessage = '';
 
-  final BalanceService dataService = BalanceService();
+  final DataService dataService = DataService();
 
   @override
   void initState() {

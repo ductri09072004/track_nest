@@ -6,13 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:testverygood/data/data_api/type_acc.dart';
-import 'package:testverygood/data/data_defaut/categories_json.dart';
-import 'package:uuid/uuid.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
 import 'package:google_mobile_ads/google_mobile_ads.dart'; // Import Google Mobile Ads
 import 'package:http/http.dart' as http;
+import 'package:testverygood/data/data_api/type_acc.dart';
 import 'package:testverygood/data/data_default/categories_json.dart';
 import 'package:uuid/uuid.dart';
 

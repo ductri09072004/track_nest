@@ -51,7 +51,7 @@ class TransactionService {
         if (imageUrl == null) {
           return {
             'success': false,
-            'message': 'Không thể tải ảnh lên Cloudinary'
+            'message': 'Không thể tải ảnh lên Cloudinary',
           };
         }
       }

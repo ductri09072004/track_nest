@@ -3,9 +3,7 @@ import 'package:testverygood/data/data_api/category_trans_data_api.dart';
 
 class CategoriesText extends StatefulWidget {
   const CategoriesText({
-    super.key,
-    required this.isExpense,
-    required this.onCategorySelected,
+    required this.isExpense, required this.onCategorySelected, super.key,
     this.initialCategory, // Thêm tham số này
   });
 

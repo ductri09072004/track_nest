@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ExtractedInfo extends StatelessWidget {
+
+  const ExtractedInfo({
+    required this.label,
+    required this.value,
+    super.key,
+    this.prefixText = '',
+  });
   final String label;
   final String value;
   final String prefixText;
-
-  const ExtractedInfo({
-    Key? key,
-    required this.label,
-    required this.value,
-    this.prefixText = '',
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class ExtractedInfo extends StatelessWidget {
           const SizedBox(height: 10), // Tạo khoảng cách giữa các dòng
           const Divider(
               thickness: 1,
-              color: Colors.grey), // Thêm gạch ngăn cách (nếu cần)
+              color: Colors.grey,), // Thêm gạch ngăn cách (nếu cần)
         ],
       ),
     );

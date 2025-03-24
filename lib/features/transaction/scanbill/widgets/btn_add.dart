@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:testverygood/features/groupsplit/add_split/view/split.dart';
-import 'package:testverygood/features/transaction/add_trans/view/transaction_main.dart';
+// import 'package:testverygood/features/groupsplit/add_split/view/split_screen.dart';
+import 'package:testverygood/features/transaction/add_trans/view/transaction_screen.dart';
 // import 'package:testverygood/features/transaction/scanbill/app.dart';
 import 'package:testverygood/features/transaction/scanbill/widgets/btn_choose_AI.dart';
 import 'package:testverygood/features/transaction/scanbill/widgets/btnchoose.dart';

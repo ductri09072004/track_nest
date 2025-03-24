@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:testverygood/bootstrap.dart';
-import 'package:testverygood/features/settings/categories/view/categorylist_main.dart';
+import 'package:testverygood/features/settings/categories/view/categories_screen.dart';
 import 'package:testverygood/features/settings/groupfriends/app.dart';
-import 'package:testverygood/features/settings/restore_acc/view/Restore_main.dart';
+import 'package:testverygood/features/settings/restore_acc/view/Restore_screen.dart';
 import 'package:testverygood/features/settings/subcription/app.dart';
 import 'package:testverygood/features/settings/subcription/view/link_email.dart';
 
@@ -116,7 +116,7 @@ class BodyMain extends StatelessWidget {
                           Text('For premium', style: txtpro),
                           SizedBox(width: 10),
                           Icon(Icons.arrow_forward_ios,
-                              size: 20, color: Colors.black),
+                              size: 20, color: Colors.black,),
                         ],
                       ),
                     ),
@@ -171,7 +171,7 @@ class BodyMain extends StatelessWidget {
                           Text('Restore Account', style: txtpeo),
                           Spacer(),
                           Icon(Icons.arrow_forward_ios,
-                              size: 20, color: Colors.black),
+                              size: 20, color: Colors.black,),
                         ],
                       ),
                     ),

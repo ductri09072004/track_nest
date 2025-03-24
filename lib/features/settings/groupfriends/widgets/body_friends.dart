@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:testverygood/data/data_api/Split/friend_list_api.dart';
-import 'package:testverygood/features/settings/groupfriends/view/addgroup_main.dart';
+import 'package:testverygood/features/settings/groupfriends/view/addgroup_screen.dart';
 
 class BodyMain extends StatefulWidget {
   const BodyMain({super.key});
@@ -56,7 +56,7 @@ class _BodyMainState extends State<BodyMain> {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(
-                      child: Text('Lỗi tải dữ liệu: ${snapshot.error}'));
+                      child: Text('Lỗi tải dữ liệu: ${snapshot.error}'),);
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const Center(child: Text('Không có bạn bè nào.'));
                 }

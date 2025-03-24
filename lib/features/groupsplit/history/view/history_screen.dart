@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:testverygood/components/Header_main.dart';
 import 'package:testverygood/components/load_page.dart';
-import 'package:testverygood/features/groupsplit/add_split/view/split.dart';
+import 'package:testverygood/features/groupsplit/add_split/view/split_screen.dart';
 import 'package:testverygood/features/groupsplit/history/view/body.dart';
 
 class HistoryPage extends StatefulWidget {

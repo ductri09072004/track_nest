@@ -7,13 +7,8 @@ import 'package:testverygood/features/transaction/scanbill/widgets/button_add.da
 
 class BtnSuccess extends StatelessWidget {
   const BtnSuccess({
-    Key? key,
-    required this.extractedText,
-    required this.extracteDate,
-    required this.imageTransaction,
-    required this.onRescan,
-    required this.extractedCate,
-  }) : super(key: key);
+    required this.extractedText, required this.extracteDate, required this.imageTransaction, required this.onRescan, required this.extractedCate, super.key,
+  });
 
   final String extractedText;
   final String imageTransaction;

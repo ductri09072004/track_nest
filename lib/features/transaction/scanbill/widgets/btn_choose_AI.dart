@@ -5,11 +5,11 @@ import 'package:testverygood/features/settings/subcription/view/subcription_main
 
 class BtnChooseAi extends StatefulWidget {
   const BtnChooseAi({
-    Key? key,
     required this.iconPath,
     required this.onModelSelected, // Hàm callback nhận từ ngoài
     required this.selectedModel,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String iconPath;
   final String selectedModel;
@@ -76,10 +76,10 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
                 ),
                 const SizedBox(height: 20),
                 _buildOptionButton(context, 'GPT-4', 'Premium',
-                    'lib/assets/icon/OCR_icon/gpt_ai.svg'),
+                    'lib/assets/icon/OCR_icon/gpt_ai.svg',),
                 const SizedBox(height: 20),
                 _buildOptionButton(context, 'Nest_AI', 'Free',
-                    'lib/assets/icon/OCR_icon/nest_ai.svg'),
+                    'lib/assets/icon/OCR_icon/nest_ai.svg',),
                 const SizedBox(height: 20),
               ],
             ),
@@ -90,7 +90,7 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
   }
 
   Widget _buildOptionButton(
-      BuildContext context, String text, String planType, String iconPath) {
+      BuildContext context, String text, String planType, String iconPath,) {
     return FutureBuilder<String?>(
       future: loadTypeId(),
       builder: (context, snapshot) {
@@ -117,7 +117,7 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),),
                 backgroundColor: Colors.black,
               ),
               onPressed: () {

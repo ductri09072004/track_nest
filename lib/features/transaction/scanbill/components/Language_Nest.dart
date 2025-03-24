@@ -126,7 +126,7 @@ class CategoryDetector {
         'vali',
         'dụng cụ cắt tóc',
         'máy sấy tóc',
-        'máy uốn tóc'
+        'máy uốn tóc',
       ],
       'Health': ['bệnh viện', 'thuốc', 'khám bệnh', 'bảo hiểm y tế'],
       'Education': ['học phí', 'sách vở', 'trường học', 'khóa học'],

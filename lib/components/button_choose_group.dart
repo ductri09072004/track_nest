@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class GroupSelectionButton extends StatelessWidget {
-  final VoidCallback onPressed;
 
-  const GroupSelectionButton({Key? key, required this.onPressed})
-      : super(key: key);
+  const GroupSelectionButton({required this.onPressed, super.key});
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {

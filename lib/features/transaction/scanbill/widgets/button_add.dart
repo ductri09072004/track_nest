@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class ButtonAdd extends StatelessWidget {
-  final String text;
-  final VoidCallback onPressed;
-  final Color borderColor; // Thêm biến để chỉnh màu viền
+class ButtonAdd extends StatelessWidget { // Thêm biến để chỉnh màu viền
 
   const ButtonAdd({
-    Key? key,
     required this.text,
     required this.onPressed,
+    super.key,
     this.borderColor = Colors.black, // Mặc định là màu đen nếu không truyền vào
-  }) : super(key: key);
+  });
+  final String text;
+  final VoidCallback onPressed;
+  final Color borderColor;
 
   @override
   Widget build(BuildContext context) {

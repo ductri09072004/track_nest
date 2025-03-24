@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/button.dart';
 import 'package:testverygood/components/input.dart';
@@ -138,7 +138,7 @@ class _LinkEmailState extends State<LinkEmail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFFFFF),
+      backgroundColor: const Color(0xFFFFFFFF),
       appBar: const HeaderA(title: ''),
       body: FutureBuilder<Map<String, dynamic>?>(
         future: futureAccount,

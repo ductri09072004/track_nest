@@ -59,10 +59,10 @@ class _WelcomeSliderState extends State<WelcomeSlider> {
     );
   }
 
-  static const TextStyle txtbtn = TextStyle(
-    color: Colors.white,
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-    fontFamily: 'Lato',
-  );
+  // static const TextStyle txtbtn = TextStyle(
+  //   color: Colors.white,
+  //   fontSize: 20,
+  //   fontWeight: FontWeight.bold,
+  //   fontFamily: 'Lato',
+  // );
 }

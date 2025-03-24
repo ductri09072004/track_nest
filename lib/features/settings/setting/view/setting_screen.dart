@@ -34,7 +34,7 @@ class _SettingPageState extends State<SettingPage> {
             },
           ),
           const Expanded(
-              child: BodyMain()), // Đảm bảo `BodyMain` không lỗi bố cục
+              child: BodyMain(),), // Đảm bảo `BodyMain` không lỗi bố cục
         ],
       ),
     );

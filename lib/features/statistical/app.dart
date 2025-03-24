@@ -1,1 +1,1 @@
-export 'view/statistical_main.dart';
+export 'view/statistical_screen.dart';

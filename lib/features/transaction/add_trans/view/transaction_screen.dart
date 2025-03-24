@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:testverygood/components/Ex_In_btn_Statis.dart';
 import 'package:testverygood/components/HeaderA.dart';
 import 'package:testverygood/components/input.dart';
 import 'package:testverygood/data/data_api/add_trans_api.dart';
@@ -13,13 +14,13 @@ import 'package:testverygood/features/transaction/add_trans/widgets/calendar.dar
 import 'package:testverygood/features/transaction/add_trans/widgets/categories.dart';
 
 class TransactionMain extends StatefulWidget {
-  const TransactionMain(
-      {Key? key,
-      this.money = '',
-      this.date = '',
-      this.cate = '',
-      this.imageTransaction = ''})
-      : super(key: key);
+  const TransactionMain({
+    super.key,
+    this.money = '',
+    this.date = '',
+    this.cate = '',
+    this.imageTransaction = '',
+  });
 
   final String money;
   final String date;
@@ -294,16 +295,18 @@ class _TransactionMainState extends State<TransactionMain> {
                     child: ElevatedButton(
                       onPressed: isLoading
                           ? null
-                          : () => handleSaveTransactionfinal(context),
+                          : () => handleSaveTransactionfinall(context),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.blue,
+                        backgroundColor: const Color(0xFF013CBC),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                       child: isLoading
                           ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text('Save',
+                          : const Text(
+                              'Save',
                               style:
-                                  TextStyle(fontSize: 18, color: Colors.white),),
+                                  TextStyle(fontSize: 18, color: Colors.white),
+                            ),
                     ),
                   ),
                 ],
@@ -316,7 +319,7 @@ class _TransactionMainState extends State<TransactionMain> {
   }
 
   static const TextStyle txmain =
-      TextStyle(color: AppColor.black, fontSize: 20, fontFamily: 'Lato');
+      TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Lato');
   static const TextStyle txtd =
-      TextStyle(color: AppColor.black, fontSize: 30, fontFamily: 'Lato');
+      TextStyle(color: Colors.black, fontSize: 30, fontFamily: 'Lato');
 }

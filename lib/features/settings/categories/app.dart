@@ -1,1 +1,1 @@
-export 'view/categorylist_main.dart';
+export 'view/categories_screen.dart';

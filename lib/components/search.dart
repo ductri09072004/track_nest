@@ -33,7 +33,7 @@ void showSearchDialog(BuildContext context) {
 
             // Chọn tháng bắt đầu
             const Text('Select Start Month:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
             const SizedBox(height: 8),
             ValueListenableBuilder<DateTime>(
               valueListenable: selectedStartDate,
@@ -51,7 +51,7 @@ void showSearchDialog(BuildContext context) {
 
             // Chọn tháng kết thúc
             const Text('Select End Month:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
             const SizedBox(height: 8),
             ValueListenableBuilder<DateTime>(
               valueListenable: selectedEndDate,
@@ -78,9 +78,9 @@ void showSearchDialog(BuildContext context) {
               // Xử lý dữ liệu trước khi đóng
               print('Category: ${selectedCategory.value}');
               print(
-                  'Start Month: ${selectedStartDate.value.month} ${selectedStartDate.value.year}');
+                  'Start Month: ${selectedStartDate.value.month} ${selectedStartDate.value.year}',);
               print(
-                  'End Month: ${selectedEndDate.value.month} ${selectedEndDate.value.year}');
+                  'End Month: ${selectedEndDate.value.month} ${selectedEndDate.value.year}',);
               Navigator.of(context).pop(); // Đóng dialog
             },
             child: const Text('Apply'),

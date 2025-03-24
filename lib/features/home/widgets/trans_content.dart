@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:testverygood/assets/core/appcolor.dart';
 import 'package:testverygood/data/data_api/home_data_api.dart';
 import 'package:testverygood/features/home/widgets/icon_content.dart';
-import 'package:testverygood/features/transaction/edit_trans/view/edit_main.dart';
+import 'package:testverygood/features/transaction/edit_trans/view/edit_screen.dart';
 
 class TransContent extends StatefulWidget {
   const TransContent({super.key});

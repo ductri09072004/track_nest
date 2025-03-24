@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:testverygood/assets/core/appcolor.dart';
-import 'package:testverygood/components/date.dart'; // Import HorizontalList từ đây
-import 'package:testverygood/assets/core/appcolor.dart';
-import 'package:testverygood/components/selectMonth.dart';
+import 'package:testverygood/components/date.dart';
 import 'package:testverygood/components/search.dart';
+import 'package:testverygood/components/selectMonth.dart';
 
 class HeaderMain extends StatelessWidget {
-  final String title;
-  final bool showSearchAndCalendar; // Biến để ẩn/hiện search và calendar
-  final bool showHorizontalList; // Biến để ẩn/hiện HorizontalList
-  final String? type;
-  final bool showtypeACC;
 
   const HeaderMain({
-    super.key,
-    required this.title,
+    required this.title, super.key,
     this.type,
     this.showSearchAndCalendar = true, // Mặc định hiển thị
     this.showHorizontalList = true, // Mặc định hiển thị
@@ -23,7 +16,9 @@ class HeaderMain extends StatelessWidget {
   });
   final String title;
   final bool showSearchAndCalendar; // Biến để ẩn/hiện search và calendar
-  final bool showHorizontalList;
+  final bool showHorizontalList; // Biến để ẩn/hiện HorizontalList
+  final String? type;
+  final bool showtypeACC;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +70,7 @@ class HeaderMain extends StatelessWidget {
                   '$type',
                   style: (type == 'free') ? texttypefree : texttypepro,
                 ),
-              ]
+              ],
             ],
           ),
           const SizedBox(height: 28),

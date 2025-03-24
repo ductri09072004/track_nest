@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:testverygood/features/transaction/scanbill/components/Gpt_AI.dart';
 import 'package:testverygood/features/transaction/scanbill/components/Nest_AI.dart';
 import 'package:testverygood/features/transaction/scanbill/widgets/btn_add.dart';
 import 'package:testverygood/features/transaction/scanbill/widgets/btn_success.dart';
@@ -52,7 +52,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
 
     try {
       final recognizedText = await textRecognizer.processImage(inputImage);
-      final rawText = recognizedText.text;
+      var rawText = recognizedText.text;
 
       // Gửi văn bản OCR đến GPT để lấy tổng tiền và ngày tháng
       var gptResponse = await GptService().extractBillInfo(rawText);
