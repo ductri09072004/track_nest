@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testverygood/features/groupsplit/add_split/view/split.dart';
 import 'package:testverygood/features/transaction/add_trans/view/transaction_main.dart';
 // import 'package:testverygood/features/transaction/scanbill/app.dart';
 import 'package:testverygood/features/transaction/scanbill/widgets/btn_choose_AI.dart';
@@ -9,12 +10,14 @@ class ImagePickerOptions extends StatefulWidget {
     required this.onPickImage,
     required this.onPickCam,
     required this.onModelSelected,
+    required this.selectedModel,
     super.key,
     this.showWarning = false,
   });
   final VoidCallback onPickImage;
   final VoidCallback onPickCam;
   final bool showWarning;
+  final String selectedModel;
   final Function(String) onModelSelected;
 
   @override
@@ -28,16 +31,15 @@ class _ImagePickerOptionsState extends State<ImagePickerOptions> {
   }
 
   void navigateToTargetPage(BuildContext context) {
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
-      // ignore: inference_failure_on_instance_creation
       MaterialPageRoute(builder: (context) => const TransactionMain()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return IntrinsicHeight(
       child: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
@@ -74,9 +76,11 @@ class _ImagePickerOptionsState extends State<ImagePickerOptions> {
                 const SizedBox(height: 12),
               ],
               BtnChooseAi(
-                iconPath: 'lib/assets/icon/OCR_icon/nest_ai.svg',
-                onModelSelected:
-                    _updateSelectedModel, // Gửi giá trị đến ImagePickerOptions
+                iconPath: widget.selectedModel == 'GPT-4'
+                    ? 'lib/assets/icon/OCR_icon/gpt_ai.svg'
+                    : 'lib/assets/icon/OCR_icon/nest_ai.svg',
+                onModelSelected: _updateSelectedModel,
+                selectedModel: widget.selectedModel,
               ),
               CustomButton(
                 text: 'Choose from gallery',

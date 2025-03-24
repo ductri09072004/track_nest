@@ -2,13 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:testverygood/assets/core/appcolor.dart';
 import 'package:testverygood/components/date.dart'; // Import HorizontalList từ đây
+import 'package:testverygood/assets/core/appcolor.dart';
+import 'package:testverygood/components/selectMonth.dart';
+import 'package:testverygood/components/search.dart';
 
-class HeaderMain extends StatelessWidget { // Biến để ẩn/hiện HorizontalList
+class HeaderMain extends StatelessWidget {
+  final String title;
+  final bool showSearchAndCalendar; // Biến để ẩn/hiện search và calendar
+  final bool showHorizontalList; // Biến để ẩn/hiện HorizontalList
+  final String? type;
+  final bool showtypeACC;
 
   const HeaderMain({
-    required this.title, super.key,
+    super.key,
+    required this.title,
+    this.type,
     this.showSearchAndCalendar = true, // Mặc định hiển thị
     this.showHorizontalList = true, // Mặc định hiển thị
+    this.showtypeACC = false,
   });
   final String title;
   final bool showSearchAndCalendar; // Biến để ẩn/hiện search và calendar
@@ -16,6 +27,7 @@ class HeaderMain extends StatelessWidget { // Biến để ẩn/hiện Horizonta
 
   @override
   Widget build(BuildContext context) {
+    final selectedMonth = ValueNotifier<DateTime>(DateTime.now());
     return Container(
       padding: const EdgeInsets.only(
         top: 55,
@@ -43,33 +55,27 @@ class HeaderMain extends StatelessWidget { // Biến để ẩn/hiện Horizonta
               const Spacer(),
               if (showSearchAndCalendar) ...[
                 GestureDetector(
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('chọn ngày!'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  },
+                  onTap: () => showMonthPickerDialog(
+                      context, selectedMonth,), // Gọi từ selectMonth.dart
                   child: SvgPicture.asset(
                     'lib/assets/icon/home_icon/calendar_icon.svg',
                   ),
                 ),
                 const SizedBox(width: 24),
                 GestureDetector(
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('tìm kiếm'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  },
+                  onTap: () =>
+                      showSearchDialog(context), // Gọi từ filterSearch.dart
                   child: SvgPicture.asset(
                     'lib/assets/icon/home_icon/search_icon.svg',
                   ),
                 ),
               ],
+              if (showtypeACC) ...[
+                Text(
+                  '$type',
+                  style: (type == 'free') ? texttypefree : texttypepro,
+                ),
+              ]
             ],
           ),
           const SizedBox(height: 28),
@@ -84,6 +90,21 @@ class HeaderMain extends StatelessWidget { // Biến để ẩn/hiện Horizonta
   static const TextStyle texttop = TextStyle(
     color: AppColor.black,
     fontSize: 18,
+    fontFamily: 'Lato',
+  );
+  static const TextStyle texttypet = TextStyle(
+    color: AppColor.black,
+    fontSize: 16,
+    fontFamily: 'Lato',
+  );
+  static const TextStyle texttypepro = TextStyle(
+    color: AppColor.green,
+    fontSize: 16,
+    fontFamily: 'Lato',
+  );
+  static const TextStyle texttypefree = TextStyle(
+    color: Colors.grey,
+    fontSize: 16,
     fontFamily: 'Lato',
   );
 }

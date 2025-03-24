@@ -14,20 +14,17 @@ class BarchartService {
     if (uuid == null) return [];
 
     try {
-      final response =
-          await http.get(Uri.parse('http://3.26.221.69:5000/api/transactions'));
+      final uri =
+          Uri.parse('http://3.26.221.69:5000/api/transactions/filteridtype')
+              .replace(queryParameters: {'user_id': uuid, 'tabType': tabType});
+
+      final response = await http.get(uri);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body) as Map<String, dynamic>;
-        final allTransactions = data.entries
-            .map((entry) => entry.value as Map<String, dynamic>)
-            .toList();
+        //final List<dynamic> data = json.decode(response.body);
+        final List<dynamic> data = json.decode(response.body) as List<dynamic>;
 
-        return allTransactions
-            .where((transaction) =>
-                transaction['user_id'] == uuid &&
-                transaction['type'] == tabType,)
-            .toList();
+        return data.cast<Map<String, dynamic>>();
       } else {
         throw Exception('Không thể tải dữ liệu');
       }

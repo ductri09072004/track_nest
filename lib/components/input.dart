@@ -28,7 +28,7 @@ class InputField extends StatefulWidget {
 }
 
 class _InputFieldState extends State<InputField> {
-  int rawValue = 0; // Lưu giá trị thực không có dấu chấm
+  int rawValue = 0;
 
   String _removeThousandsSeparator(String value) {
     return value.replaceAll('.', '');
@@ -265,11 +265,14 @@ class InputWithClearIcon extends StatefulWidget {
     super.key,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
+    this.onChanged,
   });
+
   final String hintText;
   final TextEditingController controller;
   final TextInputType keyboardType;
   final bool obscureText;
+  final ValueChanged<String>? onChanged;
 
   @override
   _InputWithClearIconState createState() => _InputWithClearIconState();
@@ -279,19 +282,20 @@ class _InputWithClearIconState extends State<InputWithClearIcon> {
   @override
   void initState() {
     super.initState();
-    widget.controller
-        .addListener(_updateState); // Lắng nghe sự thay đổi của controller
+    widget.controller.addListener(_updateState);
   }
 
   @override
   void dispose() {
-    widget.controller
-        .removeListener(_updateState); // Gỡ lắng nghe khi component bị hủy
+    widget.controller.removeListener(_updateState);
     super.dispose();
   }
 
   void _updateState() {
-    setState(() {}); // Cập nhật lại giao diện khi nội dung thay đổi
+    setState(() {});
+    if (widget.onChanged != null) {
+      widget.onChanged!(widget.controller.text);
+    }
   }
 
   @override
@@ -304,30 +308,33 @@ class _InputWithClearIconState extends State<InputWithClearIcon> {
         hintText: widget.hintText,
         hintStyle: const TextStyle(color: Colors.grey),
         filled: true,
-        fillColor: Colors.transparent, // Nền trong suốt
+        fillColor: Colors.transparent,
         border: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Color(0xFFCFCFCF), // Màu viền bottom
+            color: Color(0xFFCFCFCF),
             width: 1.5,
           ),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.blue, // Màu viền khi focus
+            color: Colors.blue,
             width: 2,
           ),
         ),
         suffixIcon: widget.controller.text.isNotEmpty
             ? IconButton(
                 icon: SvgPicture.asset(
-                  'lib/assets/icon/components_icon/cancel.svg', // Đường dẫn icon SVG
+                  'lib/assets/icon/components_icon/cancel.svg',
                 ),
                 onPressed: () {
-                  widget.controller.clear(); // Xóa text khi nhấn icon
-                  setState(() {}); // Cập nhật lại giao diện sau khi xóa
+                  widget.controller.clear();
+                  setState(() {});
+                  if (widget.onChanged != null) {
+                    widget.onChanged!('');
+                  }
                 },
               )
-            : null, // Chỉ hiển thị icon khi có nội dung
+            : null,
       ),
     );
   }

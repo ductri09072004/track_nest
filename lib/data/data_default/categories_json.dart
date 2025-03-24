@@ -1,6 +1,6 @@
 final List<Map<String, dynamic>> cateList = [
   {
-    'icon': '🍽️',
+    'icon': '🍚',
     'name': 'Eating',
     'type': 'expense',
   },
@@ -15,7 +15,7 @@ final List<Map<String, dynamic>> cateList = [
     'type': 'expense',
   },
   {
-    'icon': '❤️‍🩹',
+    'icon': '💊',
     'name': 'Health',
     'type': 'expense',
   },

@@ -18,22 +18,19 @@ class CategoryService {
     }
 
     try {
-      final response =
-          await http.get(Uri.parse('http://3.26.221.69:5000/api/categories'));
+      final Uri url = Uri.parse(
+          'http://3.26.221.69:5000/api/categories/filter?user_id=$uuid&type=${isExpense ? 'expense' : 'income'}');
+
+      final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body) as Map<String, dynamic>;
+        final decodedBody = json.decode(response.body);
 
-        final filteredCategories = data.entries
-            .where(
-              (entry) =>
-                  entry.value['user_id'] == uuid &&
-                  entry.value['type'] == (isExpense ? 'expense' : 'income'),
-            )
-            .map((entry) => entry.value as Map<String, dynamic>)
-            .toList();
-
-        return filteredCategories;
+        if (decodedBody is List) {
+          return decodedBody.cast<Map<String, dynamic>>();
+        } else {
+          throw Exception('Dữ liệu API không hợp lệ: $decodedBody');
+        }
       } else {
         throw Exception('Lỗi kết nối API: ${response.statusCode}');
       }

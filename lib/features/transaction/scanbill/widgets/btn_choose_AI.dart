@@ -1,24 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:testverygood/bootstrap.dart';
+import 'package:testverygood/features/settings/subcription/view/subcription_main.dart';
 
 class BtnChooseAi extends StatefulWidget {
-  // Hàm callback
+  const BtnChooseAi({
+    Key? key,
+    required this.iconPath,
+    required this.onModelSelected, // Hàm callback nhận từ ngoài
+    required this.selectedModel,
+  }) : super(key: key);
 
-  const BtnChooseAi({required this.iconPath, required this.onModelSelected, super.key, // Nhận callback từ ngoài,
-  });
   final String iconPath;
-  // ignore: inference_failure_on_function_return_type
-  final Function(String) onModelSelected;
+  final String selectedModel;
+  final Function(String) onModelSelected; // Callback khi chọn model
 
   @override
   _BtnChooseAiState createState() => _BtnChooseAiState();
 }
 
+Future<String?> loadTypeId() async {
+  return storage.read(key: 'type_id');
+}
+
 class _BtnChooseAiState extends State<BtnChooseAi> {
-  String _selectedText = 'Nest_AI';
+  late String _selectedText;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedText =
+        widget.selectedModel.isNotEmpty ? widget.selectedModel : 'Nest_AI';
+  }
+
+  void navigateToTargetPage(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => UpgradeAccountPage()),
+    );
+  }
 
   void _showPopup(BuildContext context) {
-    // ignore: inference_failure_on_function_invocation
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -53,19 +75,11 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                _buildOptionButton(
-                  context,
-                  'GPT-4',
-                  'Premium +',
-                  'lib/assets/icon/OCR_icon/gpt_ai.svg',
-                ),
+                _buildOptionButton(context, 'GPT-4', 'Premium',
+                    'lib/assets/icon/OCR_icon/gpt_ai.svg'),
                 const SizedBox(height: 20),
-                _buildOptionButton(
-                  context,
-                  'Nest_AI',
-                  'Free',
-                  'lib/assets/icon/OCR_icon/nest_ai.svg',
-                ),
+                _buildOptionButton(context, 'Nest_AI', 'Free',
+                    'lib/assets/icon/OCR_icon/nest_ai.svg'),
                 const SizedBox(height: 20),
               ],
             ),
@@ -76,65 +90,76 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
   }
 
   Widget _buildOptionButton(
-    BuildContext context,
-    String text,
-    String free,
-    String iconPath,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        gradient: const LinearGradient(
-          colors: [Colors.purple, Colors.red],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      padding: const EdgeInsets.all(3),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: TextButton(
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            backgroundColor: Colors.black,
+      BuildContext context, String text, String planType, String iconPath) {
+    return FutureBuilder<String?>(
+      future: loadTypeId(),
+      builder: (context, snapshot) {
+        String? typeId = snapshot.data;
+        bool isPremium = typeId == 'premium';
+
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            gradient: const LinearGradient(
+              colors: [Colors.purple, Colors.red],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
-          onPressed: () {
-            setState(() {
-              _selectedText = text;
-            });
-            widget.onModelSelected(text); // Gọi callback để gửi giá trị
-            Navigator.pop(context);
-          },
-          child: Row(
-            children: [
-              SvgPicture.asset(iconPath, width: 24, height: 24),
-              const SizedBox(width: 12),
-              Text(
-                text,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontFamily: 'Lato',
-                ),
+          padding: const EdgeInsets.all(3),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: TextButton(
+              style: TextButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                backgroundColor: Colors.black,
               ),
-              const Spacer(),
-              Text(
-                free,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Color(0xFF39FF14),
-                  fontFamily: 'Lato',
-                ),
+              onPressed: () {
+                if (text == 'GPT-4' && !isPremium) {
+                  navigateToTargetPage(context); // Chuyển hướng nếu Free
+                } else {
+                  setState(() {
+                    _selectedText = text;
+                  });
+                  widget.onModelSelected(text);
+                  Navigator.pop(context);
+                }
+              },
+              child: Row(
+                children: [
+                  SvgPicture.asset(iconPath, width: 24, height: 24),
+                  const SizedBox(width: 12),
+                  Text(
+                    text,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontFamily: 'Lato',
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    planType,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: planType == 'Premium'
+                          ? const Color(0xFF39FF14)
+                          : const Color(0xFF808080),
+                      fontFamily: 'Lato',
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -164,7 +189,11 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SvgPicture.asset(widget.iconPath),
+                  SvgPicture.asset(
+                    widget.iconPath,
+                    width: 32,
+                    height: 32,
+                  ),
                   const SizedBox(width: 12),
                   Text(
                     _selectedText,
@@ -175,7 +204,6 @@ class _BtnChooseAiState extends State<BtnChooseAi> {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  SvgPicture.asset(widget.iconPath),
                 ],
               ),
             ),

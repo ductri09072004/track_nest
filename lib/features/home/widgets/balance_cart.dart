@@ -29,7 +29,7 @@ class _BalanceCardState extends State<BalanceCard> {
     try {
       uuid = await dataService.loadUUID();
       if (uuid != null) {
-        final data = await dataService.fetchData(uuid);
+        final data = await dataService.fetchBalance(uuid);
         if (mounted) {
           setState(() {
             expense = data['expense']!;

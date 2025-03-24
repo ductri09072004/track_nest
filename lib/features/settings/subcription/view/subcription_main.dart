@@ -20,7 +20,7 @@ class UpgradeAccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const HeaderA(
-        title: '',
+        title: 'Choose your plan',
       ),
       body: Container(
         color: const Color(0xFFFFFFFF), // Màu nền của body
@@ -30,12 +30,6 @@ class UpgradeAccountPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Align(
-                  child: Text(
-                    'Choose your plan',
-                    style: TextStyle(fontSize: 30, fontFamily: 'Lato'),
-                  ),
-                ),
                 const SizedBox(height: 16),
                 const FreePlanWidget(),
                 const SizedBox(height: 16),

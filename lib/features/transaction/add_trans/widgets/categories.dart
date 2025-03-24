@@ -3,11 +3,15 @@ import 'package:testverygood/data/data_api/category_trans_data_api.dart';
 
 class CategoriesText extends StatefulWidget {
   const CategoriesText({
-    required this.isExpense, required this.onCategorySelected, super.key,
+    super.key,
+    required this.isExpense,
+    required this.onCategorySelected,
+    this.initialCategory, // Thêm tham số này
   });
 
   final bool isExpense;
   final Function(String) onCategorySelected;
+  final String? initialCategory; // Giá trị danh mục được chọn ban đầu
 
   @override
   _CategoriesTextState createState() => _CategoriesTextState();
@@ -25,6 +29,7 @@ class _CategoriesTextState extends State<CategoriesText> {
   @override
   void initState() {
     super.initState();
+    selectedCategory = widget.initialCategory; // Gán giá trị ban đầu
     _initializeData();
   }
 
@@ -33,6 +38,12 @@ class _CategoriesTextState extends State<CategoriesText> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.isExpense != widget.isExpense) {
       _fetchData();
+    }
+    // Nếu giá trị danh mục ban đầu thay đổi, cập nhật selectedCategory
+    if (oldWidget.initialCategory != widget.initialCategory) {
+      setState(() {
+        selectedCategory = widget.initialCategory;
+      });
     }
   }
 
@@ -69,7 +80,6 @@ class _CategoriesTextState extends State<CategoriesText> {
       );
       setState(() {
         categories = data;
-        selectedCategory = null;
       });
     } catch (e) {
       setState(() {

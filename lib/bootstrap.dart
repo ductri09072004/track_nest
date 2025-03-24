@@ -6,6 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:testverygood/data/data_api/type_acc.dart';
+import 'package:testverygood/data/data_defaut/categories_json.dart';
+import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 import 'package:google_mobile_ads/google_mobile_ads.dart'; // Import Google Mobile Ads
 import 'package:http/http.dart' as http;
 import 'package:testverygood/data/data_default/categories_json.dart';
@@ -44,7 +49,7 @@ Future<String> getOrCreateUniqueId() async {
   return uniqueId;
 }
 
-Future<void> saveTransaction(String uniqueId) async {
+Future<void> saveCate(String uniqueId) async {
   try {
     final url = Uri.parse('http://3.26.221.69:5000/api/categories');
 
@@ -104,6 +109,39 @@ Future<void> createAccount(String uniqueId) async {
   }
 }
 
+Future<String?> fetchAndSaveTypeId() async {
+  try {
+    final uuid = await loadUUID();
+    if (uuid == null) {
+      log('❌ UUID không tồn tại, không thể lấy dữ liệu.');
+      return null;
+    }
+
+    final data = await fetchData(uuid);
+    if (data != null) {
+      final transaction = data['transaction'] as Map<String, dynamic>;
+      final typeId = transaction['type_id']?.toString();
+
+      if (typeId != null) {
+        log('📌 type_id: $typeId');
+
+        // Lưu typeId vào storage
+        await storage.write(key: 'type_id', value: typeId);
+        log('💾 type_id đã được lưu vào storage: $typeId');
+
+        return typeId;
+      } else {
+        log('⚠️ Không tìm thấy type_id trong dữ liệu giao dịch.');
+      }
+    } else {
+      log('⚠️ Không tìm thấy dữ liệu giao dịch cho UUID: $uuid.');
+    }
+  } catch (e) {
+    log('❌ Lỗi khi tải dữ liệu: $e');
+  }
+  return null;
+}
+
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
@@ -123,7 +161,26 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   // Lấy hoặc tạo UUID duy nhất cho thiết bị
   final uniqueId = await getOrCreateUniqueId();
-  log('🔥 App khởi chạy với ID: $uniqueId');
+
+  // Lấy hoặc cập nhật type_id mỗi lần chạy app
+  final typeId = await fetchAndSaveTypeId();
+  if (typeId != null) {
+    log('✅ type_id cập nhật: $typeId');
+  } else {
+    log('❌ Không lấy được type_id');
+  }
+
+  final storedTypeId = await storage.read(key: 'type_id');
+  if (storedTypeId != null) {
+    log('🔄 Đọc từ storage: type_id = $storedTypeId');
+  } else {
+    final typeId = await fetchAndSaveTypeId();
+    if (typeId != null) {
+      log('✅ Lấy type_id từ API và lưu vào storage: $typeId');
+    } else {
+      log('❌ Không lấy được type_id');
+    }
+  }
 
   // Kiểm tra lần đầu mở app
   final isFirstLaunch = await storage.read(key: 'is_first_launch');
@@ -131,8 +188,21 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   if (isFirstLaunch == null) {
     log('🆕 Lần đầu mở app, chạy saveTransaction()...');
-    await saveTransaction(uniqueId);
+    await saveCate(uniqueId);
     await createAccount(uniqueId);
+
+    final storedTypeId = await storage.read(key: 'type_id');
+    if (storedTypeId != null) {
+      log('🔄 Đọc từ storage: type_id = $storedTypeId');
+    } else {
+      final typeId = await fetchAndSaveTypeId();
+      if (typeId != null) {
+        log('✅ Lấy type_id từ API và lưu vào storage: $typeId');
+      } else {
+        log('❌ Không lấy được type_id');
+      }
+    }
+
     await storage.write(key: 'is_first_launch', value: 'false');
   } else {
     log('🔄 App đã được mở trước đó, không chạy saveTransaction().');

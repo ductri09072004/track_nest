@@ -10,18 +10,6 @@ class CategoryService {
     required String name,
     required bool isExpense,
   }) async {
-    if (uuid.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Không tìm thấy UUID!')),
-      );
-      return;
-    }
-    if (name.isEmpty || icon.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter all information!')),
-      );
-      return;
-    }
     try {
       final url = Uri.parse('http://3.26.221.69:5000/api/categories');
       final transactionData = {
@@ -35,18 +23,22 @@ class CategoryService {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(transactionData),
       );
-      if (response.statusCode == 200 || response.statusCode == 201) {
+
+      // Xử lý phản hồi từ Backend
+      final responseData = jsonDecode(response.body);
+
+      if (response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Saved transaction successfully!')),
+          const SnackBar(content: Text('Lưu giao dịch thành công!')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Save failed ${response.body}')),
+          SnackBar(content: Text(responseData['error'].toString())),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Đã xảy ra lỗi: $e')),
+        SnackBar(content: Text('Lỗi kết nối: $e')),
       );
     }
   }

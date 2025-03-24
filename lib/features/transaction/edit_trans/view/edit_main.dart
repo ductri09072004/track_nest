@@ -257,6 +257,7 @@ class _EditMainState extends State<EditMain> {
                             const SizedBox(height: 12),
                             TimePickerComponent(
                               onDateSelected: _updateSelectedDate,
+                              initialDate: selectedDate,
                             ),
                           ],
                         ),

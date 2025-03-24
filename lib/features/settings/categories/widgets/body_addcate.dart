@@ -65,6 +65,7 @@ class _BodyMainState extends State<BodyMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFFFFFFF),
       body: Padding(
         padding: EdgeInsets.zero,
         child: Column(
