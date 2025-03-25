@@ -65,8 +65,8 @@ void main() {
           selectedCategory: testselectedCategory,
           selectedDate: testselectedDate,
           money: testMoney,
-          note: testNote,
-          toFrom: testTofrom,
+          note: '',
+          toFrom: '',
           type: 'income',
           client: mockClient,
         );

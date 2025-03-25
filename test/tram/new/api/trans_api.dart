@@ -24,7 +24,7 @@ class TransactionService {
     }
   }
 
-  static String generateCateId() {
+  static String generateTransId() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     final random = Random();
     return String.fromCharCodes(
@@ -61,7 +61,9 @@ class TransactionService {
       throw Exception('type không được rỗng');
     }
     final moneyValue = int.tryParse(money.replaceAll('.', ''));
-    if (moneyValue! <= 0) {throw Exception('Số tiền phải lớn hơn 0');}
+    if (moneyValue! <= 0) {
+      throw Exception('Số tiền phải lớn hơn 0');
+    }
     if (money.contains(RegExp('[a-zA-Z]'))) {
       throw Exception('Số tiền không được chứa chữ cái');
     }
@@ -82,7 +84,7 @@ class TransactionService {
         'note': note,
         'pic': imageUrl,
         'tofrom': toFrom,
-        'trans_id': generateCateId(),
+        'trans_id': generateTransId(),
         'type': type,
         'user_id': uuid,
       };
