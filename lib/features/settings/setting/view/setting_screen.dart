@@ -4,7 +4,9 @@ import 'package:testverygood/components/Header_main.dart';
 import 'package:testverygood/features/settings/setting/view/body.dart';
 
 class SettingPage extends StatefulWidget {
-  const SettingPage({super.key});
+  final String? defaultType; // Thêm tham số mặc định
+
+  const SettingPage({super.key, this.defaultType});
 
   @override
   _SettingPageState createState() => _SettingPageState();
@@ -12,7 +14,8 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   Future<String?> loadTypeId() async {
-    return storage.read(key: 'type_id');
+    return widget.defaultType ??
+        storage.read(key: 'type_id'); // Dùng giá trị mock nếu có
   }
 
   @override
@@ -33,8 +36,7 @@ class _SettingPageState extends State<SettingPage> {
               );
             },
           ),
-          const Expanded(
-              child: BodyMain()), // Đảm bảo `BodyMain` không lỗi bố cục
+          const Expanded(child: BodyMain()),
         ],
       ),
     );
