@@ -52,7 +52,9 @@ class HeaderMain extends StatelessWidget {
               if (showSearchAndCalendar) ...[
                 GestureDetector(
                   onTap: () => showMonthPickerDialog(
-                      context, selectedMonth,), // Gọi từ selectMonth.dart
+                    context,
+                    selectedMonth,
+                  ), // Gọi từ selectMonth.dart
                   child: SvgPicture.asset(
                     'lib/assets/icon/home_icon/calendar_icon.svg',
                   ),

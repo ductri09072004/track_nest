@@ -54,69 +54,33 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColor.blue,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16), // Bo góc của nút
+    return Semantics(
+      label: label,
+      button: true,
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColor.blue,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16), // Bo góc của nút
+            ),
           ),
-        ),
-        child: Text(
-          label,
-          semanticsLabel: label,
-          style: const TextStyle(
-            fontSize: 20,
-            fontFamily: 'Lato',
-            color: AppColor.white,
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontSize: 20,
+              fontFamily: 'Lato',
+              color: Colors.white,
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-// class Button extends StatelessWidget {
-//   const Button({
-//     required this.label,
-//     required this.onPressed,
-//     super.key,
-//   });
-
-//   final String label;
-//   final VoidCallback onPressed;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       width: double.infinity,
-//       child: ElevatedButton(
-//         onPressed: onPressed,
-//         style: ElevatedButton.styleFrom(
-//           backgroundColor: AppColor.blue,
-//           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(16),
-//           ),
-//         ),
-//         child: InkWell(
-//           onTap: onPressed, // Khi bấm vào text vẫn hoạt động
-//           child: SelectableText(
-//             label,
-//             textAlign: TextAlign.center,
-//             style: const TextStyle(
-//               fontSize: 20,
-//               color: Colors.white,
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class OutlineButton extends StatelessWidget {
   const OutlineButton({

@@ -73,7 +73,7 @@ class _BalanceCardState extends State<BalanceCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    const SelectableText(
                       'Total balance',
                       style: TextStyle(
                           color: Colors.white,
@@ -109,7 +109,7 @@ class _BalanceCardState extends State<BalanceCard> {
                           fontFamily: 'Lato'),
                     ),
                     const SizedBox(width: 8),
-                    const Text(
+                    const SelectableText(
                       'VND',
                       style: TextStyle(
                           color: Colors.white,
