@@ -44,6 +44,7 @@ dependency_overrides:
   path_provider: ^2.1.2
   screenshot: ^3.0.0
   golden_toolkit: ^0.15.0
+  webdriver: ^3.0.0
 
 
 dev_dependencies:
@@ -52,7 +53,7 @@ dev_dependencies:
     sdk: flutter
   mocktail: ^1.0.4
   very_good_analysis: ^7.0.0
-  integration_test:
+  flutter_driver:
     sdk: flutter
 
 

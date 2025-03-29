@@ -10,7 +10,6 @@ class WelcomeSlider extends StatefulWidget {
   const WelcomeSlider({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _WelcomeSliderState createState() => _WelcomeSliderState();
 }
 
@@ -46,11 +45,9 @@ class _WelcomeSliderState extends State<WelcomeSlider> {
         padding: const EdgeInsets.all(20),
         child: Button(
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => const MainPage(),
-              ),
+              MaterialPageRoute(builder: (context) => const MainPage()),
             );
           },
           label: 'Get Started',
@@ -58,11 +55,4 @@ class _WelcomeSliderState extends State<WelcomeSlider> {
       ),
     );
   }
-
-  static const TextStyle txtbtn = TextStyle(
-    color: Colors.white,
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-    fontFamily: 'Lato',
-  );
 }

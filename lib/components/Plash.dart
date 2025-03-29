@@ -26,6 +26,7 @@ class PlashPages extends StatelessWidget {
           Center(
             child: SvgPicture.asset(
               'lib/assets/icon/logo_app.svg',
+              key: const Key('splash_logo_key'),
             ),
           ),
           const SizedBox(height: 20),
@@ -38,10 +39,12 @@ class PlashPages extends StatelessWidget {
               children: [
                 Text(
                   'Track Nest',
+                  key: Key('app_name_text'),
                   style: nameapp,
                 ),
                 Text(
                   'Nesting your savings for the future',
+                  key: Key('app_tagline_text'),
                   style: txtapp,
                 ),
               ],

@@ -1,0 +1,2 @@
+E:/Flutter/track_nest/android/app/.cxx/Debug/185be611/x86/CMakeFiles/edit_cache.dir
+E:/Flutter/track_nest/android/app/.cxx/Debug/185be611/x86/CMakeFiles/rebuild_cache.dir
