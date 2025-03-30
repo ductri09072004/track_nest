@@ -152,9 +152,9 @@ class _TransactionMainState extends State<TransactionMain> {
     if (saveResult == true) {
       final String? typeId = await storage.read(key: 'type_id');
 
-      if (typeId == 'free') {
-        await _loadInterstitialAd();
-      }
+      // if (typeId == 'free') {
+      //   await _loadInterstitialAd();
+      // }
       navigateToTargetPage(context);
     }
   }

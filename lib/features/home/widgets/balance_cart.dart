@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:testverygood/data/data_api/balence_api.dart';
+import 'package:testverygood/data/data_api/balance_api.dart';
 
 class BalanceCard extends StatefulWidget {
   const BalanceCard({super.key});
@@ -73,43 +73,49 @@ class _BalanceCardState extends State<BalanceCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    const SelectableText(
                       'Total balance',
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: 'Lato'),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        isBalanceVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
                         color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'Lato',
                       ),
-                      onPressed: () {
-                        setState(() {
-                          isBalanceVisible = !isBalanceVisible;
-                        });
-                      },
                     ),
+                    Semantics(
+                      label: 'Toggle_Visibility', // Nhãn để Appium nhận diện
+                      button: true, // Đánh dấu đây là một nút
+                      child: IconButton(
+                        icon: Icon(
+                          isBalanceVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isBalanceVisible = !isBalanceVisible;
+                          });
+                        },
+                      ),
+                    )
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    SelectableText(
                       isBalanceVisible
                           ? NumberFormat('#,###', 'vi_VN')
                               .format(income - expense)
                           : '******',
                       style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontFamily: 'Lato'),
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontFamily: 'Lato',
+                      ),
                     ),
                     const SizedBox(width: 8),
-                    const Text(
+                    const SelectableText(
                       'VND',
                       style: TextStyle(
                           color: Colors.white,
@@ -165,11 +171,11 @@ class _BalanceCardState extends State<BalanceCard> {
               child: Icon(icon, color: color),
             ),
             const SizedBox(height: 8),
-            Text(title,
+            SelectableText(title,
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
             const SizedBox(height: 4),
-            Text(
+            SelectableText(
               isBalanceVisible
                   ? NumberFormat('#,###', 'vi_VN').format(int.parse(amount))
                   : '******',

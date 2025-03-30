@@ -21,7 +21,7 @@ class WPage1 extends StatelessWidget {
               const SizedBox(height: 20),
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: SelectableText(
                   'Track Your Spending Effortlessly',
                   style: txmain,
                 ),

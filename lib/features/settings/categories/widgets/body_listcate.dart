@@ -93,26 +93,6 @@ class _BodyMainState extends State<BodyMain> {
                       height: 60,
                     ),
                   ),
-                  Positioned(
-                    top: -5, // Điều chỉnh vị trí chữ PRO
-                    right: -15,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: Colors.green, // Màu nền nổi bật
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Text(
-                        'Pro',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),

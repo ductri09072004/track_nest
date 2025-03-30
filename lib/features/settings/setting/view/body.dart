@@ -1,11 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:testverygood/bootstrap.dart';
 import 'package:testverygood/features/settings/categories/view/categorylist_main.dart';
 import 'package:testverygood/features/settings/groupfriends/app.dart';
+import 'package:testverygood/features/settings/restore_acc/view/Restore_main.dart';
 import 'package:testverygood/features/settings/subcription/app.dart';
+import 'package:testverygood/features/settings/subcription/view/link_email.dart';
 
 class BodyMain extends StatelessWidget {
   const BodyMain({super.key});
+
+  Future<String?> loadTypeId() async {
+    return storage.read(key: 'type_id');
+  }
+
+  void navigateToTargetPage(BuildContext context, Widget targetPage) async {
+    String? typeId = await storage.read(key: 'type_id');
+
+    if (typeId == 'free') {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => UpgradeAccountPage()),
+      );
+    } else if (typeId == 'premium') {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => targetPage),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,12 +75,7 @@ class BodyMain extends StatelessWidget {
                   const SizedBox(height: 10),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const CategoryListPage(),
-                        ),
-                      );
+                      navigateToTargetPage(context, const CategoryListPage());
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(10),
@@ -69,9 +87,36 @@ class BodyMain extends StatelessWidget {
                           const SizedBox(width: 10),
                           const Text('Categories', style: txtpeo),
                           const Spacer(),
+                          Text('For premium', style: txtpro),
+                          SizedBox(width: 10),
                           SvgPicture.asset(
                             'lib/assets/icon/setting_icon/next.svg',
                           ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  InkWell(
+                    onTap: () {
+                      navigateToTargetPage(context, LinkEmail());
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.email_outlined,
+                            size: 24,
+                            color: Colors.black,
+                          ),
+                          SizedBox(width: 10),
+                          Text('Link Email', style: txtpeo),
+                          Spacer(),
+                          Text('For premium', style: txtpro),
+                          SizedBox(width: 10),
+                          Icon(Icons.arrow_forward_ios,
+                              size: 20, color: Colors.black),
                         ],
                       ),
                     ),
@@ -103,6 +148,34 @@ class BodyMain extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 10),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RestoreAcc(),
+                        ),
+                      );
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.restore, // Biểu tượng khôi phục
+                            size: 24,
+                            color: Colors.black,
+                          ),
+                          SizedBox(width: 10),
+                          Text('Restore Account', style: txtpeo),
+                          Spacer(),
+                          Icon(Icons.arrow_forward_ios,
+                              size: 20, color: Colors.black),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -126,4 +199,6 @@ class BodyMain extends StatelessWidget {
 
   static const TextStyle txtpeo =
       TextStyle(color: Colors.black, fontSize: 16, fontFamily: 'Lato');
+  static const TextStyle txtpro =
+      TextStyle(color: Colors.green, fontSize: 14, fontFamily: 'Lato');
 }

@@ -1,136 +1,48 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 class CategoryDetector {
-  static String? determineCategory(String text) {
-    final categories = {
-      'Eating': [
-        'cơm',
-        'bún',
-        'phở',
-        'nhà hàng',
-        'quán ăn',
-        'ăn uống',
-        'buffet',
-        'hủ tiếu',
-        'mì',
-        'lẩu',
-        'nướng',
-        'đồ ăn nhanh',
-        'gà rán',
-        'bánh mì',
-        'cafe',
-        'trà sữa',
-        'quán nhậu',
-        'cua',
-        'gà',
-        'thịt',
-        'bò',
-        'heo',
-        'hải sản',
-        'tôm',
-        'mực',
-        'ốc',
-        'bánh xèo',
-        'bánh cuốn',
-        'bánh tráng',
-        'bánh ngọt',
-        'chè',
-        'kem',
-        'sữa chua',
-        'tráng miệng',
-        'nước ép',
-        'sinh tố',
-        'bia',
-        'rượu',
-        'cocktail',
-        'bánh bao',
-        'cháo',
-        'cơm tấm',
-        'cơm gà',
-        'cơm rang',
-        'cơm cháy',
-        'cơm văn phòng',
-        'bún bò',
-        'bún đậu',
-        'bún riêu',
-        'bún chả',
-        'bún mắm',
-        'mì cay',
-        'mì trộn',
-        'mì quảng',
-        'bánh canh',
-        'xôi',
-        'đồ chay',
-        'đậu hủ',
-        'bánh mì chảo',
-        'pizza',
-        'hamburger',
-        'kebab',
-        'khoai tây chiên',
-        'gà quay',
-        'bò né',
-        'bò bít tết',
-        'hủ tiếu Nam Vang',
-        'bánh bột lọc',
-        'hột vịt lộn',
-        'chân gà',
-        'xiên que',
-        'đậu phộng',
-        'phá lấu',
-        'bò kho',
-        'sườn nướng',
-        'cơm hến',
-        'bò lá lốt',
-      ],
-      'Entertainment': ['rạp chiếu phim', 'game', 'karaoke', 'trò chơi'],
-      'Shopping': [
-        'quần áo',
-        'giày dép',
-        'mua sắm',
-        'cửa hàng thời trang',
-        'mỹ phẩm',
-        'nước hoa',
-        'túi xách',
-        'balo',
-        'phụ kiện',
-        'đồng hồ',
-        'trang sức',
-        'kính mắt',
-        'giày thể thao',
-        'áo sơ mi',
-        'áo thun',
-        'quần jeans',
-        'váy',
-        'đầm',
-        'chân váy',
-        'mũ',
-        'nón',
-        'găng tay',
-        'thắt lưng',
-        'dép',
-        'giày cao gót',
-        'tất',
-        'vớ',
-        'áo khoác',
-        'đồ công sở',
-        'đồ ngủ',
-        'đồ thể thao',
-        'đồ bơi',
-        'đồ lót',
-        'dụng cụ làm đẹp',
-        'kem dưỡng da',
-        'son môi',
-        'sữa rửa mặt',
-        'kem chống nắng',
-        'bột giặt',
-        'nước xả vải',
-        'giỏ xách',
-        'vali',
-        'dụng cụ cắt tóc',
-        'máy sấy tóc',
-        'máy uốn tóc'
-      ],
-      'Health': ['bệnh viện', 'thuốc', 'khám bệnh', 'bảo hiểm y tế'],
-      'Education': ['học phí', 'sách vở', 'trường học', 'khóa học'],
-    };
+  static final Map<String, List<String>> categories = {
+    'Eating': [],
+    'Entertainment': [],
+    'Shopping': [],
+    'Health': [],
+    'Education': [],
+  };
+
+  static Future<void> updateCategory(String category) async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://3.26.221.69:5000/api/language/$category'),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data is Map &&
+            data.containsKey(category) &&
+            data[category] is List) {
+          categories[category] =
+              List<String>.from(data[category] as List<dynamic>);
+        } else {
+          print('Dữ liệu API không hợp lệ cho danh mục $category.');
+        }
+      } else {
+        print(
+            'Lỗi khi lấy dữ liệu từ API cho danh mục $category: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Lỗi kết nối API cho danh mục $category: $e');
+    }
+  }
+
+  static Future<String?> determineCategory(String text) async {
+    // Cập nhật danh mục từ API trước khi kiểm tra
+
+    await updateCategory('Shopping');
+    await updateCategory('Entertainment');
+    await updateCategory('Health');
+    await updateCategory('Education');
+    await updateCategory('Eating');
 
     for (var category in categories.keys) {
       for (var keyword in categories[category]!) {

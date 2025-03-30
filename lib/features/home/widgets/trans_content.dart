@@ -122,39 +122,50 @@ class _TransContentState extends State<TransContent> {
     return DateTime(year, month, day);
   }
 
-  Widget buildExpenseRow(Widget iconWidget, String title, String price,
-      bool isRed, String date, String trans) {
+  Widget buildExpenseRow(
+    Widget iconWidget,
+    String title,
+    String price,
+    bool isRed,
+    String date,
+    String trans,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      child: GestureDetector(
-        onTap: () {
-          navigateToDetailPage(context, trans, iconWidget);
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: const Color(0xFFDBEAFE),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppColor.blue),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              iconWidget,
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: titleicon),
-                  const SizedBox(height: 4),
-                  Text(date, style: titledate),
-                ],
-              ),
-              const Spacer(),
-              Text(
-                price,
-                style: isRed ? titleprice : titleprice2,
-              ),
-            ],
+      child: Semantics(
+        label: 'ExpenseRow', // 🔹 Gán định danh duy nhất
+        button: true,
+        excludeSemantics: true, // 🔹 Đảm bảo Appium nhận diện đúng
+        child: GestureDetector(
+          onTap: () {
+            navigateToDetailPage(context, trans, iconWidget);
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: const Color(0xFFDBEAFE),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: AppColor.blue),
+            ),
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                iconWidget,
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: titleicon),
+                    const SizedBox(height: 4),
+                    Text(date, style: titledate),
+                  ],
+                ),
+                const Spacer(),
+                Text(
+                  price,
+                  style: isRed ? titleprice : titleprice2,
+                ),
+              ],
+            ),
           ),
         ),
       ),

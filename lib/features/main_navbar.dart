@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:testverygood/assets/core/appcolor.dart';
@@ -49,7 +51,7 @@ class _MainPageState extends State<MainPage> {
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed, // Đảm bảo màu nền hiển thị đúng
-        // backgroundColor: Colors.white, // Màu nền navbar
+
         backgroundColor: AppColor.white,
         showSelectedLabels: false, // Ẩn label khi icon được chọn
         showUnselectedLabels: false, // Ẩn label khi icon chưa được chọn
@@ -61,32 +63,52 @@ class _MainPageState extends State<MainPage> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              _currentIndex == 0 ? _selectedIcons[0] : _defaultIcons[0],
+            icon: Semantics(
+              label: 'Home_Btn',
+              button: true,
+              child: SvgPicture.asset(
+                _currentIndex == 0 ? _selectedIcons[0] : _defaultIcons[0],
+              ),
             ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              _currentIndex == 1 ? _selectedIcons[1] : _defaultIcons[1],
+            icon: Semantics(
+              label: 'Statis_Btn',
+              button: true,
+              child: SvgPicture.asset(
+                _currentIndex == 1 ? _selectedIcons[1] : _defaultIcons[1],
+              ),
             ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              _currentIndex == 2 ? _selectedIcons[2] : _defaultIcons[2],
+            icon: Semantics(
+              label: 'Scan_Btn',
+              button: true,
+              child: SvgPicture.asset(
+                _currentIndex == 2 ? _selectedIcons[2] : _defaultIcons[2],
+              ),
             ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              _currentIndex == 3 ? _selectedIcons[3] : _defaultIcons[3],
+            icon: Semantics(
+              label: 'His_Btn',
+              button: true,
+              child: SvgPicture.asset(
+                _currentIndex == 3 ? _selectedIcons[3] : _defaultIcons[3],
+              ),
             ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              _currentIndex == 4 ? _selectedIcons[4] : _defaultIcons[4],
+            icon: Semantics(
+              label: 'Setting_Btn',
+              button: true,
+              child: SvgPicture.asset(
+                _currentIndex == 4 ? _selectedIcons[4] : _defaultIcons[4],
+              ),
             ),
             label: '',
           ),

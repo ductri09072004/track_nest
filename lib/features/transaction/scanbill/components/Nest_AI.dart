@@ -25,10 +25,25 @@ class NestAI {
       );
 
       String formatDate(String date) {
-        final dateRegex = RegExp(r'(\d{4})-(\d{2})-(\d{2})');
+        final vietnameseDateRegex = RegExp(
+          r'Ngày\s*(\d{1,2})\s*tháng\s*(\d{1,2})\s*năm\s*(\d{4})',
+          caseSensitive: false,
+        );
 
-        if (dateRegex.hasMatch(date)) {
-          final match = dateRegex.firstMatch(date);
+        final standardDateRegex = RegExp(r'(\d{4})-(\d{2})-(\d{2})');
+
+        if (vietnameseDateRegex.hasMatch(date)) {
+          final match = vietnameseDateRegex.firstMatch(date);
+          if (match != null) {
+            String day = match.group(1)!;
+            String month = match.group(2)!;
+            String year = match.group(3)!;
+            return '$day/$month/$year';
+          }
+        }
+
+        if (standardDateRegex.hasMatch(date)) {
+          final match = standardDateRegex.firstMatch(date);
           if (match != null) {
             String year = match.group(1)!;
             String month = match.group(2)!;
@@ -36,7 +51,8 @@ class NestAI {
             return '$day/$month/$year';
           }
         }
-        return date; // Trả về ngày gốc nếu không đúng định dạng YYYY-MM-DD
+
+        return date; // Trả về ngày gốc nếu không phù hợp
       }
 
       List<String> moneyValues = textContent
@@ -76,9 +92,11 @@ class NestAI {
       String billDate =
           dateValues.isNotEmpty ? formatDate(dateValues.first) : 'null';
 
-      String? categories = CategoryDetector.determineCategory(textContent);
-      categories =
-          (categories == null || categories.isEmpty) ? 'Bonus' : categories;
+      String categories =
+          await CategoryDetector.determineCategory(textContent) ?? 'Bonus';
+
+      // categories =
+      //     (categories == null || categories.isEmpty) ? 'Bonus' : categories;
 
       return jsonEncode({
         'totalAmount': totalAmount,

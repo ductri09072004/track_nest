@@ -23,7 +23,7 @@ class BodyMain extends StatelessWidget {
               SizedBox(height: 16),
               Padding(
                 padding: EdgeInsets.only(left: 20), // Căn lề trái theo ý muốn
-                child: Text(
+                child: SelectableText(
                   'Transactions',
                   style: TextStyle(
                     color: Colors.black,
