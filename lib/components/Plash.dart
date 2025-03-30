@@ -37,14 +37,12 @@ class PlashPages extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 20),
             child: Column(
               children: [
-                Text(
+                SelectableText(
                   'Track Nest',
-                  key: Key('app_name_text'),
                   style: nameapp,
                 ),
-                Text(
+                SelectableText(
                   'Nesting your savings for the future',
-                  key: Key('app_tagline_text'),
                   style: txtapp,
                 ),
               ],
