@@ -4,7 +4,7 @@ import 'package:testverygood/components/Header_main.dart';
 import 'package:testverygood/features/settings/setting/view/body.dart';
 
 class SettingPage extends StatefulWidget {
-  final String? defaultType; // Thêm tham số mặc định
+  final String? defaultType;
 
   const SettingPage({super.key, this.defaultType});
 
@@ -13,9 +13,12 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  Future<String?> loadTypeId() async {
-    return widget.defaultType ??
-        storage.read(key: 'type_id'); // Dùng giá trị mock nếu có
+  late Future<String?> _typeFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _typeFuture = fetchAndSaveTypeId();
   }
 
   @override
@@ -24,9 +27,9 @@ class _SettingPageState extends State<SettingPage> {
       body: Column(
         children: [
           FutureBuilder<String?>(
-            future: loadTypeId(),
+            future: _typeFuture,
             builder: (context, snapshot) {
-              String type = snapshot.data ?? 'default';
+              String type = snapshot.data ?? 'free';
               return HeaderMain(
                 title: 'Setting',
                 showHorizontalList: false,

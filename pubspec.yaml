@@ -29,7 +29,6 @@ dependencies:
   mockito: ^5.4.5
   build_runner: ^2.4.15
   emoji_picker_flutter: ^4.3.0
-  flutter_month_picker: ^0.0.2
   month_picker_dialog: ^6.0.3
   golden_toolkit: ^0.15.0
 
