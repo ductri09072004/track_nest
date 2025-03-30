@@ -1,47 +1,54 @@
-from appium import webdriver
-from appium.options.common.base import AppiumOptions
-from appium.webdriver.common.appiumby import AppiumBy
 import time
+import logging
+from appium.webdriver.common.appiumby import AppiumBy
+from appiumConfig import get_driver
 
-# For W3C actions
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.actions import interaction
-from selenium.webdriver.common.actions.action_builder import ActionBuilder
-from selenium.webdriver.common.actions.pointer_input import PointerInput
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-options = AppiumOptions()
-options.load_capabilities({
-	"appium:automationName": "UiAutomator2",
-	"appium:platformName": "Android",
-	"appium:deviceName": "aea9ed59",
-	"appium:app": "D:/app-development-debug.apk",
-	"appium:newCommandTimeout": 3600,
-	"appium:connectHardwareKeyboard": True
-})
+driver = get_driver()
 
-driver = webdriver.Remote("http://127.0.0.1:4723", options=options)
+def run_test():
+    try:
+        logging.info("Đợi ứng dụng tải lên...")
+        time.sleep(25)
 
-time.sleep(25)
-el1 = driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="Get Started")
-el1.click()
-time.sleep(5)
-el2 = driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="Tab 3 of 5")
-el2.click()
-time.sleep(5)
-el3 = driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="Choose from gallery")
-el3.click()
-time.sleep(5)
-el4 = driver.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR, value="new UiSelector().resourceId(\"com.google.android.providers.media.module:id/icon_thumbnail\").instance(8)")
-el4.click()
-time.sleep(10)
-el5 = driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="Add to transaction")
-el5.click()
-time.sleep(10)
-el6 = driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="Save")
-el6.click()
-time.sleep(10)
-el7 = driver.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR, value="new UiSelector().description(\"🍚\nEating\n30/8/2022\n-244.500 VND\")")
-el7.click()
-time.sleep(15)
+        logging.info("Bấm vào nút 'Get Started'")
+        driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Get Started").click()
 
-driver.quit()
+        time.sleep(5)
+        logging.info("Chọn tab giao dịch trên navbar")
+        driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Tab 3 of 5").click()
+
+        time.sleep(5)
+        logging.info("Chọn 'Choose from gallery'")
+        driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Choose from gallery").click()
+
+        time.sleep(5)
+        logging.info("Chọn ảnh từ thư viện")
+        driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().resourceId(\"com.google.android.providers.media.module:id/icon_thumbnail\").instance(8)").click()
+
+        time.sleep(10)
+        logging.info("Thêm ảnh vào giao dịch")
+        driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Add to transaction").click()
+
+        time.sleep(10)
+        logging.info("Lưu giao dịch")
+        driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Save").click()
+
+        time.sleep(10)
+        logging.info("Kiểm tra lại giao dịch đã lưu")
+        driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().description(\"🍚\nEating\n30/8/2022\n-244.500 VND\")").click()
+
+        time.sleep(15)
+        logging.info("Xong automation test scan bill")
+
+    except Exception as e:
+        logging.error(f"Lỗi trong quá trình test: {str(e)}")
+
+    finally:
+        logging.info("Đóng Appium và kết thúc")
+        driver.quit()
+
+# Chạy test
+if __name__ == "__main__":
+    run_test()
