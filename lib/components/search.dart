@@ -4,25 +4,25 @@ import 'package:testverygood/components/selectMonth.dart'; // Import month picke
 
 void showSearchDialog(BuildContext context) {
   DateTime now = DateTime.now();
-  final selectedStartDate =
-      ValueNotifier<DateTime>(now); // Tháng bắt đầu
-  final selectedEndDate =
-      ValueNotifier<DateTime>(now); // Tháng kết thúc
-  final selectedCategory =
-      ValueNotifier<String>(''); // Danh mục
+  final selectedStartDate = ValueNotifier<DateTime>(now); // Tháng bắt đầu
+  final selectedEndDate = ValueNotifier<DateTime>(now); // Tháng kết thúc
+  final selectedCategory = ValueNotifier<String>(''); // Danh mục
 
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Advanced Search'),
+        backgroundColor: Colors.white,
+        title: const Text('Search'),
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             // Chọn Category
-            const Text('Select Category:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+            const Text(
+              'Category:',
+              style: TextStyle(fontSize: 16, fontFamily: 'Lato_Regular'),
+            ),
             const SizedBox(height: 8),
             CategoriesText(
               onCategorySelected: (String category) {
