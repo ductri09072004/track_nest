@@ -113,7 +113,7 @@ Future<String?> fetchAndSaveTypeId() async {
       return null;
     }
 
-    final data = await fetchData(uuid);
+    final data = await fetchData(uuid); //type acc
     if (data != null) {
       final transaction = data['transaction'] as Map<String, dynamic>;
       final typeId = transaction['type_id']?.toString();

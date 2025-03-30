@@ -8,11 +8,16 @@ void showMonthPickerDialog(
   showMonthPicker(
     context: context,
     initialDate: selectedDate.value,
-    firstDate: DateTime(DateTime.now().year - 10),
-    lastDate: DateTime(DateTime.now().year + 10),
+    firstDate: DateTime(DateTime.now().year),
+    lastDate: DateTime(DateTime.now().year + 1),
+    // locale: const Locale("en"),
+    selectableMonthPredicate: (month) {
+      // Chỉ cho phép chọn các tháng từ hiện tại trở về sau
+      return month.isAfter(DateTime.now().subtract(const Duration(days: 30)));
+    },
   ).then((date) {
     if (date != null) {
-      selectedDate.value = date; // Update selected month
+      selectedDate.value = date; // Cập nhật tháng được chọn
     }
   });
 }
