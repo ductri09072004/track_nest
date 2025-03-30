@@ -6,9 +6,9 @@ import 'package:testverygood/components/button_choose_group.dart';
 import 'package:testverygood/components/input.dart';
 import 'package:testverygood/data/data_api/Split/add_split_api.dart';
 import 'package:testverygood/data/data_api/Split/list_friend_split._api.dart';
-import 'package:testverygood/features/groupsplit/add_split/components/DropDownFriends.dart';
-import 'package:testverygood/features/groupsplit/add_split/components/choose_group.dart';
-import 'package:testverygood/features/groupsplit/add_split/components/friendToggle.dart';
+import 'package:testverygood/features/groupsplit/add_split/widgets/DropDownFriends.dart';
+import 'package:testverygood/features/groupsplit/add_split/widgets/choose_group.dart';
+import 'package:testverygood/features/groupsplit/add_split/widgets/friendToggle.dart';
 import 'package:testverygood/features/transaction/add_trans/widgets/calendar.dart';
 import 'package:testverygood/features/transaction/add_trans/widgets/categories.dart';
 

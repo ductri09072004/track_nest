@@ -54,23 +54,27 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity, // Chiếm toàn bộ chiều rộng
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColor.blue,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16), // Bo góc của nút
+    return Semantics(
+      label: label,
+      button: true,
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColor.blue,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16), // Bo góc của nút
+            ),
           ),
-        ),
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontSize: 20,
-            fontFamily: 'Lato',
-            color: AppColor.white,
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontSize: 20,
+              fontFamily: 'Lato',
+              color: Colors.white,
+            ),
           ),
         ),
       ),
