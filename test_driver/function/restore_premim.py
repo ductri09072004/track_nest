@@ -19,13 +19,13 @@ def run_test():
         logging.info("Chọn tab setting trên navbar")
         driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Tab 5 of 5").click()
 
-        time.sleep(5)
-        logging.info("Chọn mục category")
-        driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().description(\"Categories\nFor premium\")").click()
+        # time.sleep(5)
+        # logging.info("Chọn mục category")
+        # driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().description(\"Categories\nFor premium\")").click()
 
-        time.sleep(5)
-        logging.info("Quay về setting")
-        driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().className(\"android.widget.ImageView\").instance(0)").click()
+        # time.sleep(5)
+        # logging.info("Quay về setting")
+        # driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().className(\"android.widget.ImageView\").instance(0)").click()
 
         time.sleep(3)
         logging.info("Chọn restore account để restore premium")
@@ -38,29 +38,33 @@ def run_test():
         time.sleep(3)
         email_input.send_keys("tuyettram369@gmail.com")
 
-        time.sleep(5)
-        logging.info("Ẩn bàn phím")
-        driver.execute_script('mobile: hideKeyboard')
+        time.sleep(3)
+        if driver.is_keyboard_shown():
+            driver.execute_script('mobile: hideKeyboard')
 
         time.sleep(3)
         logging.info("Nhấn nút Find")
         driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().description(\"Find\").instance(1)").click()
 
         time.sleep(5)
-        logging.info("Chọn link để liên kết")
+        logging.info("Chọn link và xác nhận để liên kết")
         driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Link").click()
-
         time.sleep(5)
-        logging.info("Xác nhận liên kết")
         driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Confirm").click()
 
-        time.sleep(5)
+        time.sleep(3)
         if driver.is_keyboard_shown():
             driver.execute_script('mobile: hideKeyboard')
 
         time.sleep(3)
         logging.info("Quay lại setting")
         driver.find_element(AppiumBy.CLASS_NAME, "android.widget.ImageView").click()
+
+        time.sleep(5)
+        logging.info("Chọn tab home trên navbar")
+        driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Tab 1 of 5").click()
+
+        time.sleep(15)
 
         logging.info("Xong automation test restore premium")
 
