@@ -43,7 +43,9 @@ def run_test():
         click_element(driver, "Save")
         time.sleep(5)
 
-        click_element(driver, "📚\nEducation\n31/3/2025\n-350.000 VND")
+        # click_element(driver, "📚\nEducation\n31/3/2025\n-350.000 VND")
+        driver.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR, value="new UiSelector().description(\"📚\nEducation\n31/3/2025\n-350.000 VND\")").click()
+        time.sleep(3)
 
         logging.info("Lưu với số tiền 0k")
         input_text(driver, "Amount Input", "0")
