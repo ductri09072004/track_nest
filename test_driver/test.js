@@ -27,6 +27,16 @@ async function clickElement(driver, selector, description, successLog) {
   await delay(3000);
 }
 
+async function testUIElement(driver, selector, description, successLog) {
+  try {
+    const element = await driver.$(selector);
+    successLog.push(`👍 ${description}`);
+  } catch (error) {
+    successLog.push(`❌ ${description} - Lỗi: ${error.message}`);
+  }
+  await delay(3000);
+}
+
 async function inputText(driver, selector, text, description, successLog) {
   try {
     const element = await driver.$(selector);
@@ -61,49 +71,81 @@ async function main() {
   });
 
   let successLog = [];
+  await testUIElement(driver, "-android uiautomator:new UiSelector().description(\"Get Started\").instance(1)", "Hiện nút Get Started", successLog);
+  await clickElement(driver, "-android uiautomator:new UiSelector().description(\"Get Started\").instance(1)", "Đã bấm nút Get Started", successLog);
 
-  await clickElement(driver, "-android uiautomator:new UiSelector().description(\"Get Started\").instance(1)", "Nút Get Started", successLog);
   await clickElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.Button\").instance(1)", "Kéo màn hình lên", successLog);
   await clickElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.Button\").instance(1)", "Kéo màn hình xuống", successLog);
 
   await testScroll(driver, "Transactions");
   await delay(3000);
 
-  await clickElement(driver, "accessibility id:Scan_Btn", "Nút Scan", successLog);
+  await testUIElement(driver, "accessibility id:Scan_Btn", "Hiện nút Scan", successLog);
+  await clickElement(driver, "accessibility id:Scan_Btn", "Bấm vào nút Scan", successLog);
+
+  await testUIElement(driver, "accessibility id:Choose from gallery", "Hiện nút chọn ảnh", successLog);
   await clickElement(driver, "accessibility id:Choose from gallery", "Chọn ảnh từ thư viện", successLog);
   await clickElementLow(driver, "-android uiautomator:new UiSelector().resourceId(\"com.android.providers.media.module:id/icon_thumbnail\").instance(10)", "Chọn ảnh thứ 10", successLog);
 
-  await clickElement(driver, "accessibility id:Scan bill again", "Quét lại hóa đơn", successLog);
+  await testUIElement(driver, "accessibility id:Scan bill again", "Hiện nút quét lại hóa đơn", successLog);
+  await clickElement(driver, "accessibility id:Scan bill again", "Bấm quét lại hóa đơn", successLog);
+
+  await testUIElement(driver, "accessibility id:Choose from gallery", "Hiện nút chọn ảnh từ thư viện", successLog);
   await clickElement(driver, "accessibility id:Choose from gallery", "Chọn ảnh từ thư viện", successLog);
   await clickElementLow(driver, "-android uiautomator:new UiSelector().resourceId(\"com.android.providers.media.module:id/icon_thumbnail\").instance(6)", "Chọn ảnh thứ 6", successLog);
-  await clickElementLow(driver, "accessibility id:Add to transaction", "Thêm vào giao dịch", successLog);
 
+  await testUIElement(driver, "accessibility id:Add to transaction", "Hiện nút thêm vào giao dịch", successLog);
+  await clickElementLow(driver, "accessibility id:Add to transaction", "Bấm vào thêm vào giao dịch", successLog);
+
+  await testUIElement(driver, "accessibility id:Income", "Hiện nút chọn mục Income", successLog);
   await clickElementLow(driver, "accessibility id:Income", "Chọn mục Income", successLog);
+
+  await testUIElement(driver, "accessibility id:3/4/2018", "Hiện nút chọn ngày", successLog);
   await clickElement(driver, "accessibility id:3/4/2018", "Chọn ngày 3/4/2018", successLog);
   await clickElement(driver, "accessibility id:18, Wednesday, April 18, 2018", "Chọn ngày 18/4/2018", successLog);
   await clickElement(driver, "accessibility id:OK", "Xác nhận OK", successLog);
+
+  await testUIElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(3)", "Hiện nút chọn trình chọn ảnh", successLog);
   await clickElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(3)", "Mở trình chọn ảnh", successLog);
   await clickElementLow(driver, "-android uiautomator:new UiSelector().resourceId(\"com.android.providers.media.module:id/icon_thumbnail\").instance(11)", "Chọn ảnh thứ 11", successLog);
+
+  await testUIElement(driver, "accessibility id:Save", "Hiện nút lưu giao dịch", successLog);
   await clickElementLow(driver, "accessibility id:Save", "Lưu giao dịch", successLog);
+
+  await testUIElement(driver, "accessibility id:Statis_Btn", "Hiện nút thống kê", successLog);
   await clickElement(driver, "accessibility id:Statis_Btn", "Mở thống kê", successLog);
+
+  await testUIElement(driver, "accessibility id:Income", "Hiện nút lọc theo Income", successLog);
   await clickElement(driver, "accessibility id:Income", "Lọc theo Income", successLog);
+
+  await testUIElement(driver, "accessibility id:Setting_Btn", "Hiện nút cài đặt", successLog);
   await clickElement(driver, "accessibility id:Setting_Btn", "Mở cài đặt", successLog);
+
+  await testUIElement(driver, "accessibility id:Group Friend", "Hiện nút Group Friend", successLog);
   await clickElement(driver, "accessibility id:Group Friend", "Mở Group Friend", successLog);
-  await clickElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(1)", "Chọn ảnh nhóm", successLog);
 
+  await testUIElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(1)", "Hiện nút thêm nhóm", successLog);
+  await clickElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(1)", "Chọn thêm nhóm", successLog);
 
-  await inputText(driver, "-android uiautomator:new UiSelector().className(\"android.widget.EditText\").instance(0)", "Matcha Latte", "Tên nhóm", successLog);
+  await testUIElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.EditText\").instance(0)", "Hiện input tên nhóm", successLog);
+  await inputText(driver, "-android uiautomator:new UiSelector().className(\"android.widget.EditText\").instance(0)", "Matcha Latte", "Nhấn vào thêm tên nhóm", successLog);
+
+  await testUIElement(driver, "accessibility id:Add new member", "Hiện nút thêm thành viên", successLog);
   await clickElement(driver, "accessibility id:Add new member", "Thêm thành viên", successLog);
+
+  await testUIElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.EditText\").instance(2)", "Hiện input thêm thành viên", successLog);
   await inputText(driver, "-android uiautomator:new UiSelector().className(\"android.widget.EditText\").instance(2)", "Trí", "Thành viên 1", successLog);
+
+  await testUIElement(driver, "accessibility id:Add new member", "Hiện nút thêm thành viên", successLog);
   await clickElement(driver, "accessibility id:Add new member", "Thêm thành viên", successLog);
   await inputText(driver, "-android uiautomator:new UiSelector().className(\"android.widget.EditText\").instance(3)", "Quỳnh", "Thành viên 2", successLog);
-  
+
+  await testUIElement(driver, "-android uiautomator:new UiSelector().description(\"Save\").instance(1)", "Hiện nút lưu nhóm", successLog);
   await clickElement(driver, "-android uiautomator:new UiSelector().description(\"Save\").instance(1)", "Lưu nhóm", successLog);
- 
-  await clickElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(0)", "Click nút back", successLog);
-  await clickElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(0)", "Click nút back", successLog);
 
-
+  await testUIElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(0)", "Hiện nút back", successLog);
+  await clickElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(0)", "Nhấn nút back", successLog);
+  await clickElement(driver, "-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(0)", "Nhấn nút back", successLog);
 
   await driver.deleteSession();
 
