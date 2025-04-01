@@ -19,10 +19,13 @@ def get_driver():
 	options.load_capabilities({
 		"appium:automationName": "UiAutomator2",
 		"appium:platformName": "Android",
-		"appium:deviceName": "aea9ed59",
+		# "appium:deviceName": "9bd849c9",
+        "appium:deviceName": "aea9ed59",
 		"appium:app": "D:/Project/VSCode/track_nest/build/app/outputs/flutter-apk/app-development-debug.apk",
 		"appium:newCommandTimeout": 3600,
-		"appium:connectHardwareKeyboard": True
+		"appium:connectHardwareKeyboard": True,
+        "appium:noReset": True,
+        "appium:fullReset": False,
 	})
 
 	logging.info("Đang khởi động Appium và kết nối thiết bị...")

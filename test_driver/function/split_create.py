@@ -14,7 +14,7 @@ driver = get_driver()
 def run_test():
     try:
         logging.info("🚀 Đợi ứng dụng tải lên...")
-        time.sleep(25)
+        time.sleep(30)
 
         # Mở ứng dụng và chọn tab 5
         driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Get Started").click()

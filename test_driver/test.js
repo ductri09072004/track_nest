@@ -77,7 +77,7 @@ async function main() {
     "appium:automationName": "UiAutomator2",
     "appium:platformName": "Android",
     "appium:deviceName": "9bd849c9",
-    "appium:app": "E:/Flutter/track_nest/build/app/outputs/flutter-apk/app-development-debug.apk",
+    "appium:app": "D:/Project/VSCode/track_nest/build/app/outputs/flutter-apk/app-development-debug.apk",
     "appium:noReset": true,
     "appium:fullReset": false,
     "appium:newCommandTimeout": 3600,

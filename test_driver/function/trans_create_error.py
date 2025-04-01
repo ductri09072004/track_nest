@@ -17,7 +17,7 @@ driver = get_driver()
 def run_test():
     try:
         logging.info("Đợi ứng dụng tải lên...")
-        time.sleep(25)
+        time.sleep(30)
         logging.info("Bấm vào nút 'Get Started'")
         driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().description(\"Get Started\").instance(1)").click()
         time.sleep(5)
@@ -74,15 +74,20 @@ def run_test():
         click_element(driver, "📚\nEducation")
         # logging.info("Chọn danh mục Education")
         # driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().description(\"📚\nEducation\")").click()
+        if driver.is_keyboard_shown():
+            driver.execute_script('mobile: hideKeyboard')
+        time.sleep(3)
         logging.info("Chọn lại ngày 2/4/2025")
         click_element(driver, "1/4/2025")
-        time.sleep(2)
-        click_element(driver, "2, Tuesday, April 2, 2025")
+        time.sleep(3)
+        # click_element(driver, "2, Wednesday, April 2, 2025")
+        el5 = driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="2, Wednesday, April 2, 2025")
+        el5.click()
         time.sleep(2)
         click_element(driver, "OK")
         time.sleep(2)
         click_element(driver, "Save")
-
+        time.sleep(3)
         # time.sleep(5)
         # # ngày phải đúng hnay
         # logging.info("Chọn lại ngày 2/4/2025")
