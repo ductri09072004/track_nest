@@ -5,6 +5,8 @@ from appiumConfig import get_driver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.actions.pointer_input import PointerInput
+from appiumConfig import input_text
+from appiumConfig import click_element
 from selenium.webdriver.common.actions import interaction
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -13,15 +15,18 @@ driver = get_driver()
 
 def run_test():
     try:
-        logging.info("🚀 Đợi ứng dụng tải lên...")
-        time.sleep(25)
+        logging.info("Đợi ứng dụng tải lên...")
+        time.sleep(10)
+        logging.info("Bấm vào nút 'Get Started'")
+        driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().description(\"Get Started\").instance(1)").click()
+        time.sleep(5)
 
         # Mở ứng dụng và chọn tab 5
         driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Get Started").click()
         time.sleep(2)
-        driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Tab 4 of 5").click()
-        time.sleep(2)
+        # driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Tab 4 of 5").click()
         driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Tab 5 of 5").click()
+        time.sleep(2)
 
         # Chọn nhóm bạn bè
         logging.info("📌 Chọn nhóm 'Group Friend'")

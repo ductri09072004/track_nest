@@ -2,6 +2,8 @@ import time
 import logging
 from appium.webdriver.common.appiumby import AppiumBy
 from appiumConfig import get_driver
+from appiumConfig import input_text
+from appiumConfig import click_element
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -10,7 +12,8 @@ driver = get_driver()
 def run_test():
     try:
         logging.info("Đợi ứng dụng tải lên...")
-        time.sleep(25)
+        # time.sleep(10)
+        time.sleep(30)
 
         logging.info("Bấm vào nút 'Get Started'")
         driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Get Started").click()
@@ -37,9 +40,10 @@ def run_test():
 
         time.sleep(10)
         logging.info("Kiểm tra lại giao dịch đã lưu")
-        driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().description(\"🍚\nEating\n30/8/2022\n-244.500 VND\")").click()
+        click_element(driver, "ExpenseRow")
+        # driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().description(\"🍚\nEating\n30/8/2022\n-244.500 VND\")").click()
 
-        time.sleep(15)
+        time.sleep(10)
         logging.info("Xong automation test scan bill")
 
     except Exception as e:
